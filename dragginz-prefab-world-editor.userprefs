@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_PrefabWorldEditor\Scripts\Core\Globals.cs">
+    <Files>
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\Core\Globals.cs" Line="16" Column="82" />
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\UI\PweMainMenu.cs" Line="492" Column="6" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
