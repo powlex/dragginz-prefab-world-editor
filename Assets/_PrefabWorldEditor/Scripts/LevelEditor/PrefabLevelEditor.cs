@@ -214,11 +214,14 @@ namespace PrefabWorldEditor
 			if (XRSettings.enabled)
 			{
 				PweWorldSpaceMenus.Instance.init ();
-				PweRigMenus.Instance.init ();
+				PweDynamicMenusVR.Instance.init ();
 				setEditMode (EditMode.Transform);
 			}
 			else
 			{
+				// TEST TEST TEST
+				PweDynamicMenusVR.Instance.init ();
+
 				setEditMode (EditMode.Place);
 			}
         }
