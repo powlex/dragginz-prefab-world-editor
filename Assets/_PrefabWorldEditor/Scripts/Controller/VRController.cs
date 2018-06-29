@@ -217,14 +217,14 @@ namespace PrefabWorldEditor
 	                if (ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Menu))
 	                {
 	                    ToggleRightLaserPointer();
-						//PweDynamicMenusVR.Instance.showAssetPanels (rightLaserPointerActive, false);
+						PweDynamicMenusVR.Instance.showMenuPanels (rightLaserPointerActive);
 	                    needUpdate = true;
 	                }
 
 	                if (ViveInput.GetPressUpEx(HandRole.LeftHand, ControllerButton.Menu))
 	                {
 	                    ToggleLeftLaserPointer();
-						//PweDynamicMenusVR.Instance.showAssetPanels (leftLaserPointerActive, false);
+						PweDynamicMenusVR.Instance.showMenuPanels (leftLaserPointerActive);
 	                    needUpdate = true;
 	                }
 	                break;

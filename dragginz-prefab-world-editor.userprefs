@@ -2,8 +2,13 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_PrefabWorldEditor\Scripts\Core\Globals.cs">
     <Files>
-      <File FileName="Assets\_PrefabWorldEditor\Scripts\Core\Globals.cs" Line="16" Column="82" />
-      <File FileName="Assets\_PrefabWorldEditor\Scripts\UI\PweMainMenu.cs" Line="492" Column="6" />
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\Core\Globals.cs" Line="16" Column="81" />
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\LevelEditor\PrefabLevelEditor.cs" Line="377" Column="78" />
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\UI\PweMainMenu.cs" Line="1" Column="1" />
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\Controller\LevelController.cs" Line="1" Column="1" />
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\Controller\VRController.cs" Line="220" Column="7" />
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\UI\PweDynamicMenusVR.cs" Line="143" Column="48" />
+      <File FileName="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIMenuPanel.cs" Line="78" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

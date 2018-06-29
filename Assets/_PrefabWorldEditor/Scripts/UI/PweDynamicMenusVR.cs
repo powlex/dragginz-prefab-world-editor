@@ -36,7 +36,7 @@ namespace PrefabWorldEditor
 
 		//
 
-		public VRController _vrController;
+		public Transform trfmVRCamera;
 
 		public UIMenuPanel panelLeft;
 		public UIMenuPanel panelRight;
@@ -117,15 +117,18 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		public void init()
 		{
-			setPanels (MenuOption.MainMenu, MenuOption.None);
+			showMenuPanels (false);
 		}
 
 		// ------------------------------------------------------------------------
-		/*public void showAssetPanels(bool type, bool asset)
+		public void showMenuPanels(bool state)
 		{
-			panelLeft.gameObject.SetActive (type);
-			panelRight.gameObject.SetActive (asset);
-		}*/
+			if (state) {
+				setPanels (MenuOption.MainMenu, MenuOption.None);
+			} else {
+				setPanels (MenuOption.None, MenuOption.None);
+			}
+		}
 
 		#endregion
 
@@ -136,17 +139,23 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		private void setPanels(MenuOption left, MenuOption right)
 		{
+			// adjust camera
+			Vector3 menuPos = trfmVRCamera.position + (4f * trfmVRCamera.forward);
+			menuPos.y = 2.25f;
+			transform.position = menuPos;
+			transform.rotation = Quaternion.LookRotation(transform.position - trfmVRCamera.position);
+							
 			_curMenuOptionLeft = left;
 			panelLeft.gameObject.SetActive (left != MenuOption.None);
 
-			if (left != MenuOption.None)
-			{
+			if (left != MenuOption.None) {
 				if (left == MenuOption.MainMenu) {
 					populatePanel (panelLeft, _menuMain, _iSelectedOptionLeft);
-				}
-				else if (left == MenuOption.BuildMenu) {
+				} else if (left == MenuOption.BuildMenu) {
 					populatePanel (panelLeft, _menuBuild, _iSelectedOptionLeft);
 				}
+			} else {
+				_iSelectedOptionLeft = -1;
 			}
 
 			_curMenuOptionRight = right;
@@ -160,6 +169,8 @@ namespace PrefabWorldEditor
 				else if (right == MenuOption.AssetTypesSubMenu) {
 					populatePanel (panelRight, _subMenuBuildAssets, _iSelectedOptionRight);
 				}
+			} else {
+				_iSelectedOptionRight = -1;
 			}
 		}
 
@@ -167,17 +178,6 @@ namespace PrefabWorldEditor
 		{
 			panel.populate (menu.header, menu.options, menu.colors, selectedOption);
 		}
-
-		// ------------------------------------------------------------------------
-		/*private void setLeftAssetPanel(MenuSettings menu, int selectedOption)
-		{
-			panelLeft.populate (menu.header, menu.options, menu.colors, selectedOption);
-		}
-
-		private void setRightAssetPanel(MenuSettings menu, int selectedOption)
-		{
-			panelRight.populate (menu.header, menu.options, menu.colors, selectedOption);
-		}*/
 
 		#endregion
 
@@ -189,7 +189,6 @@ namespace PrefabWorldEditor
 		private void onLeftPanelButtonClick(int index)
 		{
 			_iSelectedOptionLeft = index;
-			Debug.Log ("onLeftPanelButtonClick "+index);
 
 			if (_curMenuOptionLeft == MenuOption.MainMenu) {
 				if (index == 0) {
@@ -210,7 +209,6 @@ namespace PrefabWorldEditor
 		public void onRightPanelButtonClick(int index)
 		{
 			_iSelectedOptionRight = index;
-			Debug.Log ("onRightPanelButtonClick "+index);
 
 			if (_curMenuOptionRight == MenuOption.EditorModesSubMenu) {
 				if (index == 1) {
