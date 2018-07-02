@@ -23,8 +23,10 @@ namespace PrefabWorldEditor
 			None,
 			MainMenu,
 			BuildMenu,
+            AssetTypeMenu,
 			EditorModesSubMenu,
-			AssetTypesSubMenu
+			AssetTypesSubMenu,
+            AssetsSubMenu
 		};
 
 		private struct MenuSettings
@@ -49,10 +51,14 @@ namespace PrefabWorldEditor
 		private int _iSelectedOptionLeft;
 		private int _iSelectedOptionRight;
 
-		private MenuSettings _menuMain;
+        private int _iSelectedAssetTypeIndex;
+
+        private MenuSettings _menuMain;
 		private MenuSettings _menuBuild;
-		private MenuSettings _subMenuEditorModes;
-		private MenuSettings _subMenuBuildAssets;
+        private MenuSettings _menuAssetType;
+        private MenuSettings _subMenuEditorModes;
+		private MenuSettings _subMenuBuildAssetTypes;
+        private MenuSettings[] _aSubMenuBuildAssets;
 
         private Vector3 _curMenuPos;
 
@@ -74,69 +80,90 @@ namespace PrefabWorldEditor
 
 		#endregion
 
-		//
-
-		#region SystemMethods
-
-		// ------------------------------------------------------------------------
-		void Awake()
-		{
-			_curMenuOptionLeft  = MenuOption.None;
-			_curMenuOptionRight = MenuOption.None;
-
-			_iSelectedOptionLeft  = -1;
-			_iSelectedOptionRight = -1;
-
-			Color reddish = new Color(1F, 0.8F, 0.8F, 1F);
-
-			_menuMain = new MenuSettings ();
-			_menuMain.header  = "Main Menu";
-			_menuMain.options = new string[]{"Editor Modes"};
-			_menuMain.colors  = new Color[]{Color.white};
-
-			_menuBuild = new MenuSettings ();
-			_menuBuild.header  = "Build Menu";
-			_menuBuild.options = new string[]{"Main Menu"};
-			_menuBuild.colors  = new Color[]{reddish};
-
-			_subMenuEditorModes = new MenuSettings ();
-			_subMenuEditorModes.header  = "Editor Modes";
-			_subMenuEditorModes.options = new string[]{"Play", "Build", "Select", "Clear"};
-			_subMenuEditorModes.colors  = new Color[]{Color.white, Color.white, Color.white, Color.white};
-
-			_subMenuBuildAssets = new MenuSettings ();
-			_subMenuBuildAssets.header  = "Select Asset Type";
-			_subMenuBuildAssets.options = new string[]{"Floor", "Wall", "Chunk", "Prop", "Dungeon"};
-			_subMenuBuildAssets.colors  = new Color[]{Color.white, Color.white, Color.white, Color.white, Color.white};
-
-            _curMenuPos = Vector3.zero;
-
-            panelLeft.init();
-			panelLeft.clickHandler += onLeftPanelButtonClick;
-
-			panelRight.init();
-			panelRight.clickHandler += onRightPanelButtonClick;
-		}
-				
-		#endregion
-
-		//
+        //
 
 		#region PublicMethods
 
 		// ------------------------------------------------------------------------
 		public void init()
 		{
-			showMenuPanels (false);
-		}
+            _curMenuOptionLeft = MenuOption.None;
+            _curMenuOptionRight = MenuOption.None;
+
+            _iSelectedOptionLeft = -1;
+            _iSelectedOptionRight = -1;
+
+            _iSelectedAssetTypeIndex = 0;
+
+            Color reddish = new Color(1F, 0.8F, 0.8F, 1F);
+
+            _menuMain = new MenuSettings();
+            _menuMain.header = "Main Menu";
+            _menuMain.options = new string[] { "Editor Modes" };
+            _menuMain.colors = new Color[] { Color.white };
+
+            _menuBuild = new MenuSettings();
+            _menuBuild.header = "Build Menu";
+            _menuBuild.options = new string[] { "Main Menu" };
+            _menuBuild.colors = new Color[] { reddish };
+
+            _menuAssetType = new MenuSettings();
+            _menuAssetType.header = "";
+            _menuAssetType.options = new string[] { "Build Menu" };
+            _menuAssetType.colors = new Color[] { reddish };
+
+            _subMenuEditorModes = new MenuSettings();
+            _subMenuEditorModes.header = "Editor Modes";
+            _subMenuEditorModes.options = new string[] { "Play", "Build", "Select", "Clear" };
+            _subMenuEditorModes.colors = new Color[] { Color.white, Color.white, Color.white, Color.white };
+
+            _subMenuBuildAssetTypes = new MenuSettings();
+            _subMenuBuildAssetTypes.header = "Select Asset Type";
+
+            // get asset types
+            string[] aAssetTypeNames = System.Enum.GetNames(typeof(Globals.AssetType));
+            int i, len = aAssetTypeNames.Length;
+
+            _subMenuBuildAssetTypes.options = new string[len];
+            _subMenuBuildAssetTypes.colors = new Color[len];
+            _aSubMenuBuildAssets = new MenuSettings[len];
+
+            int j, len2;
+            for (i = 0; i < len; ++i) {
+                _subMenuBuildAssetTypes.options[i] = aAssetTypeNames[i];
+                _subMenuBuildAssetTypes.colors[i] = Color.white;
+
+                List<PrefabLevelEditor.Part> assets = PrefabLevelEditor.Instance.assetTypeList[(Globals.AssetType)i];
+                len2 = assets.Count;
+                _aSubMenuBuildAssets[i].options = new string[len2];
+                _aSubMenuBuildAssets[i].colors = new Color[len2];
+                for (j = 0; j < len2; ++j) {
+                    _aSubMenuBuildAssets[i].options[j] = assets[j].name;
+                    _aSubMenuBuildAssets[i].colors[j] = Color.white;
+                }
+            }
+
+            _curMenuPos = Vector3.zero;
+
+            panelLeft.init();
+            panelLeft.clickHandler += onLeftPanelButtonClick;
+
+            panelRight.init();
+            panelRight.clickHandler += onRightPanelButtonClick;
+
+            showMenuPanels(false, false);
+        }
 
 		// ------------------------------------------------------------------------
-		public void showMenuPanels(bool state)
+		public void showMenuPanels(bool state, bool setEditPart = true)
 		{
 			if (state) {
 				setPanels (MenuOption.MainMenu, MenuOption.None);
 			} else {
 				setPanels (MenuOption.None, MenuOption.None);
+                if (setEditPart) {
+                    VREditor.Instance.hideEditPart();
+                }
 			}
 		}
 
@@ -163,8 +190,11 @@ namespace PrefabWorldEditor
 					populatePanel (panelLeft, _menuMain, _iSelectedOptionLeft);
 				} else if (left == MenuOption.BuildMenu) {
 					populatePanel (panelLeft, _menuBuild, _iSelectedOptionLeft);
-				}
-			} else {
+                } else if (left == MenuOption.AssetTypeMenu) {
+                    populatePanel(panelLeft, _menuAssetType, _iSelectedOptionLeft);
+                }
+            }
+            else {
 				_iSelectedOptionLeft = -1;
 			}
 
@@ -177,9 +207,13 @@ namespace PrefabWorldEditor
 					populatePanel (panelRight, _subMenuEditorModes, _iSelectedOptionRight);
 				}
 				else if (right == MenuOption.AssetTypesSubMenu) {
-					populatePanel (panelRight, _subMenuBuildAssets, _iSelectedOptionRight);
+					populatePanel (panelRight, _subMenuBuildAssetTypes, _iSelectedOptionRight);
 				}
-			} else {
+                else if (right == MenuOption.AssetsSubMenu) {
+                    populatePanel(panelRight, _aSubMenuBuildAssets[_iSelectedAssetTypeIndex], _iSelectedOptionRight);
+                }
+            }
+            else {
 				_iSelectedOptionRight = -1;
 			}
 		}
@@ -215,29 +249,45 @@ namespace PrefabWorldEditor
 					setPanels (MenuOption.MainMenu, MenuOption.None);
 				}
 			}
-		}
+            else if (_curMenuOptionLeft == MenuOption.AssetTypeMenu)
+            {
+                _iSelectedOptionLeft = -1;
+                _iSelectedOptionRight = -1;
+                VREditor.Instance.hideEditPart();
+                setPanels(MenuOption.BuildMenu, MenuOption.AssetTypesSubMenu);
+            }
+        }
 
-		// ------------------------------------------------------------------------
-		public void onRightPanelButtonClick(int index)
+        // ------------------------------------------------------------------------
+        public void onRightPanelButtonClick(int index)
 		{
 			_iSelectedOptionRight = index;
 
-			if (_curMenuOptionRight == MenuOption.EditorModesSubMenu)
-			{
-				if (index == 1) {
-					_iSelectedOptionLeft = -1;
-					_iSelectedOptionRight = -1;
-					setPanels (MenuOption.BuildMenu, MenuOption.AssetTypesSubMenu);
-				}
-			}
-			else if (_curMenuOptionRight == MenuOption.AssetTypesSubMenu)
-			{
-				VREditor.Instance.setAssetType (index);
-			}
+            if (_curMenuOptionRight == MenuOption.EditorModesSubMenu) {
 
-			//LevelController.Instance.placeDungeonPrefab (index);
-		}
+                if (index == 1) {
+                    _iSelectedOptionLeft = -1;
+                    _iSelectedOptionRight = -1;
+                    setPanels(MenuOption.BuildMenu, MenuOption.AssetTypesSubMenu);
+                }
+            }
+            else if (_curMenuOptionRight == MenuOption.AssetTypesSubMenu) {
 
-		#endregion
-    }
+                _iSelectedAssetTypeIndex = index;
+                _menuAssetType.header = _subMenuBuildAssetTypes.options[_iSelectedAssetTypeIndex];
+                VREditor.Instance.setAssetType(_iSelectedAssetTypeIndex, 0);
+
+                _iSelectedOptionLeft = -1;
+                _iSelectedOptionRight = -1;
+                setPanels(MenuOption.AssetTypeMenu, MenuOption.AssetsSubMenu);
+            }
+            else if (_curMenuOptionRight == MenuOption.AssetsSubMenu) {
+
+                VREditor.Instance.setAsset(_iSelectedAssetTypeIndex, index);
+            }
+                //LevelController.Instance.placeDungeonPrefab (index);
+            }
+
+            #endregion
+        }
 }

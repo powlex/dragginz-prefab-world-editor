@@ -78,29 +78,34 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        public void setAssetType(int typeIndex)
-		{
-            Globals.AssetType type = (Globals.AssetType)typeIndex;
-            int partIndex = 0;
-            if (type == Globals.AssetType.Chunk) {
-                partIndex = 2;
-            }
+        public void hideEditPart() {
 
-            createAsset(PrefabLevelEditor.Instance.assetTypeList[type][partIndex]);
+            if (_goEditPart != null) {
+                _goEditPart.SetActive(false);
+            }
         }
 
-		public void setAssetId()
+        // ------------------------------------------------------------------------
+        public void setAssetType(int typeIndex, int assetIndex)
 		{
-		}
+            Globals.AssetType type = (Globals.AssetType)typeIndex;
+            createAsset(PrefabLevelEditor.Instance.assetTypeList[type][assetIndex]);
+        }
 
-		#endregion
+        public void setAsset(int typeIndex, int assetIndex)
+        {
+            Globals.AssetType type = (Globals.AssetType)typeIndex;
+            createAsset(PrefabLevelEditor.Instance.assetTypeList[type][assetIndex]);
+        }
 
-		//
+        #endregion
 
-		#region PrivateMethods
+        //
 
-		// ------------------------------------------------------------------------
-		public void createAsset(PrefabLevelEditor.Part part)
+        #region PrivateMethods
+
+        // ------------------------------------------------------------------------
+        public void createAsset(PrefabLevelEditor.Part part)
 		{
             _curEditPart = part;
 
@@ -133,10 +138,23 @@ namespace PrefabWorldEditor
                 //LevelController.Instance.setMeshCollider(_goEditPart, false);
                 LevelController.Instance.setRigidBody(_goEditPart, false);
 
-                _goEditPart.AddComponent<Draggable>();
+                Draggable draggable = _goEditPart.AddComponent<Draggable>();
+                draggable.afterGrabberGrabbed += onAssetGrabbed;
+                draggable.beforeGrabberReleased += onAssetReleased;
             }
         }
 
-		#endregion
-	}
+        public void onAssetGrabbed() {
+
+            Debug.Log("onAssetGrabbed");
+            PweDynamicMenusVR.Instance.showMenuPanels(false, false);
+        }
+
+        public void onAssetReleased() {
+
+            Debug.Log("onAssetReleased");
+        }
+
+        #endregion
+    }
 }

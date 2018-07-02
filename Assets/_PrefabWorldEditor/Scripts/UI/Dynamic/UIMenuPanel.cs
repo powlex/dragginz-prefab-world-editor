@@ -87,8 +87,7 @@ namespace PrefabWorldEditor
 				}
 			}
 
-            scrollRect.horizontal = false;
-            scrollRect.vertical = (_numButtons >= 9);
+            scrollRect.movementType = (len > 11 ? ScrollRect.MovementType.Elastic : ScrollRect.MovementType.Clamped);
         }
 
 		// ---------------------------------------------------------------------------------------------
