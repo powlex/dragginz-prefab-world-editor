@@ -54,9 +54,17 @@ namespace PrefabWorldEditor
 		private MenuSettings _subMenuEditorModes;
 		private MenuSettings _subMenuBuildAssets;
 
-		#region Getters
+        private Vector3 _curMenuPos;
 
-		public bool panelAssetTypesVisible {
+        //
+
+        #region Getters
+
+        public Vector3 curMenuPos {
+            get { return _curMenuPos; }
+        }
+
+        public bool panelAssetTypesVisible {
 			get { return panelLeft.gameObject.activeSelf; }
 		}
 
@@ -101,7 +109,9 @@ namespace PrefabWorldEditor
 			_subMenuBuildAssets.options = new string[]{"Floor", "Wall", "Chunk", "Prop", "Dungeon"};
 			_subMenuBuildAssets.colors  = new Color[]{Color.white, Color.white, Color.white, Color.white, Color.white};
 
-			panelLeft.init();
+            _curMenuPos = Vector3.zero;
+
+            panelLeft.init();
 			panelLeft.clickHandler += onLeftPanelButtonClick;
 
 			panelRight.init();
@@ -139,10 +149,10 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		private void setPanels(MenuOption left, MenuOption right)
 		{
-			// adjust camera
-			Vector3 menuPos = trfmVRCamera.position + (4f * trfmVRCamera.forward);
-			menuPos.y = 2.25f;
-			transform.position = menuPos;
+            // adjust camera
+            _curMenuPos = trfmVRCamera.position + (4f * trfmVRCamera.forward);
+            _curMenuPos.y = 2.25f;
+			transform.position = _curMenuPos;
 			transform.rotation = Quaternion.LookRotation(transform.position - trfmVRCamera.position);
 							
 			_curMenuOptionLeft = left;
@@ -222,7 +232,7 @@ namespace PrefabWorldEditor
 			}
 			else if (_curMenuOptionRight == MenuOption.AssetTypesSubMenu)
 			{
-				VREditor.Instance.setAssetType ();
+				VREditor.Instance.setAssetType (index);
 			}
 
 			//LevelController.Instance.placeDungeonPrefab (index);

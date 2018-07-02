@@ -46,43 +46,48 @@ namespace PrefabWorldEditor
 
 		#region SystemMethods
 
-        void Start()
-        {
-			_curEditPart = new PrefabLevelEditor.Part ();
-			_goEditPart  = null;
-
-			if (XRSettings.enabled)
-			{
-				//
-			}
-        }
-
 		// ------------------------------------------------------------------------
-		/*void LateUpdate()
+		void Update()
 		{
-			if (!XRSettings.enabled) {
-				return;
-			}
+            if (_goEditPart != null && _goEditPart.activeSelf) {
 
-			if (ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Menu))
+                _goEditPart.transform.Rotate(Vector3.up * (Time.deltaTime * 2f));
+            }
+
+            /*if (ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Menu))
 			{
 				Debug.Log("ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Menu)");
 			}
 
 			if (ViveInput.GetPressUpEx (HandRole.LeftHand, ControllerButton.Menu)) {
 				Debug.Log("ViveInput.GetPressUpEx(HandRole.LeftHand, ControllerButton.Menu)");
-			}
-		}*/
+			}*/
+        }
 
-		#endregion
+        #endregion
 
-		//
+        //
 
-		#region PublicMethods
+        #region PublicMethods
 
-		public void setAssetType()
+        // ------------------------------------------------------------------------
+        public void init()
+        {
+            _curEditPart = new PrefabLevelEditor.Part();
+            _goEditPart = null;
+        }
+
+        // ------------------------------------------------------------------------
+        public void setAssetType(int typeIndex)
 		{
-		}
+            Globals.AssetType type = (Globals.AssetType)typeIndex;
+            int partIndex = 0;
+            if (type == Globals.AssetType.Chunk) {
+                partIndex = 2;
+            }
+
+            createAsset(PrefabLevelEditor.Instance.assetTypeList[type][partIndex]);
+        }
 
 		public void setAssetId()
 		{
@@ -95,62 +100,41 @@ namespace PrefabWorldEditor
 		#region PrivateMethods
 
 		// ------------------------------------------------------------------------
-		private void toggleEditPart(float mousewheel)
+		public void createAsset(PrefabLevelEditor.Part part)
 		{
-			/*
-			int index = _assetTypeIndex [_assetType];
-			int max = _assetTypeList [_assetType].Count;
+            _curEditPart = part;
 
-			if (mousewheel > 0) {
-				if (++index >= max) {
-					index = 0;
-				}
-			} else {
-				if (--index < 0) {
-					index = max - 1;
-				}
-			}
-			_assetTypeIndex [_assetType] = index;
+            if (_goEditPart != null) {
+                Destroy(_goEditPart);
+            }
+            _goEditPart = null;
 
-			setNewEditPart(_assetTypeList[_assetType][index]);
-			*/
-		}
-
-		// ------------------------------------------------------------------------
-		private void setNewEditPart(PrefabLevelEditor.Part part)
-		{
-			/*
-			_curEditPart = part;
-
-			if (_goEditPart != null) {
-				Destroy (_goEditPart);
-			}
-			_goEditPart = null;
-
-			_goEditPart = createPartAt(_curEditPart.id, -10, -10, -10);
-
-			LevelController.Instance.setMeshCollider(_goEditPart, false);
-			*/
-		}
-
-		// ------------------------------------------------------------------------
-		public GameObject createPartAt(Globals.PartList partId, float x, float y, float z)
-		{
-            GameObject go = null;
-
-			if (!PrefabLevelEditor.Instance.parts.ContainsKey(partId)) {
-                return go;
+            if (!PrefabLevelEditor.Instance.parts.ContainsKey(part.id)) {
+                return;
             }
 
-			go = Instantiate(PrefabLevelEditor.Instance.parts[partId].prefab);
-            if (go != null) {
-				go.name = "vr_asset_selection";
-				go.transform.SetParent(transform);
-				go.transform.position = Vector3.zero;
-				go.transform.localScale = new Vector3 (.25f, .25f, .25f);
-            }
+            _goEditPart = Instantiate(PrefabLevelEditor.Instance.parts[part.id].prefab);
+            if (_goEditPart != null)
+            {
+                _goEditPart.name = "vr_asset_selection";
+                _goEditPart.transform.SetParent(transform);
+                _goEditPart.transform.position = PweDynamicMenusVR.Instance.curMenuPos;
 
-            return go;
+                // get max. scale
+                float maxSize = 2.5f;
+                float biggestAssetSize = Mathf.Max(part.w, part.h);
+                biggestAssetSize = Mathf.Max(biggestAssetSize, part.d);
+                float scale = maxSize / biggestAssetSize;
+                scale = Mathf.Min(1.0f, scale);
+
+                _goEditPart.transform.localScale = new Vector3 (scale, scale, scale);
+                _goEditPart.transform.rotation = Quaternion.Euler(new Vector3(-24f, -24f, 24f));
+
+                //LevelController.Instance.setMeshCollider(_goEditPart, false);
+                LevelController.Instance.setRigidBody(_goEditPart, false);
+
+                _goEditPart.AddComponent<Draggable>();
+            }
         }
 
 		#endregion

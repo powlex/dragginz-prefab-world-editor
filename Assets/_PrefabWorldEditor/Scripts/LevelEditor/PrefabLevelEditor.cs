@@ -108,9 +108,9 @@ namespace PrefabWorldEditor
 
 		#region Getters
 
-		//public GameObject container {
-		//	get { return _container.gameObject; }
-		//}
+		public Dictionary<Globals.AssetType, List<Part>> assetTypeList {
+			get { return _assetTypeList; }
+		}
 
 		public EditMode editMode {
 			get { return _editMode; }
@@ -213,14 +213,16 @@ namespace PrefabWorldEditor
 
 			if (XRSettings.enabled)
 			{
+                VREditor.Instance.init();
 				PweWorldSpaceMenus.Instance.init ();
 				PweDynamicMenusVR.Instance.init ();
 				setEditMode (EditMode.Transform);
 			}
 			else
 			{
-				// TEST TEST TEST
-				PweDynamicMenusVR.Instance.init ();
+                // TEST TEST TEST
+                VREditor.Instance.init();
+                PweDynamicMenusVR.Instance.init ();
 
 				setEditMode (EditMode.Place);
 			}

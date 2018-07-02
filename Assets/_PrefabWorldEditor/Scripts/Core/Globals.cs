@@ -13,7 +13,7 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v06.29.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v07.02.0a";
 
 		static public readonly int levelSaveFormatVersion = 1;
 
@@ -36,7 +36,6 @@ namespace PrefabWorldEditor
 		public enum AssetType {
 			Floor,
 			Wall,
-			Tunnel,
 			Chunk,
 			Prop,
 			Dungeon

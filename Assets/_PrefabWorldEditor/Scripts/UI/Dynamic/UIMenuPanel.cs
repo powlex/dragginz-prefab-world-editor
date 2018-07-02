@@ -86,7 +86,10 @@ namespace PrefabWorldEditor
 					}
 				}
 			}
-		}
+
+            scrollRect.horizontal = false;
+            scrollRect.vertical = (_numButtons >= 9);
+        }
 
 		// ---------------------------------------------------------------------------------------------
 		public void clear()
