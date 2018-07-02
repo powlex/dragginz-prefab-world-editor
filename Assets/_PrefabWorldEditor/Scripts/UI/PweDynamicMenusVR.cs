@@ -190,13 +190,15 @@ namespace PrefabWorldEditor
 		{
 			_iSelectedOptionLeft = index;
 
-			if (_curMenuOptionLeft == MenuOption.MainMenu) {
+			if (_curMenuOptionLeft == MenuOption.MainMenu)
+			{
 				if (index == 0) {
 					_iSelectedOptionRight = -1;
 					setPanels (MenuOption.MainMenu, MenuOption.EditorModesSubMenu);
 				}
 			}
-			else if (_curMenuOptionLeft == MenuOption.BuildMenu) {
+			else if (_curMenuOptionLeft == MenuOption.BuildMenu)
+			{
 				if (index == 0) {
 					_iSelectedOptionLeft  = -1;
 					_iSelectedOptionRight = -1;
@@ -210,12 +212,17 @@ namespace PrefabWorldEditor
 		{
 			_iSelectedOptionRight = index;
 
-			if (_curMenuOptionRight == MenuOption.EditorModesSubMenu) {
+			if (_curMenuOptionRight == MenuOption.EditorModesSubMenu)
+			{
 				if (index == 1) {
-					_iSelectedOptionLeft  = -1;
+					_iSelectedOptionLeft = -1;
 					_iSelectedOptionRight = -1;
- 					setPanels (MenuOption.BuildMenu, MenuOption.AssetTypesSubMenu);
+					setPanels (MenuOption.BuildMenu, MenuOption.AssetTypesSubMenu);
 				}
+			}
+			else if (_curMenuOptionRight == MenuOption.AssetTypesSubMenu)
+			{
+				VREditor.Instance.setAssetType ();
 			}
 
 			//LevelController.Instance.placeDungeonPrefab (index);

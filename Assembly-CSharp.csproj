@@ -61,6 +61,7 @@
      <Compile Include="Assets\_PrefabWorldEditor\Scripts\Data\LevelObject.cs" />
      <Compile Include="Assets\_PrefabWorldEditor\Scripts\JSON\SimpleJSON.cs" />
      <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\PrefabLevelEditor.cs" />
+     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\VREditor.cs" />
      <Compile Include="Assets\_PrefabWorldEditor\Scripts\SplashScreen\Spinner.cs" />
      <Compile Include="Assets\_PrefabWorldEditor\Scripts\SplashScreen\SplashScreenController.cs" />
      <Compile Include="Assets\_PrefabWorldEditor\Scripts\Tools\DungeonTool.cs" />
