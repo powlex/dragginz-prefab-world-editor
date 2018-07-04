@@ -32,6 +32,8 @@ namespace PrefabWorldEditor
 		private PrefabLevelEditor.Part _curEditPart;
 		private GameObject _goEditPart;
 
+        private bool _hideEditPart = false;
+
 		#endregion
 
 		#region Getters
@@ -52,6 +54,11 @@ namespace PrefabWorldEditor
             if (_goEditPart != null && _goEditPart.activeSelf) {
 
                 _goEditPart.transform.Rotate(Vector3.up * (Time.deltaTime * 2f));
+            }
+
+            if (_hideEditPart) {
+                _hideEditPart = false;
+                hideEditPart();
             }
 
             /*if (ViveInput.GetPressUpEx(HandRole.RightHand, ControllerButton.Menu))
@@ -146,13 +153,18 @@ namespace PrefabWorldEditor
 
         public void onAssetGrabbed() {
 
-            Debug.Log("onAssetGrabbed");
             PweDynamicMenusVR.Instance.showMenuPanels(false, false);
         }
 
         public void onAssetReleased() {
+                        
+            if (_curEditPart.type == Globals.AssetType.Floor) {
+                PrefabLevelEditor.Instance.selectAssetType(_curEditPart.type);
+                PrefabLevelEditor.Instance.setNewEditPart(_curEditPart);
+                PrefabLevelEditor.Instance.fillY(Vector3.zero);
+            }
 
-            Debug.Log("onAssetReleased");
+            _hideEditPart = true;
         }
 
         #endregion

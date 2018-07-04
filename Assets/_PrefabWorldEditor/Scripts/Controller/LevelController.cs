@@ -12,6 +12,8 @@ using UnityEngine.EventSystems;
 
 using AssetsShared;
 
+//using Gamekit3D.WorldBuilding;
+
 namespace PrefabWorldEditor
 {
 	public class LevelController : Singleton<LevelController>
@@ -275,7 +277,7 @@ namespace PrefabWorldEditor
 			if (_selectedElement.go != null) {
 				if (_selectedElement.part != Globals.PartList.End_Of_List) {
 
-					if (_selectedMeshRenderers.Count > 0) {
+                    if (_selectedMeshRenderers.Count > 0) {
 						_selectedElementBounds = _selectedMeshRenderers [0].bounds;
 						int i, len = _selectedMeshRenderers.Count;
 						for (i = 1; i < len; ++i) {

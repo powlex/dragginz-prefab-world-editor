@@ -13,7 +13,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.XR;
 
 //using HTC.UnityPlugin.Utility;
-//using HTC.UnityPlugin.Vive;
+using HTC.UnityPlugin.Vive;
 
 using AssetsShared;
 
@@ -402,8 +402,25 @@ namespace PrefabWorldEditor
 			setNewEditPart(_assetTypeList[_assetType][index]);
 		}
 
-		// ------------------------------------------------------------------------
-		public void selectPlacementTool(PlacementTool.PlacementMode mode)
+        // ------------------------------------------------------------------------
+        public void setNewEditPart(Part part) {
+            _curEditPart = part;
+
+            if (_goEditPart != null) {
+                Destroy(_goEditPart);
+            }
+            _goEditPart = null;
+
+            _goEditPart = createPartAt(_curEditPart.id, -10, -10, -10);
+            setMarkerScale(_curEditPart);
+
+            _levelController.setMeshCollider(_goEditPart, false);
+
+            showAssetInfo(_curEditPart);
+        }
+
+        // ------------------------------------------------------------------------
+        public void selectPlacementTool(PlacementTool.PlacementMode mode)
 		{
 			if (_toolsController.curPlacementTool == null || _toolsController.curPlacementTool.placementMode != mode)
 			{
@@ -1107,24 +1124,6 @@ namespace PrefabWorldEditor
         }
 
 		// ------------------------------------------------------------------------
-		private void setNewEditPart(Part part)
-		{
-			_curEditPart = part;
-
-			if (_goEditPart != null) {
-				Destroy (_goEditPart);
-			}
-			_goEditPart = null;
-
-			_goEditPart = createPartAt(_curEditPart.id, -10, -10, -10);
-			setMarkerScale (_curEditPart);
-
-			_levelController.setMeshCollider(_goEditPart, false);
-
-			showAssetInfo (_curEditPart);
-		}
-
-		// ------------------------------------------------------------------------
 		private void showAssetInfo(Part part)
 		{
 			if (_editMode == EditMode.Place) {
@@ -1178,6 +1177,10 @@ namespace PrefabWorldEditor
 				element.part = _curEditPart.id;
 				element.go = createPartAt (_curEditPart.id, pos.x, pos.y, pos.z);
 				element.go.transform.rotation = _goEditPart.transform.rotation;
+
+                if (_curEditPart.type == Globals.AssetType.Floor) {
+                    element.go.AddComponent<Teleportable>();
+                }
 
 				_levelController.setMeshCollider (element.go, true);
 				_levelController.setRigidBody (element.go, _curEditPart.usesGravity);
@@ -1352,8 +1355,8 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		// ------------------------------------------------------------------------
-		private void fillY(Vector3 pos)
+        // ------------------------------------------------------------------------
+        public void fillY(Vector3 pos)
 		{
 			int lenX = (int)((float)levelSize.x / _curEditPart.w);
 			int lenZ = (int)((float)levelSize.z / _curEditPart.d);
@@ -1418,9 +1421,9 @@ namespace PrefabWorldEditor
 
             go = Instantiate(_parts[partId].prefab);
             if (go != null) {
-				go.name = "part_" + (_iCounter++).ToString (); //(_container.childCount+1).ToString();
+				go.name = "part_" + (_iCounter++).ToString ();
                 go.transform.SetParent(container);
-				go.transform.position = new Vector3 (x, y, z); //new Vector3(x * gridSize, y * gridSize, z * gridSize);
+				go.transform.position = new Vector3 (x, y, z);
             }
 
             return go;

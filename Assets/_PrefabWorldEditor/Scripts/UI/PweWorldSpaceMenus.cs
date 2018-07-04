@@ -38,6 +38,9 @@ namespace PrefabWorldEditor
 		public void init()
 		{
 			_vrController.SetRightLaserPointerActive (true);
+            if (!_vrController.rightLaserPointerActive) {
+                _vrController.SetLeftLaserPointerActive(true);
+            }
 			_vrController.UpdateActivity ();
 		}
 
@@ -45,7 +48,8 @@ namespace PrefabWorldEditor
 		public void onHelpPanelOkay() {
 			panelHelp.gameObject.SetActive (false);
 			_vrController.SetRightLaserPointerActive (false);
-			_vrController.UpdateActivity ();
+            _vrController.SetLeftLaserPointerActive(false);
+            _vrController.UpdateActivity ();
 		}
 
 		// ------------------------------------------------------------------------
