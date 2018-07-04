@@ -414,9 +414,10 @@ namespace PrefabWorldEditor
 		// ---------------------------------------------------------------------------------------------
 		private void showNewLevelDialog()
 		{
-			//EditorObjectSelection.Instance.ClearSelection(false);
+            PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform);
+            //EditorObjectSelection.Instance.ClearSelection(false);
 
-			_popup.showPopup (Globals.PopupMode.NewLevel, "New Level", "", createNewLevel);
+            _popup.showPopup (Globals.PopupMode.NewLevel, "New Level", "", createNewLevel);
 		}
 
 		private void createNewLevel(int buttonId)
@@ -448,8 +449,8 @@ namespace PrefabWorldEditor
 			#if UNITY_WEBGL
 				_popup.showPopup(
 					Globals.PopupMode.Notification,
-					"Sorry!",
-					"Loading level files is not available in the web version of the editor!",
+					Globals.txtSorry,
+                    Globals.txtWarningLoadingFiles,
 					webGLPopupCallbackLoad
 				);
 				return;
@@ -490,10 +491,10 @@ namespace PrefabWorldEditor
 			#if UNITY_WEBGL
 				_popup.showPopup(
 					Globals.PopupMode.Notification,
-					"Sorry!",
-					"Saving level files is not available in the web version of the editor!",
-					webGLPopupCallbackSave
-				);
+                    Globals.txtSorry,
+                    Globals.txtWarningSavingFiles,
+                    webGLPopupCallbackSave
+                );
 				return;
 			#endif
 
@@ -668,15 +669,15 @@ namespace PrefabWorldEditor
         public void onPointerDownFile(BaseEventData data) {
             if (_trfmDropDownFile) {
                 resetDropDown(_trfmDropDownFile);
-				//LevelEditor.Instance.setMode (AppState.Select);
+                PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform);
             }
         }
 
 		public void onPointerDownLevel(BaseEventData data) {
 			if (_trfmDropDownLevel) {
 				resetDropDown(_trfmDropDownLevel);
-				//LevelEditor.Instance.setMode (AppState.Select);
-			}
+                PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform);
+            }
 		}
 
 		//

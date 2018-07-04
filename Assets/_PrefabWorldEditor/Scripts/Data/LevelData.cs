@@ -53,7 +53,7 @@ namespace PrefabWorldEditor
 			}
 			catch (System.Exception e) {
 				Debug.LogWarning (e.Message);
-				PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Notification, "Warning", Globals.warningInvalidFileFormat.Replace("%1",""));
+				PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Notification, "Warning", Globals.txtWarningInvalidFileFormat.Replace("%1",""));
 			}
 		}
 
@@ -71,7 +71,7 @@ namespace PrefabWorldEditor
 		private void createLevel(LevelFile levelFile) {
 
 			if (levelFile.fileFormatVersion != Globals.levelSaveFormatVersion) {
-				PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Notification, "Warning", Globals.warningObsoleteFileFormat);
+				PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Notification, "Warning", Globals.txtWarningObsoleteFileFormat);
 				return;
 			}
 

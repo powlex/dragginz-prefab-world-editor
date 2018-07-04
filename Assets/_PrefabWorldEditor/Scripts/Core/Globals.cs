@@ -96,12 +96,16 @@ namespace PrefabWorldEditor
 		//static public readonly string[] materials = {"vwe_volcano", "vwe_moss", "vwe_shape", "vwe_stone", "vwe_marble", "vwe_cube-0", "vwe_cube-1", "vwe_cube-2", "vwe_cube-3", "vwe_cube-4", "vwe_cube-5", "vwe_cube-6", "vwe_cube-7", "vwe_cube-8", "vwe_cube-9"};
 		//static public readonly string[] materialsTools = {"vwe_tool_volcano", "vwe_tool_moss", "vwe_tool_shape", "vwe_tool_stone", "vwe_tool_marble", "vwe_tool_cube-0", "vwe_tool_cube-1", "vwe_tool_cube-2", "vwe_tool_cube-3", "vwe_tool_cube-4", "vwe_tool_cube-5", "vwe_tool_cube-6", "vwe_tool_cube-7", "vwe_tool_cube-8", "vwe_tool_cube-9"};
 
-		static public readonly string warningObsoleteFileFormat  = "Can't load level:\n\nFile format is obsolete!";
-		static public readonly string warningInvalidFileFormat   = "Can't load level '%1'\n\nFile format is invalid!";
-		//static public readonly string errorLevelFileInvalidIndex = "Invalid Level Index!";
-		//static public readonly string errorLevelFileInvalidFilename = "Invalid Level File Name:\n'%1'";
+		static public readonly string txtWarningObsoleteFileFormat = "Can't load level:\n\nFile format is obsolete!";
+		static public readonly string txtWarningInvalidFileFormat = "Can't load level '%1'\n\nFile format is invalid!";
+        static public readonly string txtWarningSavingFiles = "Saving level files is not available\nin the web version of the editor!";
+        static public readonly string txtWarningLoadingFiles = "Loading level files is not available\nin the web version of the editor!";
+        static public readonly string txtSorry = "Sorry!";
 
-		static public readonly string defaultLevelName = "myLevel";
+        //static public readonly string errorLevelFileInvalidIndex = "Invalid Level Index!";
+        //static public readonly string errorLevelFileInvalidFilename = "Invalid Level File Name:\n'%1'";
+
+        static public readonly string defaultLevelName = "myLevel";
 
 		//static public readonly float RAYCAST_DISTANCE_EDIT = 10.24f;
 

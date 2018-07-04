@@ -1,13 +1,13 @@
 --------------------
 Current WebGL build:
 --------------------
-v06.28.1a
+v07.04.0a
 http://obrodhage.rocks/PrefabWorldEditor/
 
 ----------------------
 Current Windows build:
 ----------------------
-v06.28.1a
+v07.04.0a
 http://obrodhage.rocks/PrefabWorldEditor/dragginz-prefab-world-editor.zip
 
 -------------------------

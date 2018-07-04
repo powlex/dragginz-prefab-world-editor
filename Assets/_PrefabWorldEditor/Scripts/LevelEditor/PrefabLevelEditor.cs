@@ -135,8 +135,8 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Floor_3, Globals.AssetType.Floor, "MDC/Floors/Floor_3", 4.00f, 0.10f, 4.00f, Vector3Int.zero, false, "Floor 3");
             createPart(Globals.PartList.Floor_4, Globals.AssetType.Floor, "MDC/Floors/Floor_4", 4.00f, 0.10f, 4.00f, Vector3Int.zero, false, "Floor 4");
 
-            createPart(Globals.PartList.Wall_Z,   Globals.AssetType.Wall,  "MDC/WallsZ/Wall_Z",   3.00f,  3.00f,  0.50f, Vector3Int.zero, false, "Wall Left",  "Z");
-			createPart(Globals.PartList.Wall_X,   Globals.AssetType.Wall,  "MDC/WallsX/Wall_X",   0.50f,  3.00f,  3.00f, Vector3Int.zero, false, "Wall Right", "X");
+            createPart(Globals.PartList.Wall_Z,   Globals.AssetType.Wall,  "MDC/WallsZ/Wall_Z",   1.00f,  1.00f,  0.25f, Vector3Int.zero, false, "Wall Left",  "Z");
+			createPart(Globals.PartList.Wall_X,   Globals.AssetType.Wall,  "MDC/WallsX/Wall_X",   0.25f,  1.00f,  1.00f, Vector3Int.zero, false, "Wall Right", "X");
 
 			createPart(Globals.PartList.Chunk_Rock_1,       Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Rock_1",        4.00f,  3.50f,  4.00f, Vector3Int.one, false, "Rock 1");
 			createPart(Globals.PartList.Chunk_Rock_2,       Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Rock_2",        4.00f,  2.40f,  4.00f, Vector3Int.one, false, "Rock 2");
