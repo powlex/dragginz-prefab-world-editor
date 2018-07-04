@@ -3,8 +3,8 @@
 // Company : Decentralised Team of Developers
 //
 
-using System;
-using System.Collections;
+//using System;
+//using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -12,8 +12,8 @@ using UnityEngine.EventSystems;
 
 using UnityEngine.XR;
 
-using HTC.UnityPlugin.Utility;
-using HTC.UnityPlugin.Vive;
+//using HTC.UnityPlugin.Utility;
+//using HTC.UnityPlugin.Vive;
 
 using AssetsShared;
 
@@ -35,8 +35,9 @@ namespace PrefabWorldEditor
         public float gridSize;
 
         public Transform trfmWalls;
+        public Transform trfmBounds;
 
-		public Material matElementMarker;
+        public Material matElementMarker;
 
 		public GizmoTranslateScript gizmoTranslateScript;
 		public GizmoRotateScript gizmoRotateScript;
@@ -129,11 +130,12 @@ namespace PrefabWorldEditor
         {
 			_parts = new Dictionary<Globals.PartList, Part>();
 
-			createPart(Globals.PartList.Floor_1,  Globals.AssetType.Floor, "MDC/Floors/Floor_1",  4.00f,  0.10f,  4.00f, Vector3Int.zero, false, "Floor 1");
-			createPart(Globals.PartList.Floor_2,  Globals.AssetType.Floor, "MDC/Floors/Floor_2",  6.00f,  0.10f,  6.00f, Vector3Int.zero, false, "Floor 2");
-			createPart(Globals.PartList.Floor_3,  Globals.AssetType.Floor, "MDC/Floors/Floor_3",  6.00f,  0.25f,  6.00f, Vector3Int.zero, false, "Floor 3");
+			createPart(Globals.PartList.Floor_1, Globals.AssetType.Floor, "MDC/Floors/Floor_1", 4.00f, 0.10f, 4.00f, Vector3Int.zero, false, "Floor 1");
+			createPart(Globals.PartList.Floor_2, Globals.AssetType.Floor, "MDC/Floors/Floor_2", 4.00f, 0.10f, 4.00f, Vector3Int.zero, false, "Floor 2");
+			createPart(Globals.PartList.Floor_3, Globals.AssetType.Floor, "MDC/Floors/Floor_3", 4.00f, 0.10f, 4.00f, Vector3Int.zero, false, "Floor 3");
+            createPart(Globals.PartList.Floor_4, Globals.AssetType.Floor, "MDC/Floors/Floor_4", 4.00f, 0.10f, 4.00f, Vector3Int.zero, false, "Floor 4");
 
-			createPart(Globals.PartList.Wall_Z,   Globals.AssetType.Wall,  "MDC/WallsZ/Wall_Z",   3.00f,  3.00f,  0.50f, Vector3Int.zero, false, "Wall Left",  "Z");
+            createPart(Globals.PartList.Wall_Z,   Globals.AssetType.Wall,  "MDC/WallsZ/Wall_Z",   3.00f,  3.00f,  0.50f, Vector3Int.zero, false, "Wall Left",  "Z");
 			createPart(Globals.PartList.Wall_X,   Globals.AssetType.Wall,  "MDC/WallsX/Wall_X",   0.50f,  3.00f,  3.00f, Vector3Int.zero, false, "Wall Right", "X");
 
 			createPart(Globals.PartList.Chunk_Rock_1,       Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Rock_1",        4.00f,  3.50f,  4.00f, Vector3Int.one, false, "Rock 1");
@@ -221,8 +223,8 @@ namespace PrefabWorldEditor
 			else
 			{
                 // TEST TEST TEST
-                VREditor.Instance.init();
-                PweDynamicMenusVR.Instance.init ();
+                // VREditor.Instance.init();
+                // PweDynamicMenusVR.Instance.init ();
 
 				setEditMode (EditMode.Place);
 			}
@@ -302,9 +304,10 @@ namespace PrefabWorldEditor
 
 				_editMode = mode;
 
-				goLights.SetActive (_editMode != EditMode.Play);
+                //goLights.SetActive (_editMode != EditMode.Play);
+                trfmWalls.gameObject.SetActive(_editMode != EditMode.Play);
 
-				_levelController.resetElementComponents ();
+                _levelController.resetElementComponents ();
 
 				resetSelectedElement ();
 				resetCurPlacementTool ();
@@ -1445,8 +1448,8 @@ namespace PrefabWorldEditor
 		}
 
         // ------------------------------------------------------------------------
-        private void setWalls() {
-
+        private void setWalls()
+        {
 			_trfmMarkerX  = trfmWalls.Find ("marker_x");
 			_trfmMarkerY  = trfmWalls.Find ("marker_y");
 			_trfmMarkerZ  = trfmWalls.Find ("marker_z");
@@ -1458,28 +1461,15 @@ namespace PrefabWorldEditor
             float h = (float)levelSize.y;
             float d = (float)levelSize.z;
 
-            Vector2 matScale = new Vector2(w, h);
-            Vector3 goScale = new Vector3(w, h, d);
-
-            setWall("wall_f", goScale, new Vector3(w / 2f, h / 2f, d), matScale);
-            setWall("wall_b", goScale, new Vector3(w / 2f, h / 2f, 0), matScale);
-            setWall("wall_l", goScale, new Vector3(0, h / 2f, d / 2f), matScale);
-            setWall("wall_r", goScale, new Vector3(w, h / 2f, d / 2f), matScale);
-            setWall("wall_u", goScale, new Vector3(w / 2f, h, d / 2f), matScale);
-            setWall("wall_d", goScale, new Vector3(w / 2f, 0, d / 2f), matScale);
-
-            /*goScale = new Vector3(w + 0.2f, h + 0.2f, d + 0.2f);
-            matScale = new Vector2(w / 2, h / 2);
-
-            setWall("wall_f_rock", goScale, new Vector3(w / 2f, h / 2f, d + 0.1f), matScale);
-            setWall("wall_b_rock", goScale, new Vector3(w / 2f, h / 2f, -0.1f), matScale);
-            setWall("wall_l_rock", goScale, new Vector3(-0.1f, h / 2f, d / 2f), matScale);
-            setWall("wall_r_rock", goScale, new Vector3(w + 0.1f, h / 2f, d / 2f), matScale);
-            setWall("wall_u_rock", goScale, new Vector3(w / 2f, h + 0.1f, d / 2f), matScale);
-            setWall("wall_d_rock", goScale, new Vector3(w / 2f, -0.1f, d / 2f), matScale);*/
+            setWall("wall_f", "bounds_f", new Vector3(w, h, 1), new Vector3(w / 2f, h / 2f, d), new Vector2(w, h));
+            setWall("wall_b", "bounds_b", new Vector3(w, h, 1), new Vector3(w / 2f, h / 2f, 0), new Vector2(w, h));
+            setWall("wall_l", "bounds_l", new Vector3(d, h, 1), new Vector3(0, h / 2f, d / 2f), new Vector2(d, h));
+            setWall("wall_r", "bounds_r", new Vector3(d, h, 1), new Vector3(w, h / 2f, d / 2f), new Vector2(d, h));
+            setWall("wall_u", "bounds_u", new Vector3(w, d, 1), new Vector3(w / 2f, h, d / 2f), new Vector2(w, d));
+            setWall("wall_d", "bounds_d", new Vector3(w, d, 1), new Vector3(w / 2f, 0, d / 2f), new Vector2(w, d));
         }
 
-        private void setWall(string name, Vector3 scale, Vector3 pos, Vector2 matScale) {
+        private void setWall(string name, string boundsName, Vector3 scale, Vector3 pos, Vector2 matScale) {
 
             Transform child = trfmWalls.Find(name);
             if (child != null) {
@@ -1491,6 +1481,13 @@ namespace PrefabWorldEditor
                     r.material.mainTextureScale = matScale;
                 }
 
+                child.gameObject.isStatic = true;
+            }
+
+            child = trfmBounds.Find(boundsName);
+            if (child != null) {
+                child.localScale = scale;
+                child.localPosition = pos;
                 child.gameObject.isStatic = true;
             }
         }

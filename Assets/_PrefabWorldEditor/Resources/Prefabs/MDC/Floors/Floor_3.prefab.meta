@@ -1,14 +1,15 @@
 fileFormatVersion: 2
-guid: cb4e920554260594e8a34032bc8d9fa8
+guid: 82917fbe58565b54a8c32607297bd15d
 labels:
-- bricks
+- buildings
 - catacombs
 - dungeon
-- prefabs
+- floors
+- props
 - ruins
+- stairs
 - stones
-- walls
-timeCreated: 1484654508
+timeCreated: 1496162667
 licenseType: Store
 NativeFormatImporter:
   userData: 
