@@ -446,7 +446,7 @@ namespace PrefabWorldEditor
             _popup.showPopup(Globals.PopupMode.Confirmation, "Load Test Level", "Are you sure?\nAll unsaved changes will be lost!", loadTestLevel);
         }
 
-        private void loadTestLevel(int buttonId) {
+        public void loadTestLevel(int buttonId) {
             _popup.hide();
             if (buttonId == 1) {
                 TextAsset jsonAsset = Resources.Load<TextAsset>("Data/editor-level");

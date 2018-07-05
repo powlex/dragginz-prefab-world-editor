@@ -21,9 +21,10 @@ namespace PrefabWorldEditor
 {
 	public class VREditor : MonoSingleton<VREditor>
     {
-		#region PublicProperties
+        #region PublicProperties
 
-		public Transform assetSelection;
+        public Transform viveRig;
+        //public Transform assetSelection;
 
 		#endregion
 

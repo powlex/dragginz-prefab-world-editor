@@ -308,7 +308,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void placeDungeonPrefab (int index)
+		/*public void placeDungeonPrefab (int index)
 		{
 			Vector3 pos = Camera.main.transform.position + Camera.main.transform.forward * 4f;
 			int partId = (int)Globals.PartList.Dungeon_Floor + index;
@@ -323,7 +323,7 @@ namespace PrefabWorldEditor
 			element.go.AddComponent<Draggable> ();
 
 			_levelElements.Add (element.go.name, element);
-		}
+		}*/
 
 		#endregion
 

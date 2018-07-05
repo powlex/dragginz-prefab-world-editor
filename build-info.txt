@@ -7,11 +7,12 @@ http://obrodhage.rocks/PrefabWorldEditor/
 ----------------------
 Current Windows build:
 ----------------------
-v07.04.0a
+v07.05.1a
 http://obrodhage.rocks/PrefabWorldEditor/dragginz-prefab-world-editor.zip
 
 -------------------------
 Current Windows VR build:
 -------------------------
-v07.04.0a
+v07.05.1a
 http://obrodhage.rocks/PrefabWorldEditor/dragginz-prefab-world-editor-vr.zip
+Added Test Level

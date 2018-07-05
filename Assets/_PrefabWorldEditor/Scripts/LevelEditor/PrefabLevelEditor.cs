@@ -275,7 +275,7 @@ namespace PrefabWorldEditor
 			_iCounter = 0;
 			setWalls ();
 
-			setEditMode (EditMode.Place);
+			setEditMode (EditMode.Transform);
 		}
 
         // ------------------------------------------------------------------------

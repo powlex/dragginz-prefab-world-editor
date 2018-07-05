@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using UnityEngine;
+using UnityEngine.XR;
+
+using HTC.UnityPlugin.Vive;
 
 using AssetsShared;
 
@@ -81,7 +84,17 @@ namespace PrefabWorldEditor
 			Vector3 savedPos = new Vector3 (levelFile.playerPosition.x, levelFile.playerPosition.y, levelFile.playerPosition.z);
 			Vector3 savedRot = new Vector3 (levelFile.playerEuler.x, levelFile.playerEuler.y, levelFile.playerEuler.z);
 
-			FlyCam.Instance.setNewInitialPosition (savedPos, savedRot);
+            if (XRSettings.enabled) {
+                if (FlyCam.Instance != null) {
+                    FlyCam.Instance.setNewInitialPosition(savedPos, savedRot);
+                }
+            }
+            else {
+                if (VREditor.Instance != null) {
+                    VREditor.Instance.viveRig.position = savedPos;
+                    VREditor.Instance.viveRig.rotation = Quaternion.Euler(savedRot);
+                }
+            }
 
 			if (levelFile.levelObjects != null) {
 				
@@ -117,7 +130,13 @@ namespace PrefabWorldEditor
 					element.go = prefabLevelEditor.createPartAt (partId, pos.x, pos.y, pos.z);
 					element.go.transform.rotation = rotation;
 
-					levelController.setMeshCollider (element.go, true);
+                    if (XRSettings.enabled) {
+                        if (part.type == Globals.AssetType.Dungeon) {
+                            element.go.AddComponent<Teleportable>();
+                        }
+                    }
+
+                    levelController.setMeshCollider (element.go, true);
 					levelController.setRigidBody (element.go, part.usesGravity);
 
 					levelController.levelElements.Add (element.go.name, element);
