@@ -126,13 +126,13 @@ namespace PrefabWorldEditor
 			inputField.gameObject.SetActive(true);
 
 			txtInputCaption.text = caption;
-			/*if (LevelData.Instance.lastLevelName == Globals.defaultLevelName) {
+			if (LevelData.Instance.lastLevelName == Globals.defaultLevelName) {
 				txtInputPlaceHolder.text = placeholder;
 				inputField.text = "";
 			} else {
 				txtInputPlaceHolder.text = "";
 				inputField.text = LevelData.Instance.lastLevelName;
-			}*/
+			}
 		}
 
 		//

@@ -83,6 +83,7 @@ public class GizmoClickDetection : MonoBehaviour {
             // Check if object are our targets (skipping the collision if the renderer isn't enabled)
             foreach (RaycastHit hit in hits) {
                 if (Array.IndexOf(targets, hit.collider.gameObject) >= 0) {
+                    //Debug.Log("hit.collider.gameObject: " + hit.collider.gameObject.name);
                     if (!hit.collider.gameObject.GetComponent<Renderer>().enabled) continue;
                     if (hit.collider.gameObject.name.Contains("_plane_")) pressingPlane = true;
                     detected = true;

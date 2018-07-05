@@ -158,7 +158,7 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Prop_BonePile,  Globals.AssetType.Prop, "MDC/Props/Prop_BonePile",   2.00f,  0.75f,  2.00f, Vector3Int.one,  false, "Bone Pile");
 			createPart(Globals.PartList.Prop_Debris,    Globals.AssetType.Prop, "MDC/Props/Prop_Debris",     3.30f,  1.20f,  3.70f, Vector3Int.one,  false, "Debris");
 			createPart(Globals.PartList.Prop_Grave_1,   Globals.AssetType.Prop, "MDC/Props/Prop_Grave_1",    1.00f,  0.88f,  3.00f, Vector3Int.one,  true,  "Grave");
-			createPart(Globals.PartList.Prop_TombStone, Globals.AssetType.Prop, "MDC/Props/Prop_TombStone",  6.00f,  3.20f,  0.25f, Vector3Int.one,  true,  "Tomb Stone");
+			createPart(Globals.PartList.Prop_TombStone, Globals.AssetType.Prop, "MDC/Props/Prop_TombStone",  3.00f,  1.60f,  0.25f, Vector3Int.one,  true,  "Tomb Stone");
 
 			createPart(Globals.PartList.Pillar_1,     Globals.AssetType.Prop, "MDC/Props/Pillar_1",      2.00f,  3.00f,  2.00f, Vector3Int.one,  true, "Pillar 1");
 			createPart(Globals.PartList.Pillar_2,     Globals.AssetType.Prop, "MDC/Props/Pillar_2",      1.50f,  1.50f,  4.75f, Vector3Int.one,  true, "Pillar 2");
@@ -910,25 +910,25 @@ namespace PrefabWorldEditor
 					}
 					else if (elementGroup.groupType == "placement")
 					{
-						selectAsset(elementGroup.part);
+						selectAsset(elementGroup.part, trfmHit.rotation);
 						activatePlacementTool (elementGroup.placement, _curEditPart, elementGroup);
 					}
 					else if (elementGroup.groupType == "room")
 					{
-						selectAsset(elementGroup.part);
+						selectAsset(elementGroup.part, trfmHit.rotation);
 						activateRoomTool (elementGroup.room, _curEditPart, elementGroup);
 					}
 				}
 				else
 				{
 					LevelController.LevelElement element = _levelController.levelElements [trfmParent.gameObject.name];
-					selectAsset(_parts [element.part]);
+					selectAsset(_parts [element.part], trfmHit.rotation);
 				}
 			}
 		}
 
 		// ------------------------------------------------------------------------
-		private void selectAsset(Part part)
+		private void selectAsset(Part part, Quaternion rotation)
 		{
 			selectAssetType (part.type);
 
@@ -944,6 +944,8 @@ namespace PrefabWorldEditor
 
 			_assetTypeIndex [part.type] = index;
 			setNewEditPart (_assetTypeList [part.type] [index]);
+
+            _goEditPart.transform.rotation = rotation;
 		}
 
 		// ------------------------------------------------------------------------

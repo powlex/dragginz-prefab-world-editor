@@ -84,7 +84,7 @@ namespace PrefabWorldEditor
 			Vector3 savedPos = new Vector3 (levelFile.playerPosition.x, levelFile.playerPosition.y, levelFile.playerPosition.z);
 			Vector3 savedRot = new Vector3 (levelFile.playerEuler.x, levelFile.playerEuler.y, levelFile.playerEuler.z);
 
-            if (XRSettings.enabled) {
+            if (!XRSettings.enabled) {
                 if (FlyCam.Instance != null) {
                     FlyCam.Instance.setNewInitialPosition(savedPos, savedRot);
                 }

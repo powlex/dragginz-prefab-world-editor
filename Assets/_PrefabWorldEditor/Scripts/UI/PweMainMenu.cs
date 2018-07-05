@@ -503,7 +503,6 @@ namespace PrefabWorldEditor
 		// ---------------------------------------------------------------------------------------------
         private void showSaveFileDialog() {
 
-			//EditorObjectSelection.Instance.ClearSelection(false);
 			PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform);
 
 			#if UNITY_WEBGL
