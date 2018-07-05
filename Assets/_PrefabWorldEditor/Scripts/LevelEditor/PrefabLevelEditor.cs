@@ -278,8 +278,8 @@ namespace PrefabWorldEditor
 			setEditMode (EditMode.Place);
 		}
 
-		// ------------------------------------------------------------------------
-		public void clearLevel()
+        // ------------------------------------------------------------------------
+        public void clearLevel()
 		{
 			setNewEditPart(_assetTypeList[_assetType][0]); // reset to floor tile
 			setEditMode(EditMode.None);
@@ -287,7 +287,7 @@ namespace PrefabWorldEditor
 			PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Confirmation, "Clear Level", "Are you sure?", clearLevelConfirm);
 		}
 
-		private void clearLevelConfirm(int buttonId) {
+        public void clearLevelConfirm(int buttonId) {
 
 			PweMainMenu.Instance.popup.hide();
 			if (buttonId == 1)
@@ -330,7 +330,10 @@ namespace PrefabWorldEditor
 				}
 				PweMainMenu.Instance.showAssetInfoPanel (_editMode == EditMode.Place);
 
-				if (!XRSettings.enabled) {
+                bool playerEditWasActive = playerEdit.gameObject.activeSelf;
+                bool playerPlayWasActive = playerPlay.gameObject.activeSelf;
+
+                if (!XRSettings.enabled) {
 					playerEdit.gameObject.SetActive (_editMode != EditMode.Play);
 					playerPlay.gameObject.SetActive (!playerEdit.gameObject.activeSelf);
 				} else {
@@ -338,7 +341,14 @@ namespace PrefabWorldEditor
 					playerPlay.gameObject.SetActive (false);
 				}
 
-				if (_goEditPart != null)
+                if (playerEdit.gameObject.activeSelf && !playerEditWasActive) {
+                    playerEdit.position = playerPlay.position;
+                }
+                else if (playerPlay.gameObject.activeSelf && !playerPlayWasActive) {
+                    playerPlay.position = playerEdit.position;
+                }
+
+                if (_goEditPart != null)
 				{
 					_goEditPart.SetActive (_editMode == EditMode.Place);
 					setMarkerActive (_goEditPart.activeSelf);
@@ -531,7 +541,14 @@ namespace PrefabWorldEditor
 				setEditMode (EditMode.Play);
 			}
 
-			if (Camera.main == null) {
+            if (Input.GetKeyDown(KeyCode.LeftShift)) {
+                FlyCam.Instance.drawWireframe = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift)) {
+                FlyCam.Instance.drawWireframe = false;
+            }
+
+            if (Camera.main == null) {
 				return;
 			}
 
@@ -658,6 +675,8 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		private void positionEditPart()
 		{
+            bool partWasSnappedToOtherPart = false;
+
 			float snap = gridSize;
 			if (_goEditPart != null && _curEditPart.type == Globals.AssetType.Dungeon) {
 				snap = 1f;
@@ -667,7 +686,7 @@ namespace PrefabWorldEditor
 
 			// snap dungeon pieces on top of each other!
 			if (_goHit != null) {
-				if (_toolsController.curDungeonTool == null && _curEditPart.type == Globals.AssetType.Dungeon)
+				if (_curEditPart.type == Globals.AssetType.Dungeon && _toolsController.curDungeonTool == null)
 				{
 					Transform trfmParent = _goHit.transform;
 					while (trfmParent.parent != null && trfmParent.tag != "PartContainer") {
@@ -677,39 +696,43 @@ namespace PrefabWorldEditor
 					// not an asset?
 					if (trfmParent.tag == "PartContainer") {
 						if (_levelController.levelElements.ContainsKey(trfmParent.name)) {
-							_v3EditPartPos.y = trfmParent.position.y + 2f;
-						}
+                            _v3EditPartPos = trfmParent.position + (2f * _hit.normal);
+                            partWasSnappedToOtherPart = true;
+                        }
 					}
 				}
 			}
 
-			//
-			// Positioning
-			//
-			_v3EditPartPos.x = Mathf.RoundToInt(_v3EditPartPos.x / snap) * snap;
-			if (_v3EditPartPos.x - _curEditPart.w / 2 < 0) {
-				_v3EditPartPos.x = _curEditPart.w / 2;
-			}
-			else if (_v3EditPartPos.x + _curEditPart.w / 2 > levelSize.x) {
-				_v3EditPartPos.x = levelSize.x - _curEditPart.w / 2;
-			}
+            //
+            // Positioning
+            //
+            if (!partWasSnappedToOtherPart)
+            {
+                _v3EditPartPos.x = Mathf.RoundToInt(_v3EditPartPos.x / snap) * snap;
+                if (_v3EditPartPos.x - _curEditPart.w / 2 < 0) {
+                    _v3EditPartPos.x = _curEditPart.w / 2;
+                }
+                else if (_v3EditPartPos.x + _curEditPart.w / 2 > levelSize.x) {
+                    _v3EditPartPos.x = levelSize.x - _curEditPart.w / 2;
+                }
 
-			_v3EditPartPos.y = Mathf.RoundToInt(_v3EditPartPos.y / snap) * snap;
-			if (_v3EditPartPos.y - _curEditPart.h / 2 < 0) {
-				_v3EditPartPos.y = _curEditPart.h / 2;
-			}
-			else if (_v3EditPartPos.y + _curEditPart.h / 2 > levelSize.y) {
-				_v3EditPartPos.y = levelSize.y - _curEditPart.h / 2;
-			}
+                _v3EditPartPos.y = Mathf.RoundToInt(_v3EditPartPos.y / snap) * snap;
+                if (_v3EditPartPos.y - _curEditPart.h / 2 < 0) {
+                    _v3EditPartPos.y = _curEditPart.h / 2;
+                }
+                else if (_v3EditPartPos.y + _curEditPart.h / 2 > levelSize.y) {
+                    _v3EditPartPos.y = levelSize.y - _curEditPart.h / 2;
+                }
 
-			_v3EditPartPos.z = Mathf.RoundToInt(_v3EditPartPos.z / snap) * snap;
-			if (_v3EditPartPos.z - _curEditPart.d / 2 < 0) {
-				_v3EditPartPos.z = _curEditPart.d / 2;
-			}
-			else if (_v3EditPartPos.z + _curEditPart.d / 2 > levelSize.z) {
-				_v3EditPartPos.z = levelSize.z - _curEditPart.d / 2;
-			}
-            
+                _v3EditPartPos.z = Mathf.RoundToInt(_v3EditPartPos.z / snap) * snap;
+                if (_v3EditPartPos.z - _curEditPart.d / 2 < 0) {
+                    _v3EditPartPos.z = _curEditPart.d / 2;
+                }
+                else if (_v3EditPartPos.z + _curEditPart.d / 2 > levelSize.z) {
+                    _v3EditPartPos.z = levelSize.z - _curEditPart.d / 2;
+                }
+            }
+
 			_goEditPart.transform.position = _v3EditPartPos;
 			setMarkerPosition (_goEditPart.transform);
 

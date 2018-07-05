@@ -99,8 +99,8 @@ namespace PrefabWorldEditor
 
             _menuMain = new MenuSettings();
             _menuMain.header = "Main Menu";
-            _menuMain.options = new string[] { "Editor Modes" };
-            _menuMain.colors = new Color[] { Color.white };
+            _menuMain.options = new string[] { "Editor Modes", "Clear Level" };
+            _menuMain.colors = new Color[] { Color.white, Color.white };
 
             _menuBuild = new MenuSettings();
             _menuBuild.header = "Build Menu";
@@ -240,8 +240,11 @@ namespace PrefabWorldEditor
 					_iSelectedOptionRight = -1;
 					setPanels (MenuOption.MainMenu, MenuOption.EditorModesSubMenu);
 				}
-			}
-			else if (_curMenuOptionLeft == MenuOption.BuildMenu)
+                else if (index == 1) {
+                    PrefabLevelEditor.Instance.clearLevelConfirm(1);
+                }
+            }
+            else if (_curMenuOptionLeft == MenuOption.BuildMenu)
 			{
 				if (index == 0) {
 					_iSelectedOptionLeft  = -1;

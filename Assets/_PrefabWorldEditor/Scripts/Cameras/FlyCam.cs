@@ -33,9 +33,11 @@ namespace PrefabWorldEditor
         private bool _mouseRightIsDown;
         //private bool _move;
 
-		#region Getters
+        public bool drawWireframe;
 
-		public Transform player {
+        #region Getters
+
+        public Transform player {
 			get { return _player; }
 		}
 
@@ -57,7 +59,9 @@ namespace PrefabWorldEditor
 
             _mouseRightIsDown = false;
             //_move = false;
-		}
+
+            drawWireframe = false;
+        }
 
 		//
 		void Update ()
@@ -90,9 +94,14 @@ namespace PrefabWorldEditor
             //Debug.Log(transform.forward);
 		}
 
-		void OnPostRender()
+        void OnPreRender()
+        {
+            GL.wireframe = drawWireframe;
+        }
+        void OnPostRender()
 		{
-			GLTools.drawBoundingBox (LevelController.Instance.selectedElementBounds, matLineBounds);
+            GL.wireframe = false;
+            GLTools.drawBoundingBox (LevelController.Instance.selectedElementBounds, matLineBounds);
 		}
 
 		//

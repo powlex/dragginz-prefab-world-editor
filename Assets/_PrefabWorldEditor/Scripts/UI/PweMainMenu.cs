@@ -161,7 +161,7 @@ namespace PrefabWorldEditor
 						//Debug.Log ("_iDropDownLevelOptions: "+_iDropDownLevelOptions);
 					}
 				}
-				panelLevelMenu.gameObject.SetActive (false);
+				//panelLevelMenu.gameObject.SetActive (false);
 			}
 
 			//_lastMouseWheelUpdate = 0;
@@ -181,8 +181,8 @@ namespace PrefabWorldEditor
 			_txtPanelFile.color = Color.black;
 			_trfmDropDownFile.interactable = true;
 
-			_txtPanelLevel.color = Color.gray;
-			_trfmDropDownLevel.interactable = false;
+			_txtPanelLevel.color = Color.black;
+			_trfmDropDownLevel.interactable = true;
 		}
 
 		//
@@ -438,9 +438,27 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		// ---------------------------------------------------------------------------------------------
-		// Load File
-		// ---------------------------------------------------------------------------------------------
+        // ---------------------------------------------------------------------------------------------
+        // Load Test Level
+        // ---------------------------------------------------------------------------------------------
+        private void showLoadTestLevelDialog() {
+            PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform);
+            _popup.showPopup(Globals.PopupMode.Confirmation, "Load Test Level", "Are you sure?\nAll unsaved changes will be lost!", loadTestLevel);
+        }
+
+        private void loadTestLevel(int buttonId) {
+            _popup.hide();
+            if (buttonId == 1) {
+                TextAsset jsonAsset = Resources.Load<TextAsset>("Data/editor-level");
+                if (jsonAsset != null) {
+                    LevelData.Instance.loadLevelFromJson(jsonAsset.text);
+                }
+            }
+        }
+        
+        // ---------------------------------------------------------------------------------------------
+        // Load File
+        // ---------------------------------------------------------------------------------------------
         private void showLoadFileDialog() {
 
 			//EditorObjectSelection.Instance.ClearSelection(false);
@@ -684,20 +702,22 @@ namespace PrefabWorldEditor
         public void onDropDownFileValueChanged(int value) {
             if (_trfmDropDownFile && value < _iDropDownFileOptions) {
                 if (value == 0) {
-                    showNewLevelDialog();
-                } else if (value == 1) {
 					showLoadFileDialog();
-				} else if (value == 2) {
+				} else if (value == 1) {
 					showSaveFileDialog();
 				}
             }
         }
 
 		public void onDropDownLevelValueChanged(int value) {
-			if (_trfmDropDownLevel && value < _iDropDownLevelOptions) {
-				//_iSelectedLevel = value;
-				//LevelEditor.Instance.teleportToLevelWithIndex(_iSelectedLevel);
-			}
-		}
+            if (_trfmDropDownLevel && value < _iDropDownLevelOptions) {
+                if (value == 0) {
+                    showNewLevelDialog();
+                }
+                else if (value == 1) {
+                    showLoadTestLevelDialog();
+                }
+            }
+        }
     }
 }

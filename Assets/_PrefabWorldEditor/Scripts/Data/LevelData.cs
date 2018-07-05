@@ -22,26 +22,22 @@ namespace PrefabWorldEditor
 
 		public void loadLevelFromJson(string json)
 		{
-			//LevelEditor.Instance.curLevelChunk.reset ();
-
 			LevelFile levelFile = null;
-			//try {
+			try {
 				levelFile = createDataFromJson(json);
 				if (levelFile != null) {
 					createLevel (levelFile);
 				}
-			//}
-			//catch (System.Exception e) {
-			//	Debug.LogWarning (e.Message);
-			//	AppController.Instance.showPopup (PopupMode.Notification, "Warning", Globals.warningInvalidFileFormat.Replace("%1",""));
-			//}
+			}
+			catch (System.Exception e) {
+				Debug.LogWarning (e.Message);
+                PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Notification, "Warning", Globals.txtWarningInvalidFileFormat.Replace("%1",""));
+			}
 		}
 
 		//
 		public void loadLevelDataFromFile(string fileName)
 		{
-			//LevelEditor.Instance.curLevelChunk.reset ();
-
 			string json = File.ReadAllText(fileName);
 
 			LevelFile levelFile = null;
