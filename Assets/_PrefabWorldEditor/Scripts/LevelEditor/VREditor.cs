@@ -3,17 +3,17 @@
 // Company : Decentralised Team of Developers
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
+//using System;
+//using System.Collections;
+//using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.EventSystems;
+//using UnityEngine.EventSystems;
 
-using UnityEngine.XR;
+//using UnityEngine.XR;
 
-using HTC.UnityPlugin.Utility;
-using HTC.UnityPlugin.Vive;
+//using HTC.UnityPlugin.Utility;
+//using HTC.UnityPlugin.Vive;
 
 using AssetsShared;
 

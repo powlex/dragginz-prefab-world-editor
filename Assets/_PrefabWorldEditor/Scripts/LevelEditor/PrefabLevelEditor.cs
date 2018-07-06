@@ -413,7 +413,8 @@ namespace PrefabWorldEditor
 		}
 
         // ------------------------------------------------------------------------
-        public void setNewEditPart(Part part) {
+        public void setNewEditPart(Part part)
+        {
             _curEditPart = part;
 
             if (_goEditPart != null) {
@@ -838,8 +839,10 @@ namespace PrefabWorldEditor
 						}
 						else if (Input.GetKey (KeyCode.C)) {
 							Vector3 scale = _goEditPart.transform.localScale;
-							scale += new Vector3 (.025f * dir, .025f * dir, .025f * dir);
-							_goEditPart.transform.localScale = scale;
+                            scale.x += (scale.x * .1f * dir);
+                            scale.y += (scale.y * .1f * dir);
+                            scale.z += (scale.z * .1f * dir);
+                            _goEditPart.transform.localScale = scale;
 						} else {
 							toggleEditPart (mousewheel);
 						}
@@ -857,7 +860,7 @@ namespace PrefabWorldEditor
 					} else if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && _curEditPart.extra == "X") {
 						fillX (_goEditPart.transform.position);
 					} else {
-						placePart (_goEditPart.transform.position);
+						placePart (_goEditPart.transform.position, _goEditPart.transform.localScale);
 					}
 				}
 			}
@@ -1034,9 +1037,9 @@ namespace PrefabWorldEditor
 
 					_lastMouseWheelUpdate = _timer + 0.2f;
 					float dir = (mousewheel > 0 ? 1 : -1);
-					float multiply = 15f * dir;
+                    float multiply = (part.type == Globals.AssetType.Dungeon ? 90f * dir : 15f * dir);
 
-					if (Input.GetKey (KeyCode.X)) {
+                    if (Input.GetKey (KeyCode.X)) {
 						if (part.canRotate.x == 1) {
 							_levelController.selectedElement.go.transform.Rotate (Vector3.right * multiply);
 						}
@@ -1050,9 +1053,11 @@ namespace PrefabWorldEditor
 						}
 					}
 					else if (Input.GetKey (KeyCode.C)) { // Scale
-						Vector3 scale = _levelController.selectedElement.go.transform.localScale;
-						scale += new Vector3 (.025f * dir, .025f * dir, .025f * dir);
-						_levelController.selectedElement.go.transform.localScale = scale;
+                        Vector3 scale = _levelController.selectedElement.go.transform.localScale;
+                        scale.x += (scale.x * .1f * dir);
+                        scale.y += (scale.y * .1f * dir);
+                        scale.z += (scale.z * .1f * dir);
+                        _levelController.selectedElement.go.transform.localScale = scale;
 					}
 					else {
 						toggleSelectedElement (mousewheel);
@@ -1156,7 +1161,7 @@ namespace PrefabWorldEditor
 			} else {
 				PweMainMenu.Instance.setAssetNameText ("");
 			}
-			PweMainMenu.Instance.assetInfo.init (part);
+			PweMainMenu.Instance.assetInfo.init (part, LevelController.Instance.selectedElement);
 
 			string s = "";
 
@@ -1187,7 +1192,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-        private void placePart(Vector3 pos)
+        private void placePart(Vector3 pos, Vector3 scale)
 		{
 			// Tools
 			if (_toolsController.curPlacementTool != null && _toolsController.curPlacementTool.placementMode == PlacementTool.PlacementMode.Mount) {
@@ -1201,7 +1206,9 @@ namespace PrefabWorldEditor
 				LevelController.LevelElement element = new LevelController.LevelElement ();
 				element.part = _curEditPart.id;
 				element.go = createPartAt (_curEditPart.id, pos.x, pos.y, pos.z);
-				element.go.transform.rotation = _goEditPart.transform.rotation;
+                element.go.transform.rotation = _goEditPart.transform.rotation;
+                element.go.transform.localScale = scale;
+                element.overwriteGravity = 0;
 
                 if (_curEditPart.type == Globals.AssetType.Floor) {
                     element.go.AddComponent<Teleportable>();
@@ -1255,8 +1262,9 @@ namespace PrefabWorldEditor
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _curEditPart.id;
 					elementTool.go = go;
+                    elementTool.overwriteGravity = 0;
 
-					_levelController.levelElements.Add (go.name, elementTool);
+                    _levelController.levelElements.Add (go.name, elementTool);
 
 					aGOs.Add (go);
 				}
@@ -1299,8 +1307,9 @@ namespace PrefabWorldEditor
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _toolsController.curDungeonTool.dungeonElements [i].part;
 					elementTool.go = go;
+                    elementTool.overwriteGravity = 0;
 
-					_levelController.levelElements.Add (go.name, elementTool);
+                    _levelController.levelElements.Add (go.name, elementTool);
 
 					aGOs.Add (go);
 				}
@@ -1342,8 +1351,9 @@ namespace PrefabWorldEditor
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _curEditPart.id;
 					elementTool.go = go;
+                    elementTool.overwriteGravity = 0;
 
-					_levelController.levelElements.Add (go.name, elementTool);
+                    _levelController.levelElements.Add (go.name, elementTool);
 
 					aGOs.Add (go);
 				}
@@ -1375,7 +1385,7 @@ namespace PrefabWorldEditor
 				for (y = 0; y < lenY; ++y) {
 					pos.z = _curEditPart.d / 2 + (z * _curEditPart.d);
 					pos.y = (y * _curEditPart.h);
-					placePart (pos);
+					placePart (pos, Vector3.one);
 				}
 			}
 		}
@@ -1390,7 +1400,7 @@ namespace PrefabWorldEditor
 				for (z = 0; z < lenZ; ++z) {
 					pos.x = _curEditPart.w / 2 + (x * _curEditPart.w);
 					pos.z = _curEditPart.d / 2 + (z * _curEditPart.d);
-					placePart (pos);
+					placePart (pos, Vector3.one);
 				}
 			}
 		}
@@ -1405,7 +1415,7 @@ namespace PrefabWorldEditor
 				for (y = 0; y < lenY; ++y) {
 					pos.x = _curEditPart.w / 2 + (x * _curEditPart.w);
 					pos.y = (y * _curEditPart.h);
-					placePart (pos);
+					placePart (pos, Vector3.one);
 				}
 			}
 		}

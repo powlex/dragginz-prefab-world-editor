@@ -27,10 +27,16 @@ namespace PrefabWorldEditor
 		[SerializeField]
 		public DataTypeQuaternion rotation  { get; set; }
 
-		//
-		// Parse JSON data
-		//
-		public void parseJson(JSONNode data)
+        [SerializeField]
+        public DataTypeVector3 scale { get; set; }
+
+        [SerializeField]
+        public int overwriteGravity { get; set; }
+
+        //
+        // Parse JSON data
+        //
+        public void parseJson(JSONNode data)
 		{
 			id = 0;
 			if (data ["id"] != null) {
@@ -72,20 +78,45 @@ namespace PrefabWorldEditor
 					rotation.z = (float)data ["r"] ["z"];
 				}
 			}
-		}
 
-		//
-		// Create JSON string
-		//
-		public string getJsonString()
+            scale = new DataTypeVector3();
+            scale.x = 1;
+            scale.y = 1;
+            scale.z = 1;
+            if (data["s"] != null) {
+                if (data["s"]["x"] != null) {
+                    scale.x = (float)data["s"]["x"];
+                }
+                if (data["s"]["y"] != null) {
+                    scale.y = (float)data["s"]["y"];
+                }
+                if (data["s"]["z"] != null) {
+                    scale.z = (float)data["s"]["z"];
+                }
+            }
+
+            overwriteGravity = 0;
+            if (data["og"] != null) {
+                id = Int32.Parse(data["og"]);
+            }
+        }
+
+        //
+        // Create JSON string
+        //
+        public string getJsonString()
 		{
 			string s = "{";
 
 			s += "\"id\":" + id.ToString();
 			s += ",\"p\":" + position.getJsonString();
 			s += ",\"r\":" + rotation.getJsonString();
+            s += ",\"s\":" + scale.getJsonString();
+            if (overwriteGravity != 0) {
+                s += ",\"\":" + overwriteGravity.ToString();
+            }
 
-			s += "}";
+            s += "}";
 
 			return s;
 		}

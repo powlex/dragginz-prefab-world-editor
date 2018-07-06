@@ -24,7 +24,12 @@ namespace PrefabWorldEditor
 		{
 			public GameObject go;
 			public Globals.PartList part;
-		};
+            public int overwriteGravity;
+
+            public bool gravity() {
+                return (overwriteGravity == 0 ? PrefabLevelEditor.Instance.parts[part].usesGravity : (overwriteGravity == 1 ? true : false));
+            }
+        };
 
 		public struct ElementGroup
 		{
@@ -125,12 +130,6 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void customUpdate()
-		{
-			
-		}
-
-		// ------------------------------------------------------------------------
 		public void setMeshCollider (GameObject go, bool state) {
 
 			_listOfChildren.Clear ();
@@ -206,8 +205,9 @@ namespace PrefabWorldEditor
 		{
 			_selectedElement = new LevelElement();
 			_selectedElement.part = Globals.PartList.End_Of_List;
+            _selectedElement.overwriteGravity = 0;
 
-			_selectedMeshRenderers.Clear ();
+            _selectedMeshRenderers.Clear ();
 			_selectedElementBounds = new Bounds();
 		}
 

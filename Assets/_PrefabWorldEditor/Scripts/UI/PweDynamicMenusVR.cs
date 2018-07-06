@@ -165,6 +165,8 @@ namespace PrefabWorldEditor
                     VREditor.Instance.hideEditPart();
                 }
 			}
+
+            PrefabLevelEditor.Instance.container.gameObject.SetActive(!state);
 		}
 
 		#endregion

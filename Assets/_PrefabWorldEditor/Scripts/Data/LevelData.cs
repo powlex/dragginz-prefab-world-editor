@@ -104,8 +104,9 @@ namespace PrefabWorldEditor
 
 				Vector3 pos = Vector3.zero;
 				Quaternion rotation = Quaternion.identity;
+                Vector3 scale = Vector3.one;
 
-				PrefabLevelEditor prefabLevelEditor = PrefabLevelEditor.Instance;
+                PrefabLevelEditor prefabLevelEditor = PrefabLevelEditor.Instance;
 				LevelController levelController = LevelController.Instance;
 
 				int i, len = levelFile.levelObjects.Count;
@@ -125,15 +126,20 @@ namespace PrefabWorldEditor
 					rotation.y = levelObj.rotation.y;
 					rotation.z = levelObj.rotation.z;
 
-					LevelController.LevelElement element = new LevelController.LevelElement ();
+                    scale.x = levelObj.scale.x;
+                    scale.y = levelObj.scale.y;
+                    scale.z = levelObj.scale.z;
+
+                    LevelController.LevelElement element = new LevelController.LevelElement ();
 					element.part = partId;
 					element.go = prefabLevelEditor.createPartAt (partId, pos.x, pos.y, pos.z);
 					element.go.transform.rotation = rotation;
+                    element.go.transform.localScale = scale;
+                    element.overwriteGravity = levelObj.overwriteGravity;
 
                     if (XRSettings.enabled) {
-                        if (part.type == Globals.AssetType.Dungeon) {
-                            element.go.AddComponent<Teleportable>();
-                        }
+                        element.go.AddComponent<Teleportable>();
+                        //element.go.AddComponent<Draggable>();
                     }
 
                     levelController.setMeshCollider (element.go, true);
@@ -209,7 +215,14 @@ namespace PrefabWorldEditor
 				levelObj.rotation.y = e.go.transform.rotation.y;
 				levelObj.rotation.z = e.go.transform.rotation.z;
 
-				levelObjects.Add (levelObj);	
+                levelObj.scale = new DataTypeVector3();
+                levelObj.scale.x = e.go.transform.localScale.x;
+                levelObj.scale.y = e.go.transform.localScale.y;
+                levelObj.scale.z = e.go.transform.localScale.z;
+
+                levelObj.overwriteGravity = e.overwriteGravity;
+
+                levelObjects.Add (levelObj);	
 			}
 
 			levelFile.levelObjects = levelObjects;
