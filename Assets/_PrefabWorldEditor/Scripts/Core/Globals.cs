@@ -38,7 +38,8 @@ namespace PrefabWorldEditor
 			Wall,
 			Chunk,
 			Prop,
-			Dungeon
+			Dungeon,
+            Interactable
 		};
 
 		public enum PartList {
@@ -87,6 +88,7 @@ namespace PrefabWorldEditor
 			Dungeon_Ramp_2,
 			Dungeon_Wall_L_NF,
 			Dungeon_Corner_NF,
+            Moving_Platform,
 			End_Of_List
 		};
 

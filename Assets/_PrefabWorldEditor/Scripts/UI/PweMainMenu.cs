@@ -50,8 +50,9 @@ namespace PrefabWorldEditor
 		public Button btnAssetChunks;
 		public Button btnAssetProps;
 		public Button btnAssetDungeons;
+        public Button btnAssetInteractables;
 
-		public Button btnPlacementToolCircle;
+        public Button btnPlacementToolCircle;
 		public Button btnPlacementToolQuad;
 		public Button btnPlacementToolMount;
 		public Button btnPlacementToolCube;
@@ -258,7 +259,8 @@ namespace PrefabWorldEditor
 			btnAssetChunks.interactable   = (type != Globals.AssetType.Chunk);
 			btnAssetProps.interactable    = (type != Globals.AssetType.Prop);
 			btnAssetDungeons.interactable = (type != Globals.AssetType.Dungeon);
-		}
+            btnAssetInteractables.interactable = (type != Globals.AssetType.Interactable);
+        }
 
 		//
 		public void setPlacementToolButtons(PlacementTool.PlacementMode mode)
@@ -622,8 +624,18 @@ namespace PrefabWorldEditor
 
 		//
 		public void onSelectAssetType(int value) {
-				
-			if (value == 0) {
+
+            string[] aAssetTypeNames = System.Enum.GetNames(typeof(Globals.AssetType));
+            Array aAssetTypeValues   = System.Enum.GetValues(typeof(Globals.AssetType));
+            int i, len = aAssetTypeNames.Length;
+            for (i = 0; i < len; ++i) {
+                if (i == value) {
+                    selectAssetType(value, (Globals.AssetType)aAssetTypeValues.GetValue(i));
+                    break;
+                }
+            }
+
+            /*if (value == 0) {
 				selectAssetType(value, Globals.AssetType.Floor);
 			}
 			else if (value == 1) {
@@ -637,7 +649,7 @@ namespace PrefabWorldEditor
 			}
 			else if (value == 4) {
 				selectAssetType(value, Globals.AssetType.Dungeon);
-			}
+			}*/
 		}
 
 		//

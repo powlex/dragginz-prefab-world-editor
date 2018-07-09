@@ -179,9 +179,13 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Dungeon_Wall_L_NF, Globals.AssetType.Dungeon, "Dungeons/Dungeon_Wall_L_NF", 2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Wall No Floor");
 			createPart(Globals.PartList.Dungeon_Corner_NF, Globals.AssetType.Dungeon, "Dungeons/Dungeon_Corner_NF", 2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner No Floor");
 
-			//
+            // Interactables
+            createPart(Globals.PartList.Moving_Platform, Globals.AssetType.Interactable, "3DGameKit/Interactables/MovingPlatform", 2.00f, 1.00f, 4.00f, Vector3Int.one, false, "Moving Platform");
 
-			createAssetTypeCount ();
+
+            //
+
+            createAssetTypeCount();
 
             container = new GameObject("[Container]").transform;
 
@@ -1454,11 +1458,13 @@ namespace PrefabWorldEditor
                 return go;
             }
 
-            go = Instantiate(_parts[partId].prefab);
-            if (go != null) {
-				go.name = "part_" + (_iCounter++).ToString ();
-                go.transform.SetParent(container);
-				go.transform.position = new Vector3 (x, y, z);
+            if (_parts[partId].prefab != null) {
+                go = Instantiate(_parts[partId].prefab);
+                if (go != null) {
+                    go.name = "part_" + (_iCounter++).ToString();
+                    go.transform.SetParent(container);
+                    go.transform.position = new Vector3(x, y, z);
+                }
             }
 
             return go;
