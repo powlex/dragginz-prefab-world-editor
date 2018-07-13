@@ -168,7 +168,7 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Dungeon_Floor,     Globals.AssetType.Dungeon, "Dungeons/Dungeon_Floor",     2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Floor");
 			createPart(Globals.PartList.Dungeon_Wall_L,    Globals.AssetType.Dungeon, "Dungeons/Dungeon_Wall_L",    2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Wall");
 			createPart(Globals.PartList.Dungeon_Wall_LR,   Globals.AssetType.Dungeon, "Dungeons/Dungeon_Wall_LR",   2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Walls");
-			createPart(Globals.PartList.Dungeon_Corner,    Globals.AssetType.Dungeon, "Dungeons/Dungeon_Corner",    2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner");
+			createPart(Globals.PartList.Dungeon_Corner,    Globals.AssetType.Dungeon, "Dungeons/part_7-combinedMeshes",    2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner");
 			createPart(Globals.PartList.Dungeon_DeadEnd,   Globals.AssetType.Dungeon, "Dungeons/Dungeon_DeadEnd",   2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Dead End");
 			createPart(Globals.PartList.Dungeon_Turn,      Globals.AssetType.Dungeon, "Dungeons/Dungeon_Turn",      2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Turn");
 			createPart(Globals.PartList.Dungeon_T,         Globals.AssetType.Dungeon, "Dungeons/Dungeon_T",         2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon T Intersection");
@@ -571,11 +571,18 @@ namespace PrefabWorldEditor
 				{
 					if (!EventSystem.current.IsPointerOverGameObject ()) {
 						if (_goHit != null) {
-							if (Input.GetKey (KeyCode.C)) {
-								copyElement (_goHit.transform);
-							} else {
-								selectElement (_goHit.transform);
-							}
+                            if (Input.GetKey(KeyCode.N)) {
+                                proBuilderizeElement(_goHit.transform);
+                            }
+                            else if (Input.GetKey(KeyCode.M)) {
+                                combineMeshesInElement(_goHit.transform);
+                            }
+                            else if (Input.GetKey(KeyCode.C)) {
+                                copyElement(_goHit.transform);
+                            }
+                            else {
+                                selectElement(_goHit.transform);
+                            }
 						}
 					}
 				}
@@ -870,28 +877,33 @@ namespace PrefabWorldEditor
 			}
         }
 
-		// ------------------------------------------------------------------------
-		private void copyElement(Transform trfmHit)
+        // ------------------------------------------------------------------------
+        private void proBuilderizeElement(Transform trfmHit)
+        {
+            Transform trfmParent = getParentTransform(trfmHit);
+            if (trfmParent != null) {
+                MakePrimitiveEditable.convertToProBuilderMesh(trfmHit.GetComponent<MeshFilter>());
+            }
+        }
+
+        // ------------------------------------------------------------------------
+        private void combineMeshesInElement(Transform trfmHit)
+        {
+            Transform trfmParent = getParentTransform(trfmHit);
+            if (trfmParent != null) {
+                CombineMeshes.run(trfmParent.gameObject);
+            }
+        }
+
+        // ------------------------------------------------------------------------
+        private void copyElement(Transform trfmHit)
 		{
-			if (trfmHit.gameObject.layer == 11) { // gizmo?
-				return;
-			}
+            Transform trfmParent = getParentTransform(trfmHit);
+            if (trfmParent == null) {
+                return;
+            }
 
-			_levelController.iSelectedGroupIndex = -1;
-
-			Transform trfmParent = trfmHit;
-			while (trfmParent.parent != null && trfmParent.tag != "PartContainer") {
-				trfmParent = trfmParent.parent;
-			}
-
-			// not an asset?
-			if (trfmParent.tag != "PartContainer")
-			{
-				resetEditTools ();
-				return;
-			}
-
-			if (_levelController.levelElements.ContainsKey (trfmParent.gameObject.name)) {
+            if (_levelController.levelElements.ContainsKey (trfmParent.gameObject.name)) {
 
 				bool isShift = (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift));
 				int groupIndex = -1;
@@ -935,47 +947,14 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		private void selectAsset(Part part, Quaternion rotation)
-		{
-			selectAssetType (part.type);
-
-			int index = 0;
-			int i, len = _assetTypeList [part.type].Count;
-			for (i = 0; i < len; ++i) {
-				if (_assetTypeList [part.type] [i].id == part.id) {
-					//Debug.Log ("    -> " + _assetTypeList [part.type] [i].id);
-					index = i;
-					break;
-				}
-			}
-
-			_assetTypeIndex [part.type] = index;
-			setNewEditPart (_assetTypeList [part.type] [index]);
-
-            _goEditPart.transform.rotation = rotation;
-		}
-
-		// ------------------------------------------------------------------------
 		private void selectElement(Transform trfmHit)
 		{
-			if (trfmHit.gameObject.layer == 11) { // gizmo?
-				return;
-			}
+            Transform trfmParent = getParentTransform(trfmHit);
+            if (trfmParent == null) {
+                return;
+            }
 
-			_levelController.iSelectedGroupIndex = -1;
-
-			Transform trfmParent = trfmHit;
-			while (trfmParent.parent != null && trfmParent.tag != "PartContainer") {
-				trfmParent = trfmParent.parent;
-			}
-
-			// not an asset?
-			if (trfmParent.tag != "PartContainer") {
-				resetEditTools ();
-				return;
-			}
-
-			if (_levelController.levelElements.ContainsKey (trfmParent.gameObject.name))
+            if (_levelController.levelElements.ContainsKey (trfmParent.gameObject.name))
 			{
 				bool isShift = (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift));
 
@@ -1017,8 +996,52 @@ namespace PrefabWorldEditor
 			setMarkerActive (_levelController.selectedElement.go != null);
 		}
 
-		// ------------------------------------------------------------------------
-		private void resetEditTools()
+        // ------------------------------------------------------------------------
+        private Transform getParentTransform(Transform trfmHit)
+        {
+            Transform trfmParent = trfmHit;
+
+            if (trfmHit.gameObject.layer == 11) { // gizmo?
+                return null;
+            }
+
+            _levelController.iSelectedGroupIndex = -1;
+
+            while (trfmParent.parent != null && trfmParent.tag != "PartContainer") {
+                trfmParent = trfmParent.parent;
+            }
+
+            // not an asset?
+            if (trfmParent.tag != "PartContainer") {
+                resetEditTools();
+                return null;
+            }
+
+            return trfmParent;
+        }
+
+        // ------------------------------------------------------------------------
+        private void selectAsset(Part part, Quaternion rotation) {
+            selectAssetType(part.type);
+
+            int index = 0;
+            int i, len = _assetTypeList[part.type].Count;
+            for (i = 0; i < len; ++i) {
+                if (_assetTypeList[part.type][i].id == part.id) {
+                    //Debug.Log ("    -> " + _assetTypeList [part.type] [i].id);
+                    index = i;
+                    break;
+                }
+            }
+
+            _assetTypeIndex[part.type] = index;
+            setNewEditPart(_assetTypeList[part.type][index]);
+
+            _goEditPart.transform.rotation = rotation;
+        }
+
+        // ------------------------------------------------------------------------
+        private void resetEditTools()
 		{
 			_levelController.resetElementComponents ();
 

@@ -13,9 +13,11 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v07.06.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v07.13.0a";
 
-		static public readonly int levelSaveFormatVersion = 1;
+        static public readonly string resourcesPath = "Assets/_PrefabWorldEditor/Resources/";
+
+        static public readonly int levelSaveFormatVersion = 1;
 
 		//public static readonly int TargetClientFramerate = 120;
 
