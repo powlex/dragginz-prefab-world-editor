@@ -13,18 +13,13 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v07.13.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v07.17.0a";
 
         static public readonly string resourcesPath = "Assets/_PrefabWorldEditor/Resources/";
 
         static public readonly int levelSaveFormatVersion = 1;
 
 		//public static readonly int TargetClientFramerate = 120;
-
-		//public const string propListName = "props_list_leveleditor";
-        //static public readonly string appContainerName   = "{AppController}";
-		//static public readonly string netContainerName   = "{NetManager}";
-        //static public readonly string worldContainerName = "[World]";
 
 		//
 		public enum PopupMode {
@@ -41,7 +36,7 @@ namespace PrefabWorldEditor
 			Chunk,
 			Prop,
 			Dungeon,
-            Interactable
+            Lights
 		};
 
 		public enum PartList {
@@ -90,8 +85,9 @@ namespace PrefabWorldEditor
 			Dungeon_Ramp_2,
 			Dungeon_Wall_L_NF,
 			Dungeon_Corner_NF,
-            Moving_Platform,
-			End_Of_List
+            Light_Stick_Yellow,
+            Light_Stick_Red,
+            End_Of_List
 		};
 
 		//public const string defaultShaderName   = "Mobile/Diffuse"; // "Standard"

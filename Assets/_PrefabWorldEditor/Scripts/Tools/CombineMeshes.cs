@@ -3,6 +3,8 @@
 // Company : Decentralised Team of Developers
 //
 
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
 
@@ -45,3 +47,5 @@ namespace PrefabWorldEditor
         }
     }
 }
+
+#endif

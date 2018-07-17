@@ -259,7 +259,7 @@ namespace PrefabWorldEditor
 			btnAssetChunks.interactable   = (type != Globals.AssetType.Chunk);
 			btnAssetProps.interactable    = (type != Globals.AssetType.Prop);
 			btnAssetDungeons.interactable = (type != Globals.AssetType.Dungeon);
-            btnAssetInteractables.interactable = (type != Globals.AssetType.Interactable);
+            btnAssetInteractables.interactable = (type != Globals.AssetType.Lights);
         }
 
 		//

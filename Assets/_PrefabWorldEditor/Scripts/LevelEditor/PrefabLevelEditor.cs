@@ -168,7 +168,7 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Dungeon_Floor,     Globals.AssetType.Dungeon, "Dungeons/Dungeon_Floor",     2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Floor");
 			createPart(Globals.PartList.Dungeon_Wall_L,    Globals.AssetType.Dungeon, "Dungeons/Dungeon_Wall_L",    2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Wall");
 			createPart(Globals.PartList.Dungeon_Wall_LR,   Globals.AssetType.Dungeon, "Dungeons/Dungeon_Wall_LR",   2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Walls");
-			createPart(Globals.PartList.Dungeon_Corner,    Globals.AssetType.Dungeon, "Dungeons/part_7-combinedMeshes",    2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner");
+			createPart(Globals.PartList.Dungeon_Corner,    Globals.AssetType.Dungeon, "Dungeons/part_7-combinedMeshes", 2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner");
 			createPart(Globals.PartList.Dungeon_DeadEnd,   Globals.AssetType.Dungeon, "Dungeons/Dungeon_DeadEnd",   2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Dead End");
 			createPart(Globals.PartList.Dungeon_Turn,      Globals.AssetType.Dungeon, "Dungeons/Dungeon_Turn",      2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Turn");
 			createPart(Globals.PartList.Dungeon_T,         Globals.AssetType.Dungeon, "Dungeons/Dungeon_T",         2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon T Intersection");
@@ -180,8 +180,8 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Dungeon_Corner_NF, Globals.AssetType.Dungeon, "Dungeons/Dungeon_Corner_NF", 2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner No Floor");
 
             // Interactables
-            createPart(Globals.PartList.Moving_Platform, Globals.AssetType.Interactable, "3DGameKit/Interactables/MovingPlatform", 2.00f, 1.00f, 4.00f, Vector3Int.one, false, "Moving Platform");
-
+            createPart(Globals.PartList.Light_Stick_Yellow, Globals.AssetType.Lights, "Misc/Light_Stick_Yellow", 0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Yellow Light Stick");
+            createPart(Globals.PartList.Light_Stick_Red,    Globals.AssetType.Lights, "Misc/Light_Stick_Red",    0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Red Light Stick");
 
             //
 
@@ -889,10 +889,12 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         private void combineMeshesInElement(Transform trfmHit)
         {
-            Transform trfmParent = getParentTransform(trfmHit);
-            if (trfmParent != null) {
-                CombineMeshes.run(trfmParent.gameObject);
-            }
+            #if UNITY_EDITOR
+                Transform trfmParent = getParentTransform(trfmHit);
+                if (trfmParent != null) {
+                    CombineMeshes.run(trfmParent.gameObject);
+                }
+            #endif
         }
 
         // ------------------------------------------------------------------------
