@@ -68,8 +68,9 @@ namespace PrefabWorldEditor
 		private LevelElement _selectedElement;
 		private Bounds _selectedElementBounds;
 		private List<MeshRenderer> _selectedMeshRenderers;
+        private List<Material> _selectedMaterials;
 
-		private List<GameObject> _listOfChildren;
+        private List<GameObject> _listOfChildren;
 
 		#endregion
 
@@ -115,7 +116,9 @@ namespace PrefabWorldEditor
 
 			_selectedMeshRenderers = new List<MeshRenderer> ();
 
-			_listOfChildren = new List<GameObject> ();
+            _selectedMaterials = new List<Material>();
+
+            _listOfChildren = new List<GameObject> ();
 		}
 
 		// ------------------------------------------------------------------------
@@ -186,10 +189,31 @@ namespace PrefabWorldEditor
 
 			getSelectedMeshRenderers (_selectedElement.go, _iSelectedGroupIndex);
 			getSelectedMeshRendererBounds ();
+
+            // snow shader
+            _selectedMaterials.Clear();
+            int i, len = _selectedMeshRenderers.Count;
+            for (i = 0; i < len; ++i) {
+                if (_selectedMeshRenderers[i].material.shader.name == Globals.snowShaderName) {
+                    _selectedMaterials.Add(_selectedMeshRenderers[i].material);
+                    break;
+                }
+            }
+
+            PweMainMenu.Instance.showSnowLevelPanel(_selectedMaterials.Count > 0);
 		}
 
-		// ------------------------------------------------------------------------
-		public void deleteSelectedElement ()
+        // ------------------------------------------------------------------------
+        public void changeSnowLevel(float value) {
+
+            float shaderValue = 1f - (2f * value);
+            if (_selectedMaterials.Count > 0) {
+                _selectedMaterials[0].SetFloat("_SnowLevel", shaderValue);
+            }
+        }
+
+        // ------------------------------------------------------------------------
+        public void deleteSelectedElement ()
 		{
 			if (_selectedElement.go != null) {
 				if (_levelElements.ContainsKey (_selectedElement.go.name)) {
@@ -282,7 +306,7 @@ namespace PrefabWorldEditor
 						int i, len = _selectedMeshRenderers.Count;
 						for (i = 1; i < len; ++i) {
 							_selectedElementBounds.Encapsulate (_selectedMeshRenderers [i].bounds);
-						}
+                        }
 					}
 				}
 			}

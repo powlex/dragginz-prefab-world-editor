@@ -29,8 +29,9 @@ namespace PrefabWorldEditor
 		public Transform panelTools;
         public Transform panelFileMenu;
 		public Transform panelLevelMenu;
+        public Transform panelSnowLevel;
 
-		public Transform panelAssetInfo;
+        public Transform panelAssetInfo;
 		public UIAssetInfo assetInfo;
 
 		public Transform blocker;
@@ -333,9 +334,15 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		#endregion
+        public void showSnowLevelPanel(bool state) {
+            if (panelSnowLevel != null) {
+                panelSnowLevel.gameObject.SetActive(state);
+            }
+        }
 
-		#region PrivateMethods
+        #endregion
+
+        #region PrivateMethods
 
         private void selectTool(int toolId) {
 
@@ -694,7 +701,13 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		// -------------------------------------------------------------------------------------
+        // -------------------------------------------------------------------------------------
+        public void onSliderSnowLevelChange(Single value) {
+
+            LevelController.Instance.changeSnowLevel((float)value);
+        }
+
+        // -------------------------------------------------------------------------------------
         public void onPointerDownFile(BaseEventData data) {
             if (_trfmDropDownFile) {
                 resetDropDown(_trfmDropDownFile);

@@ -7,7 +7,7 @@ http://obrodhage.rocks/PrefabWorldEditor/
 ----------------------
 Current Windows build:
 ----------------------
-v07.06.0a
+v07.17.1a
 http://obrodhage.rocks/PrefabWorldEditor/dragginz-prefab-world-editor.zip
 
 -------------------------

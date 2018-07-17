@@ -325,7 +325,7 @@ namespace PrefabWorldEditor
 				PweMainMenu.Instance.showDungeonToolBox (_editMode == EditMode.Place && _assetType == Globals.AssetType.Dungeon);
 				PweMainMenu.Instance.showRoomToolBox (_editMode == EditMode.Place && (_assetType == Globals.AssetType.Floor || _assetType == Globals.AssetType.Wall));
 
-				if (_editMode == EditMode.Place) {
+                if (_editMode == EditMode.Place) {
 					PweMainMenu.Instance.setAssetTypeButtons (_assetType);
 					showAssetInfo (_curEditPart);
 				} else {
@@ -1023,7 +1023,8 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        private void selectAsset(Part part, Quaternion rotation) {
+        private void selectAsset(Part part, Quaternion rotation)
+        {
             selectAssetType(part.type);
 
             int index = 0;
@@ -1581,7 +1582,8 @@ namespace PrefabWorldEditor
 
 			PweMainMenu.Instance.showAssetInfoPanel (false);
 			PweMainMenu.Instance.setSpecialHelpText ("");
-		}
+            PweMainMenu.Instance.showSnowLevelPanel(false);
+        }
 
 		// ------------------------------------------------------------------------
 		// Marker stuff

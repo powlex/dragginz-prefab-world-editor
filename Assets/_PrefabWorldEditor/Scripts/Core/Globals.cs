@@ -13,7 +13,7 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v07.17.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v07.17.1a";
 
         static public readonly string resourcesPath = "Assets/_PrefabWorldEditor/Resources/";
 
@@ -90,11 +90,7 @@ namespace PrefabWorldEditor
             End_Of_List
 		};
 
-		//public const string defaultShaderName   = "Mobile/Diffuse"; // "Standard"
-		//public const string highlightShaderName = "Legacy Shaders/Reflective/Diffuse";
-
-		//static public readonly string[] materials = {"vwe_volcano", "vwe_moss", "vwe_shape", "vwe_stone", "vwe_marble", "vwe_cube-0", "vwe_cube-1", "vwe_cube-2", "vwe_cube-3", "vwe_cube-4", "vwe_cube-5", "vwe_cube-6", "vwe_cube-7", "vwe_cube-8", "vwe_cube-9"};
-		//static public readonly string[] materialsTools = {"vwe_tool_volcano", "vwe_tool_moss", "vwe_tool_shape", "vwe_tool_stone", "vwe_tool_marble", "vwe_tool_cube-0", "vwe_tool_cube-1", "vwe_tool_cube-2", "vwe_tool_cube-3", "vwe_tool_cube-4", "vwe_tool_cube-5", "vwe_tool_cube-6", "vwe_tool_cube-7", "vwe_tool_cube-8", "vwe_tool_cube-9"};
+        static public readonly string snowShaderName = "Custom/ShaderSnow";
 
 		static public readonly string txtWarningObsoleteFileFormat = "Can't load level:\n\nFile format is obsolete!";
 		static public readonly string txtWarningInvalidFileFormat = "Can't load level '%1'\n\nFile format is invalid!";
