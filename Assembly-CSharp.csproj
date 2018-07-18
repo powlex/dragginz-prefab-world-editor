@@ -98,6 +98,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweRoomTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweWorldSpaceMenus.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIAssetInfo.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIInstanceInfo.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleTransformer.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleTranslator.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\GameCommandHandler.cs" />

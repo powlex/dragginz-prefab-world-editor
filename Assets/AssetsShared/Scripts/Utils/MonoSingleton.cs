@@ -64,6 +64,8 @@ namespace AssetsShared
                         }
 
                         _instance = singletonInstances[0];     // Only one instance was found, so we can store it
+
+                        //Debug.Log("MonoSingleton<T>.Instance: " + _instance.ToString());
                     }
                 }
 

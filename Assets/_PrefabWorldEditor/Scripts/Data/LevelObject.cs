@@ -33,6 +33,9 @@ namespace PrefabWorldEditor
         [SerializeField]
         public int overwriteGravity { get; set; }
 
+        [SerializeField]
+        public float shaderSnow { get; set; }
+
         //
         // Parse JSON data
         //
@@ -97,8 +100,14 @@ namespace PrefabWorldEditor
 
             overwriteGravity = 0;
             if (data["og"] != null) {
-                id = Int32.Parse(data["og"]);
+                overwriteGravity = Int32.Parse(data["og"]);
             }
+
+            shaderSnow = 0;
+            if (data["shs"] != null) {
+                shaderSnow = (float)data["shs"];
+            }
+
         }
 
         //
@@ -113,7 +122,10 @@ namespace PrefabWorldEditor
 			s += ",\"r\":" + rotation.getJsonString();
             s += ",\"s\":" + scale.getJsonString();
             if (overwriteGravity != 0) {
-                s += ",\"\":" + overwriteGravity.ToString();
+                s += ",\"og\":" + overwriteGravity.ToString();
+            }
+            if (shaderSnow != 0) {
+                s += ",\"shs\":" + shaderSnow.ToString();
             }
 
             s += "}";

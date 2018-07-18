@@ -34,7 +34,10 @@ namespace PrefabWorldEditor
         public Transform panelAssetInfo;
 		public UIAssetInfo assetInfo;
 
-		public Transform blocker;
+        public Transform panelInstanceInfo;
+        public UIInstanceInfo instanceInfo;
+
+        public Transform blocker;
         public Transform panelPopup;
 
 		public Button btnModePlay;
@@ -166,7 +169,9 @@ namespace PrefabWorldEditor
 				//panelLevelMenu.gameObject.SetActive (false);
 			}
 
-			//_lastMouseWheelUpdate = 0;
+            //_lastMouseWheelUpdate = 0;
+
+            panelSnowLevel.gameObject.SetActive(false);
         }
 
 		#endregion
@@ -230,7 +235,8 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		public void onButtonModePlayClicked() {
+        // ------------------------------------------------------------------------
+        public void onButtonModePlayClicked() {
 			PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Play);
 		}
 		public void onButtonModeBuildClicked() {
@@ -243,8 +249,8 @@ namespace PrefabWorldEditor
 			PrefabLevelEditor.Instance.clearLevel();
 		}
 
-		//
-		public void setModeButtons(PrefabLevelEditor.EditMode mode)
+        // ------------------------------------------------------------------------
+        public void setModeButtons(PrefabLevelEditor.EditMode mode)
 		{
 			btnModePlay.interactable   = (mode != PrefabLevelEditor.EditMode.Play);
 			btnModeBuild.interactable  = (mode != PrefabLevelEditor.EditMode.Place);
@@ -252,8 +258,8 @@ namespace PrefabWorldEditor
 			btnModeClear.interactable  = (mode != PrefabLevelEditor.EditMode.Play);
 		}
 
-		//
-		public void setAssetTypeButtons(Globals.AssetType type)
+        // ------------------------------------------------------------------------
+        public void setAssetTypeButtons(Globals.AssetType type)
 		{
 			btnAssetFloors.interactable   = (type != Globals.AssetType.Floor);
 			btnAssetWalls.interactable    = (type != Globals.AssetType.Wall);
@@ -263,8 +269,8 @@ namespace PrefabWorldEditor
             btnAssetInteractables.interactable = (type != Globals.AssetType.Lights);
         }
 
-		//
-		public void setPlacementToolButtons(PlacementTool.PlacementMode mode)
+        // ------------------------------------------------------------------------
+        public void setPlacementToolButtons(PlacementTool.PlacementMode mode)
 		{
 			btnPlacementToolCircle.interactable = (mode != PlacementTool.PlacementMode.Circle);
 			btnPlacementToolQuad.interactable   = (mode != PlacementTool.PlacementMode.Quad);
@@ -272,8 +278,8 @@ namespace PrefabWorldEditor
 			btnPlacementToolCube.interactable   = (mode != PlacementTool.PlacementMode.Cube);
 		}
 
-		//
-		public void setDungeonToolButtons(DungeonTool.DungeonPreset preset)
+        // ------------------------------------------------------------------------
+        public void setDungeonToolButtons(DungeonTool.DungeonPreset preset)
 		{
 			btnDungeonToolRoom.interactable      = (preset != DungeonTool.DungeonPreset.Room);
 			btnDungeonToolMaze.interactable      = (preset != DungeonTool.DungeonPreset.Maze);
@@ -281,14 +287,14 @@ namespace PrefabWorldEditor
 			btnDungeonToolStaircase.interactable = (preset != DungeonTool.DungeonPreset.Staircase);
 		}
 
-		//
-		public void setRoomToolButtons(RoomTool.RoomPattern pattern)
+        // ------------------------------------------------------------------------
+        public void setRoomToolButtons(RoomTool.RoomPattern pattern)
 		{
 			btnRoomToolDefault.interactable = (pattern != RoomTool.RoomPattern.Default);
 		}
 
-		//
-		public void onButtonUNDOClicked() {
+        // ------------------------------------------------------------------------
+        public void onButtonUNDOClicked() {
 			//PrefabLevelEditor.Instance.undoLastActions ();
 		}
 		public void setUndoButton(bool state) {
@@ -297,8 +303,8 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		//
-		public void showTransformBox(bool state) {
+        // ------------------------------------------------------------------------
+        public void showTransformBox(bool state) {
 			if (goTransformSelection != null) {
 				goTransformSelection.SetActive (false);
 			}
@@ -334,16 +340,86 @@ namespace PrefabWorldEditor
 			}
 		}
 
-        public void showSnowLevelPanel(bool state) {
+        public void showInstanceInfoPanel(bool state) {
+            if (panelInstanceInfo != null) {
+                panelInstanceInfo.gameObject.SetActive(state);
+            }
+        }
+
+        /*public void showSnowLevelPanel(bool state) {
             if (panelSnowLevel != null) {
                 panelSnowLevel.gameObject.SetActive(state);
             }
+        }*/
+
+        // ------------------------------------------------------------------------
+        public void showAssetInfo(PrefabLevelEditor.Part part)
+        {
+            PrefabLevelEditor editor = PrefabLevelEditor.Instance;
+
+            if (editor.editMode == PrefabLevelEditor.EditMode.Place) {
+                setAssetNameText((editor.assetTypeIndex[editor.assetType] + 1).ToString() + " / " + editor.assetTypeList[editor.assetType].Count.ToString());
+            }
+            else {
+                setAssetNameText("");
+            }
+            assetInfo.init(part, LevelController.Instance.selectedElement);
+
+            showAssetInstructions(part);
+        }
+
+        public void showInstanceInfo(PrefabLevelEditor.Part part)
+        {
+            setAssetNameText("");
+
+            instanceInfo.init(part, LevelController.Instance.selectedElement);
+
+            showAssetInstructions(part);
+        }
+
+        public void showAssetInstructions(PrefabLevelEditor.Part part)
+        {
+            PrefabLevelEditor editor = PrefabLevelEditor.Instance;
+
+            string s = "";
+
+            s = "Mousewheel + ";
+            if (editor.toolsController.curDungeonTool != null) {
+                s += "'1'/'2'/'3' = change preset settings";
+            }
+            else if (editor.toolsController.curPlacementTool != null) {
+                s += "'1'/'2'/'3' = change pattern settings";
+            }
+            else if (editor.toolsController.curRoomTool != null) {
+                s += "'1'/'2' = change size settings";
+            }
+            else if (editor.assetType == Globals.AssetType.Floor) {
+                s = "Press left mouse button + shift key for a 'Floor Fill'!";
+            }
+            else if (editor.assetType == Globals.AssetType.Wall) {
+                s = "Press left mouse button + shift key for a 'Wall Fill'!";
+            }
+            else {
+                if (part.canRotate != Vector3Int.zero) {
+                    s = "Mousewheel + ";
+                    s += (part.canRotate.x == 1 ? "'X'" : "");
+                    s += (part.canRotate.y == 1 ? "/ 'Y'" : "");
+                    s += (part.canRotate.z == 1 ? "/ 'Z'" : "");
+                    s += " = rotate object";
+                }
+                s += "\nMousewheel + 'C' = scale object";
+            }
+
+            setSpecialHelpText(s);
         }
 
         #endregion
 
+        //
+
         #region PrivateMethods
 
+        // ------------------------------------------------------------------------
         private void selectTool(int toolId) {
 
 			if (_iSelectedTool != toolId) {
@@ -359,7 +435,7 @@ namespace PrefabWorldEditor
 			}
         }
 
-		//
+        // ------------------------------------------------------------------------
         private void setToolButtonImage(Image img, string spriteName) {
 
             if (img) {
@@ -556,58 +632,16 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		// ---------------------------------------------------------------------------------------------
-		// Load Level
-		// ---------------------------------------------------------------------------------------------
-		/*private void showLoadLevelDialog(int value, string name) {
-
-			_iSelectedLevel = value;
-
-			EditorObjectSelection.Instance.ClearSelection(false);
-
-			int levelId = LevelManager.Instance.getLevelIdByIndex (value);
-			if (levelId == LevelData.Instance.currentLevelId) {
-				_popup.showPopup (PopupMode.Confirmation, "Load Level '"+name+"'", "Level already loaded!\nReload Level?", showLoadLevelDialogContinue);
-			}
-			else {
-				_popup.showPopup (PopupMode.Confirmation, "Load Level '"+name+"'", "Are you sure?\nAll unsaved changes will be lost!", showLoadLevelDialogContinue);
-			}
-		}
-
-		private void showLoadLevelDialogContinue(int buttonId) {
-
-			_popup.hide ();
-
-			if (buttonId == 1)
-			{
-				LevelManager.Instance.loadLevelByIndex(_iSelectedLevel);
-				_iSelectedLevel = -1;
-			}
-		}*/
-
 		//
-        private void onGameObjectClicked(GameObject clickedObject) {
+        /*private void onGameObjectClicked(GameObject clickedObject) {
 
             //Debug.Log("onGameObjectClicked "+clickedObject.name);
 			if (clickedObject.GetComponent<Rigidbody> () != null) {
 				clickedObject.GetComponent<Rigidbody> ().useGravity = false;
 			}
-        }
-
-		//private void onSelectionChanged(ObjectSelectionChangedEventArgs selectionChangedEventArgs) {
-			//PrefabLevelEditor.Instance.setSelectedObjects (selectionChangedEventArgs.SelectedObjects);
-		//}
+        }*/
 
         #endregion
-
-        /*public void onButtonPlayClicked() {
-
-            if (_gizmoSystem) {
-                _gizmoSystem.TurnOffGizmos();
-            }
-
-            AppController.Instance.switchToPlayMode();
-        }*/
 
 		//
         public void onSelectTransformTool(int value) {
@@ -641,22 +675,6 @@ namespace PrefabWorldEditor
                     break;
                 }
             }
-
-            /*if (value == 0) {
-				selectAssetType(value, Globals.AssetType.Floor);
-			}
-			else if (value == 1) {
-				selectAssetType(value, Globals.AssetType.Wall);
-			}
-			else if (value == 2) {
-				selectAssetType(value, Globals.AssetType.Chunk);
-			}
-			else if (value == 3) {
-				selectAssetType(value, Globals.AssetType.Prop);
-			}
-			else if (value == 4) {
-				selectAssetType(value, Globals.AssetType.Dungeon);
-			}*/
 		}
 
 		//
@@ -702,10 +720,10 @@ namespace PrefabWorldEditor
 		}
 
         // -------------------------------------------------------------------------------------
-        public void onSliderSnowLevelChange(Single value) {
+        /*public void onSliderSnowLevelChange(Single value) {
 
             LevelController.Instance.changeSnowLevel((float)value);
-        }
+        }*/
 
         // -------------------------------------------------------------------------------------
         public void onPointerDownFile(BaseEventData data) {

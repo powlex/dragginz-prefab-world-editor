@@ -25,6 +25,7 @@ namespace PrefabWorldEditor
 			public GameObject go;
 			public Globals.PartList part;
             public int overwriteGravity;
+            public float shaderSnow;
 
             public bool gravity() {
                 return (overwriteGravity == 0 ? PrefabLevelEditor.Instance.parts[part].usesGravity : (overwriteGravity == 1 ? true : false));
@@ -184,7 +185,7 @@ namespace PrefabWorldEditor
 		{
 			_selectedElement = _levelElements [name];
 
-			setMeshCollider (_selectedElement.go, false);
+            setMeshCollider(_selectedElement.go, false);
 			setRigidBody (_selectedElement.go, false);
 
 			getSelectedMeshRenderers (_selectedElement.go, _iSelectedGroupIndex);
@@ -200,8 +201,19 @@ namespace PrefabWorldEditor
                 }
             }
 
-            PweMainMenu.Instance.showSnowLevelPanel(_selectedMaterials.Count > 0);
+            //PweMainMenu.Instance.showSnowLevelPanel(_selectedMaterials.Count > 0);
 		}
+
+        // ------------------------------------------------------------------------
+        public void saveSelectElement() {
+
+            if (_selectedElement.go != null) {
+                string name = _selectedElement.go.name;
+                if (_levelElements.ContainsKey(name)) {
+                    _levelElements[name] = _selectedElement;
+                }
+            }
+        }
 
         // ------------------------------------------------------------------------
         public void changeSnowLevel(float value) {
@@ -230,6 +242,7 @@ namespace PrefabWorldEditor
 			_selectedElement = new LevelElement();
 			_selectedElement.part = Globals.PartList.End_Of_List;
             _selectedElement.overwriteGravity = 0;
+            _selectedElement.shaderSnow = 0;
 
             _selectedMeshRenderers.Clear ();
 			_selectedElementBounds = new Bounds();
@@ -243,7 +256,9 @@ namespace PrefabWorldEditor
 				PrefabLevelEditor.Part part = PrefabLevelEditor.Instance.parts [_selectedElement.part];
 
 				setMeshCollider(_selectedElement.go, true);
-				setRigidBody (_selectedElement.go, part.usesGravity);
+
+                bool gravity = (_selectedElement.overwriteGravity == 0 ? part.usesGravity : (_selectedElement.overwriteGravity == 1 ? true : false));
+                setRigidBody (_selectedElement.go, gravity);
 			}
 		}
 

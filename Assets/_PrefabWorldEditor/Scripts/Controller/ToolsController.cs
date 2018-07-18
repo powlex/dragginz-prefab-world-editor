@@ -118,7 +118,8 @@ namespace PrefabWorldEditor
 
 			PweMainMenu.Instance.setAssetNameText ("");
 			PweMainMenu.Instance.showAssetInfoPanel (false);
-		}
+            PweMainMenu.Instance.showInstanceInfoPanel(false);
+        }
 
 		// ------------------------------------------------------------------------
 		public void setRoomTool(RoomTool.RoomPattern pattern, PrefabLevelEditor.Part part)
@@ -150,7 +151,8 @@ namespace PrefabWorldEditor
 				_curDungeonTool.reset ();
 				_curDungeonTool = null;
 				PweMainMenu.Instance.showAssetInfoPanel (true);
-			}
+                PweMainMenu.Instance.showInstanceInfoPanel(false);
+            }
 
 			PweMainMenu.Instance.setDungeonToolButtons (DungeonTool.DungeonPreset.None);
 			PweDungeonTools.Instance.showToolPanels (DungeonTool.DungeonPreset.None);

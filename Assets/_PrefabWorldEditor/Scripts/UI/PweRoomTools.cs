@@ -56,7 +56,9 @@ namespace PrefabWorldEditor
 		//
 		public void showToolPanels(RoomTool.RoomPattern mode) {
 
-			defaultToolPanel.gameObject.SetActive (mode == RoomTool.RoomPattern.Default);
+            if (defaultToolPanel != null) {
+                defaultToolPanel.gameObject.SetActive(mode == RoomTool.RoomPattern.Default);
+            }
 		}
 
 		//

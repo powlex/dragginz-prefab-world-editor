@@ -3,17 +3,14 @@
 // Company : Decentralised Team of Developers
 //
 
+using System;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-using System;
-using System.Collections.Generic;
-
-using AssetsShared;
-
 namespace PrefabWorldEditor
 {
-    public class UIAssetInfo : MonoBehaviour
+    public class UIInstanceInfo : MonoBehaviour
     {
         public Text assetName;
 
@@ -44,26 +41,32 @@ namespace PrefabWorldEditor
             }
 
             if (gravity != null) {
-                gravity.interactable = false;
-                /*if (element.go != null) {
+                if (element.go != null) {
                     gravity.isOn = (element.overwriteGravity == 0 ? part.usesGravity : (element.overwriteGravity == 1 ? true : false));
                 }
                 else {
                     gravity.isOn = part.usesGravity;
                 }
-                gravity.interactable = true;*/
+                gravity.interactable = true;
             }
         }
-        
         // ---------------------------------------------------------------------------------------------
-        /*public void onGravityValueChange(bool value) {
+        public void onGravityValueChange(bool value) {
 
             if (LevelController.Instance.selectedElement.go != null) {
 
                 LevelController.LevelElement e = LevelController.Instance.selectedElement;
                 e.overwriteGravity = (gravity.isOn ? 1 : 2);
                 LevelController.Instance.selectedElement = e;
+
+                LevelController.Instance.saveSelectElement();
             }
-        }*/
+        }
+
+        // -------------------------------------------------------------------------------------
+        public void onSliderSnowLevelChange(Single value) {
+
+            LevelController.Instance.changeSnowLevel((float)value);
+        }
     }
 }

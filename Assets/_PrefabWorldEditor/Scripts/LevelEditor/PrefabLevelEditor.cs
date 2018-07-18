@@ -113,19 +113,31 @@ namespace PrefabWorldEditor
 			get { return _assetTypeList; }
 		}
 
-		public EditMode editMode {
+        public Dictionary<Globals.AssetType, int> assetTypeIndex {
+            get { return _assetTypeIndex; }
+        }
+
+        public EditMode editMode {
 			get { return _editMode; }
 		}
 
-		public Dictionary<Globals.PartList, Part> parts {
+        public Globals.AssetType assetType {
+            get { return _assetType; }
+        }
+
+        public Dictionary<Globals.PartList, Part> parts {
 			get { return _parts; }
 		}
 
-		#endregion
+        public ToolsController toolsController {
+            get { return _toolsController; }
+        }
 
-		// ------------------------------------------------------------------------
-		// System Methods
-		// ------------------------------------------------------------------------
+        #endregion
+
+        // ------------------------------------------------------------------------
+        // System Methods
+        // ------------------------------------------------------------------------
         void Start()
         {
 			_parts = new Dictionary<Globals.PartList, Part>();
@@ -200,7 +212,7 @@ namespace PrefabWorldEditor
 
             _v3EditPartPos = Vector3.zero;
 
-			resetSelectedElement ();
+			//resetSelectedElement ();
 
 			_assetType = Globals.AssetType.Floor;
 			_editMode = EditMode.None;
@@ -327,12 +339,13 @@ namespace PrefabWorldEditor
 
                 if (_editMode == EditMode.Place) {
 					PweMainMenu.Instance.setAssetTypeButtons (_assetType);
-					showAssetInfo (_curEditPart);
+                    PweMainMenu.Instance.showAssetInfo (_curEditPart);
 				} else {
 					PweMainMenu.Instance.setAssetNameText ("");
 					PweMainMenu.Instance.setSpecialHelpText ("");
 				}
 				PweMainMenu.Instance.showAssetInfoPanel (_editMode == EditMode.Place);
+                PweMainMenu.Instance.showInstanceInfoPanel(false);
 
                 bool playerEditWasActive = playerEdit.gameObject.activeSelf;
                 bool playerPlayWasActive = playerPlay.gameObject.activeSelf;
@@ -431,7 +444,7 @@ namespace PrefabWorldEditor
 
             _levelController.setMeshCollider(_goEditPart, false);
 
-            showAssetInfo(_curEditPart);
+            PweMainMenu.Instance.showAssetInfo(_curEditPart);
         }
 
         // ------------------------------------------------------------------------
@@ -614,14 +627,14 @@ namespace PrefabWorldEditor
 		private void resetCurPlacementTool()
 		{
 			_toolsController.resetCurPlacementTool ();
-			showAssetInfo (_curEditPart);
+            PweMainMenu.Instance.showAssetInfo (_curEditPart);
 		}
 
 		// ------------------------------------------------------------------------
 		private void activatePlacementTool(PlacementTool.PlacementMode mode, Part part)
 		{
 			_toolsController.setPlacementTool (mode, part);
-			showAssetInfo (part);
+            PweMainMenu.Instance.showAssetInfo (part);
 
 			_toolsController.curPlacementTool.activate (mode, part);
 		}
@@ -629,7 +642,7 @@ namespace PrefabWorldEditor
 		private void activatePlacementTool(PlacementTool.PlacementMode mode, Part part, LevelController.ElementGroup elmGrp)
 		{
 			_toolsController.setPlacementTool (mode, part);
-			showAssetInfo (part);
+            PweMainMenu.Instance.showAssetInfo (part);
 
 			_toolsController.curPlacementTool.activateAndCopy (mode, part, elmGrp.radius, elmGrp.interval, elmGrp.density, elmGrp.inverse);
 		}
@@ -640,7 +653,7 @@ namespace PrefabWorldEditor
 		private void resetCurDungeonTool()
 		{
 			_toolsController.resetCurDungeonTool ();
-			showAssetInfo (_curEditPart);
+            PweMainMenu.Instance.showAssetInfo (_curEditPart);
 		}
 
 		// ------------------------------------------------------------------------
@@ -662,14 +675,14 @@ namespace PrefabWorldEditor
 		private void resetCurRoomTool()
 		{
 			_toolsController.resetCurRoomTool ();
-			showAssetInfo (_curEditPart);
+            PweMainMenu.Instance.showAssetInfo (_curEditPart);
 		}
 
 		// ------------------------------------------------------------------------
 		private void activateRoomTool(RoomTool.RoomPattern pattern, Part part)
 		{
 			_toolsController.setRoomTool (pattern, part);
-			showAssetInfo (part);
+            PweMainMenu.Instance.showAssetInfo (part);
 
 			_toolsController.curRoomTool.activate (pattern, part);
 		}
@@ -677,7 +690,7 @@ namespace PrefabWorldEditor
 		private void activateRoomTool(RoomTool.RoomPattern pattern, Part part, LevelController.ElementGroup elmGrp)
 		{
 			_toolsController.setRoomTool (pattern, part);
-			showAssetInfo (part);
+            PweMainMenu.Instance.showAssetInfo (part);
 
 			_toolsController.curRoomTool.activateAndCopy (pattern, part, elmGrp.width, elmGrp.height, elmGrp.depth);
 		}
@@ -982,8 +995,10 @@ namespace PrefabWorldEditor
 
 					selectTransformTool (PweMainMenu.Instance.iSelectedTool);
 
-					PweMainMenu.Instance.showAssetInfoPanel (true);
-					showAssetInfo (_parts [_levelController.selectedElement.part]);
+					PweMainMenu.Instance.showAssetInfoPanel (false);
+                    PweMainMenu.Instance.showInstanceInfoPanel (true);
+
+                    PweMainMenu.Instance.showInstanceInfo(_parts [_levelController.selectedElement.part]);
 
 					PweMainMenu.Instance.showPlacementToolBox (false);
 					PweMainMenu.Instance.showDungeonToolBox (false);
@@ -1136,7 +1151,7 @@ namespace PrefabWorldEditor
 			}
 
 			Part newPart = _assetTypeList [part.type] [index];
-			showAssetInfo (newPart);
+            PweMainMenu.Instance.showAssetInfo (newPart);
 
 			string name = _levelController.selectedElement.go.name;
 			Vector3 pos = _levelController.selectedElement.go.transform.position;
@@ -1182,44 +1197,6 @@ namespace PrefabWorldEditor
 
 			setNewEditPart(_assetTypeList[_assetType][index]);
         }
-
-		// ------------------------------------------------------------------------
-		private void showAssetInfo(Part part)
-		{
-			if (_editMode == EditMode.Place) {
-				PweMainMenu.Instance.setAssetNameText ((_assetTypeIndex [_assetType] + 1).ToString () + " / " + _assetTypeList [_assetType].Count.ToString ());
-			} else {
-				PweMainMenu.Instance.setAssetNameText ("");
-			}
-			PweMainMenu.Instance.assetInfo.init (part, LevelController.Instance.selectedElement);
-
-			string s = "";
-
-			s = "Mousewheel + ";
-			if (_toolsController.curDungeonTool != null) {
-				s += "'1'/'2'/'3' = change preset settings";
-			} else if (_toolsController.curPlacementTool != null) {
-				s += "'1'/'2'/'3' = change pattern settings";
-			} else if (_toolsController.curRoomTool != null) {
-				s += "'1'/'2' = change size settings";
-			} else if (_assetType == Globals.AssetType.Floor) {
-				s = "Press left mouse button + shift key for a 'Floor Fill'!";
-			} else if (_assetType == Globals.AssetType.Wall) {
-				s = "Press left mouse button + shift key for a 'Wall Fill'!";
-			}
-			else {
-				if (part.canRotate != Vector3Int.zero) {
-					s = "Mousewheel + ";
-					s += (part.canRotate.x == 1 ? "'X'" : "");
-					s += (part.canRotate.y == 1 ? "/ 'Y'" : "");
-					s += (part.canRotate.z == 1 ? "/ 'Z'" : "");
-					s += " = rotate object";
-				}
-				s += "\nMousewheel + 'C' = scale object";
-			}
-
-			PweMainMenu.Instance.setSpecialHelpText (s);
-		}
 
 		// ------------------------------------------------------------------------
         private void placePart(Vector3 pos, Vector3 scale)
@@ -1512,9 +1489,9 @@ namespace PrefabWorldEditor
 				_assetTypeList[part.Value.type].Add(part.Value);
 			}
 
-			foreach (KeyValuePair<Globals.AssetType, List<Part>> pair in _assetTypeList) {
-				Debug.Log ("num assets for type "+pair.Key+" = "+pair.Value.Count);
-			}
+			//foreach (KeyValuePair<Globals.AssetType, List<Part>> pair in _assetTypeList) {
+			//	Debug.Log ("num assets for type "+pair.Key+" = "+pair.Value.Count);
+			//}
 		}
 
         // ------------------------------------------------------------------------
@@ -1581,8 +1558,10 @@ namespace PrefabWorldEditor
 			gizmoRotateScript.gameObject.SetActive (false);
 
 			PweMainMenu.Instance.showAssetInfoPanel (false);
-			PweMainMenu.Instance.setSpecialHelpText ("");
-            PweMainMenu.Instance.showSnowLevelPanel(false);
+            PweMainMenu.Instance.showInstanceInfoPanel (false);
+
+            PweMainMenu.Instance.setSpecialHelpText ("");
+            //PweMainMenu.Instance.showSnowLevelPanel(false);
         }
 
 		// ------------------------------------------------------------------------
