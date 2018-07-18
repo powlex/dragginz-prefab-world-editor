@@ -20,6 +20,8 @@ namespace PrefabWorldEditor
 
         public Toggle gravity;
 
+        public Slider sliderSnowLevel;
+
         // ---------------------------------------------------------------------------------------------
         public void init(PrefabLevelEditor.Part part, LevelController.LevelElement element) {
 
@@ -49,6 +51,10 @@ namespace PrefabWorldEditor
                 }
                 gravity.interactable = true;
             }
+
+            if (sliderSnowLevel != null) {
+                sliderSnowLevel.value = element.shaderSnow;
+            }
         }
         // ---------------------------------------------------------------------------------------------
         public void onGravityValueChange(bool value) {
@@ -67,6 +73,12 @@ namespace PrefabWorldEditor
         public void onSliderSnowLevelChange(Single value) {
 
             LevelController.Instance.changeSnowLevel((float)value);
+
+            LevelController.LevelElement e = LevelController.Instance.selectedElement;
+            e.shaderSnow = (float)value;
+            LevelController.Instance.selectedElement = e;
+
+            LevelController.Instance.saveSelectElement();
         }
     }
 }

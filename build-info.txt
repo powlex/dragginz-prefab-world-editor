@@ -1,7 +1,7 @@
 --------------------
 Current WebGL build:
 --------------------
-v07.17.0a
+v07.18.0a
 http://obrodhage.rocks/PrefabWorldEditor/
 
 ----------------------

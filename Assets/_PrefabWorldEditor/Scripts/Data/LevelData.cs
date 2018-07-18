@@ -136,6 +136,7 @@ namespace PrefabWorldEditor
 					element.go.transform.rotation = rotation;
                     element.go.transform.localScale = scale;
                     element.overwriteGravity = levelObj.overwriteGravity;
+                    element.shaderSnow = levelObj.shaderSnow;
 
                     if (XRSettings.enabled) {
                         element.go.AddComponent<Teleportable>();
@@ -145,7 +146,9 @@ namespace PrefabWorldEditor
                     levelController.setMeshCollider (element.go, true);
 					levelController.setRigidBody (element.go, part.usesGravity);
 
-					levelController.levelElements.Add (element.go.name, element);
+                    levelController.setSnowLevel(element.go, element.shaderSnow);
+
+                    levelController.levelElements.Add (element.go.name, element);
 				}
 			}
 		}
@@ -221,6 +224,8 @@ namespace PrefabWorldEditor
                 levelObj.scale.z = e.go.transform.localScale.z;
 
                 levelObj.overwriteGravity = e.overwriteGravity;
+
+                levelObj.shaderSnow = e.shaderSnow;
 
                 levelObjects.Add (levelObj);	
 			}

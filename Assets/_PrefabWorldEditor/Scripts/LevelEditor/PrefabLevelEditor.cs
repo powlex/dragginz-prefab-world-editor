@@ -180,7 +180,7 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Dungeon_Floor,     Globals.AssetType.Dungeon, "Dungeons/Dungeon_Floor",     2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Floor");
 			createPart(Globals.PartList.Dungeon_Wall_L,    Globals.AssetType.Dungeon, "Dungeons/Dungeon_Wall_L",    2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Wall");
 			createPart(Globals.PartList.Dungeon_Wall_LR,   Globals.AssetType.Dungeon, "Dungeons/Dungeon_Wall_LR",   2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Walls");
-			createPart(Globals.PartList.Dungeon_Corner,    Globals.AssetType.Dungeon, "Dungeons/part_7-combinedMeshes", 2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner");
+			createPart(Globals.PartList.Dungeon_Corner,    Globals.AssetType.Dungeon, "Dungeons/Dungeon_Corner",    2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner");
 			createPart(Globals.PartList.Dungeon_DeadEnd,   Globals.AssetType.Dungeon, "Dungeons/Dungeon_DeadEnd",   2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Dead End");
 			createPart(Globals.PartList.Dungeon_Turn,      Globals.AssetType.Dungeon, "Dungeons/Dungeon_Turn",      2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Turn");
 			createPart(Globals.PartList.Dungeon_T,         Globals.AssetType.Dungeon, "Dungeons/Dungeon_T",         2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon T Intersection");

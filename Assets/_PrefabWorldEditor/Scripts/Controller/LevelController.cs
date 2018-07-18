@@ -180,8 +180,28 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		// ------------------------------------------------------------------------
-		public void selectElement (string name)
+        // ------------------------------------------------------------------------
+        public void setSnowLevel(GameObject go, float value) {
+
+            float shaderValue = 1f - (2f * value);
+
+            _listOfChildren.Clear();
+            getChildrenRecursive(go);
+
+            MeshRenderer renderer;
+            int i, len = _listOfChildren.Count;
+            for (i = 0; i < len; ++i) {
+                renderer = _listOfChildren[i].GetComponent<MeshRenderer>();
+                if (renderer != null) {
+                    if (renderer.material.shader.name == Globals.snowShaderName) {
+                        renderer.material.SetFloat("_SnowLevel", shaderValue);
+                    }
+                }
+            }
+        }
+
+        // ------------------------------------------------------------------------
+        public void selectElement (string name)
 		{
 			_selectedElement = _levelElements [name];
 
@@ -197,7 +217,7 @@ namespace PrefabWorldEditor
             for (i = 0; i < len; ++i) {
                 if (_selectedMeshRenderers[i].material.shader.name == Globals.snowShaderName) {
                     _selectedMaterials.Add(_selectedMeshRenderers[i].material);
-                    break;
+                    //break;
                 }
             }
 
@@ -219,8 +239,9 @@ namespace PrefabWorldEditor
         public void changeSnowLevel(float value) {
 
             float shaderValue = 1f - (2f * value);
-            if (_selectedMaterials.Count > 0) {
-                _selectedMaterials[0].SetFloat("_SnowLevel", shaderValue);
+            int i, len = _selectedMaterials.Count;
+            for (i = 0; i < len; ++i) {
+                _selectedMaterials[i].SetFloat("_SnowLevel", shaderValue);
             }
         }
 

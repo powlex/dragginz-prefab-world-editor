@@ -2015,6 +2015,7 @@ MonoBehaviour:
   rotateY: {fileID: 114485626151868104}
   rotateZ: {fileID: 114418632292436658}
   gravity: {fileID: 114535453598530968}
+  sliderSnowLevel: {fileID: 114301994095750264}
 --- !u!114 &114824182515877008
 MonoBehaviour:
   m_ObjectHideFlags: 1
