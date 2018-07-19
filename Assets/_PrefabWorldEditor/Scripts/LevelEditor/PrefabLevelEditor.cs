@@ -30,6 +30,9 @@ namespace PrefabWorldEditor
         public Transform playerEdit;
 		public Transform playerPlay;
 
+        public GameObject playerEditSpotLight;
+        public GameObject playerPlaySpotLight;
+
         [SerializeField]
         public Vector3Int levelSize;
         public float gridSize;
@@ -101,6 +104,8 @@ namespace PrefabWorldEditor
 
 		private Globals.AssetType _assetType;
 		private EditMode  _editMode;
+
+        private bool _bSpotLightsActive;
 
         private float _timer;
         private float _lastMouseWheelUpdate;
@@ -212,12 +217,12 @@ namespace PrefabWorldEditor
 
             _v3EditPartPos = Vector3.zero;
 
-			//resetSelectedElement ();
-
 			_assetType = Globals.AssetType.Floor;
 			_editMode = EditMode.None;
 
-			GameObject toolContainer = new GameObject("[ContainerTools]");
+            _bSpotLightsActive = true;
+
+            GameObject toolContainer = new GameObject("[ContainerTools]");
 
 			_toolsController = ToolsController.Instance;
 			_toolsController.init (toolContainer);
@@ -313,56 +318,74 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		// ------------------------------------------------------------------------
-		public void setEditMode(EditMode mode)
+        // ------------------------------------------------------------------------
+        public void setSpotLights(bool state) {
+
+            _bSpotLightsActive = state;
+
+            if (playerEdit.gameObject.activeSelf) {
+                playerEditSpotLight.SetActive(_bSpotLightsActive);
+            }
+            else if (playerPlay.gameObject.activeSelf) {
+                playerPlaySpotLight.SetActive(_bSpotLightsActive);
+            }
+        }
+
+        // ------------------------------------------------------------------------
+        public void setEditMode(EditMode mode)
 		{
-			if (mode != _editMode) {
+            if (mode != _editMode) {
 
-				_editMode = mode;
+                _editMode = mode;
 
-                //goLights.SetActive (_editMode != EditMode.Play);
                 trfmWalls.gameObject.SetActive(_editMode != EditMode.Play);
 
-                _levelController.resetElementComponents ();
+                _levelController.resetElementComponents();
 
-				resetSelectedElement ();
-				resetCurPlacementTool ();
-				resetCurDungeonTool ();
-				resetCurRoomTool ();
+                resetSelectedElement();
+                resetCurPlacementTool();
+                resetCurDungeonTool();
+                resetCurRoomTool();
 
-				PweMainMenu.Instance.setModeButtons (_editMode);
-				PweMainMenu.Instance.showTransformBox (_editMode == EditMode.Transform);
-				PweMainMenu.Instance.showAssetTypeBox (_editMode == EditMode.Place);
-				PweMainMenu.Instance.showPlacementToolBox (_editMode == EditMode.Place && (_assetType == Globals.AssetType.Chunk || _assetType == Globals.AssetType.Prop));
-				PweMainMenu.Instance.showDungeonToolBox (_editMode == EditMode.Place && _assetType == Globals.AssetType.Dungeon);
-				PweMainMenu.Instance.showRoomToolBox (_editMode == EditMode.Place && (_assetType == Globals.AssetType.Floor || _assetType == Globals.AssetType.Wall));
+                PweMainMenu.Instance.setModeButtons(_editMode);
+                PweMainMenu.Instance.showTransformBox(_editMode == EditMode.Transform);
+                PweMainMenu.Instance.showAssetTypeBox(_editMode == EditMode.Place);
+                PweMainMenu.Instance.showPlacementToolBox(_editMode == EditMode.Place && (_assetType == Globals.AssetType.Chunk || _assetType == Globals.AssetType.Prop));
+                PweMainMenu.Instance.showDungeonToolBox(_editMode == EditMode.Place && _assetType == Globals.AssetType.Dungeon);
+                PweMainMenu.Instance.showRoomToolBox(_editMode == EditMode.Place && (_assetType == Globals.AssetType.Floor || _assetType == Globals.AssetType.Wall));
 
                 if (_editMode == EditMode.Place) {
-					PweMainMenu.Instance.setAssetTypeButtons (_assetType);
-                    PweMainMenu.Instance.showAssetInfo (_curEditPart);
-				} else {
-					PweMainMenu.Instance.setAssetNameText ("");
-					PweMainMenu.Instance.setSpecialHelpText ("");
-				}
-				PweMainMenu.Instance.showAssetInfoPanel (_editMode == EditMode.Place);
+                    PweMainMenu.Instance.setAssetTypeButtons(_assetType);
+                    PweMainMenu.Instance.showAssetInfo(_curEditPart);
+                } else {
+                    PweMainMenu.Instance.setAssetNameText("");
+                    PweMainMenu.Instance.setSpecialHelpText("");
+                }
+                PweMainMenu.Instance.showAssetInfoPanel(_editMode == EditMode.Place);
                 PweMainMenu.Instance.showInstanceInfoPanel(false);
 
                 bool playerEditWasActive = playerEdit.gameObject.activeSelf;
                 bool playerPlayWasActive = playerPlay.gameObject.activeSelf;
 
                 if (!XRSettings.enabled) {
-					playerEdit.gameObject.SetActive (_editMode != EditMode.Play);
-					playerPlay.gameObject.SetActive (!playerEdit.gameObject.activeSelf);
-				} else {
-					playerEdit.gameObject.SetActive (false);
-					playerPlay.gameObject.SetActive (false);
-				}
+                    playerEdit.gameObject.SetActive(_editMode != EditMode.Play);
+                    playerPlay.gameObject.SetActive(!playerEdit.gameObject.activeSelf);
+                } else {
+                    playerEdit.gameObject.SetActive(false);
+                    playerPlay.gameObject.SetActive(false);
+                }
 
                 if (playerEdit.gameObject.activeSelf && !playerEditWasActive) {
                     playerEdit.position = playerPlay.position;
                 }
                 else if (playerPlay.gameObject.activeSelf && !playerPlayWasActive) {
                     playerPlay.position = playerEdit.position;
+                }
+
+                if (playerEdit.gameObject.activeSelf) {
+                    playerEditSpotLight.SetActive(_bSpotLightsActive);
+                } else if (playerPlay.gameObject.activeSelf) {
+                    playerPlaySpotLight.SetActive(_bSpotLightsActive);
                 }
 
                 if (_goEditPart != null)

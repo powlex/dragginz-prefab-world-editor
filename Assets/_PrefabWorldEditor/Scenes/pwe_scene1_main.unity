@@ -312,6 +312,8 @@ MonoBehaviour:
   goLights: {fileID: 1575779489}
   playerEdit: {fileID: 1535968449}
   playerPlay: {fileID: 1523309872}
+  playerEditSpotLight: {fileID: 823781685}
+  playerPlaySpotLight: {fileID: 678740827}
   levelSize: {x: 18, y: 18, z: 18}
   gridSize: 0.25
   trfmWalls: {fileID: 1414976071}
@@ -333,7 +335,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &463116931
+--- !u!1001 &413810465
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -450,6 +452,26 @@ Prefab:
       propertyPath: instanceInfo
       value: 
       objectReference: {fileID: 1450573624}
+    - target: {fileID: 224054764340674924, guid: 7156a026b5d20c9429e81a2de754946f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000038146973
+      objectReference: {fileID: 0}
+    - target: {fileID: 224424469187855848, guid: 7156a026b5d20c9429e81a2de754946f,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000038146973
+      objectReference: {fileID: 0}
+    - target: {fileID: 224174849136075058, guid: 7156a026b5d20c9429e81a2de754946f,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.00000017881393
+      objectReference: {fileID: 0}
+    - target: {fileID: 224216854698283014, guid: 7156a026b5d20c9429e81a2de754946f,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0.00000017881393
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7156a026b5d20c9429e81a2de754946f, type: 2}
   m_IsPrefabAsset: 0
@@ -579,6 +601,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7ca4417db0dd5546a3a0e138bd39eb4, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &678740827 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1529349710593772, guid: 0bac618ec965cb143b2dc6b1f68e2140,
+    type: 2}
+  m_PrefabInternal: {fileID: 2101850562}
 --- !u!1001 &728625950
 Prefab:
   m_ObjectHideFlags: 0
@@ -779,6 +806,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fe64c6806e78e74395c687103dce12c, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &823781685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1056483713940698, guid: 443bcdc8a24b5c04cb96b333e1f52300,
+    type: 2}
+  m_PrefabInternal: {fileID: 1535968448}
 --- !u!1001 &832350336
 Prefab:
   m_ObjectHideFlags: 0
@@ -1848,6 +1880,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 1056483713940698, guid: 443bcdc8a24b5c04cb96b333e1f52300, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 443bcdc8a24b5c04cb96b333e1f52300, type: 2}
   m_IsPrefabAsset: 0
@@ -1870,7 +1906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1575779490
 Transform:
   m_ObjectHideFlags: 0
@@ -1928,7 +1964,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10

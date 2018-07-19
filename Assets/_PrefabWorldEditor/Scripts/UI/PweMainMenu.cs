@@ -29,7 +29,7 @@ namespace PrefabWorldEditor
 		public Transform panelTools;
         public Transform panelFileMenu;
 		public Transform panelLevelMenu;
-        public Transform panelSnowLevel;
+        public Transform panelLightToggles;
 
         public Transform panelAssetInfo;
 		public UIAssetInfo assetInfo;
@@ -170,8 +170,6 @@ namespace PrefabWorldEditor
 			}
 
             //_lastMouseWheelUpdate = 0;
-
-            panelSnowLevel.gameObject.SetActive(false);
         }
 
 		#endregion
@@ -677,8 +675,18 @@ namespace PrefabWorldEditor
             }
 		}
 
-		//
-		public void onSelectPlacementTool(int value) {
+        //
+        public void onToggleAmbientLight(bool state) {
+            PrefabLevelEditor.Instance.goLights.SetActive(state);
+        }
+
+        //
+        public void onToggleSpotLight(bool state) {
+            PrefabLevelEditor.Instance.setSpotLights(state);
+        }
+
+        //
+        public void onSelectPlacementTool(int value) {
 
 			if (value == 0) {
 				selectPlacementTool(PlacementTool.PlacementMode.Circle);
