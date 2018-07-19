@@ -21,6 +21,7 @@ namespace PrefabWorldEditor
         public Toggle gravity;
 
         public Slider sliderSnowLevel;
+        public Slider sliderLightIntensity;
 
         // ---------------------------------------------------------------------------------------------
         public void init(PrefabLevelEditor.Part part, LevelController.LevelElement element) {
@@ -55,7 +56,12 @@ namespace PrefabWorldEditor
             if (sliderSnowLevel != null) {
                 sliderSnowLevel.value = element.shaderSnow;
             }
+
+            if (sliderLightIntensity != null) {
+                sliderLightIntensity.value = element.lightIntensity;
+            }
         }
+
         // ---------------------------------------------------------------------------------------------
         public void onGravityValueChange(bool value) {
 
@@ -76,6 +82,18 @@ namespace PrefabWorldEditor
 
             LevelController.LevelElement e = LevelController.Instance.selectedElement;
             e.shaderSnow = (float)value;
+            LevelController.Instance.selectedElement = e;
+
+            LevelController.Instance.saveSelectElement();
+        }
+
+        // -------------------------------------------------------------------------------------
+        public void onSliderLightIntensityChange(Single value) {
+
+            LevelController.Instance.changeLightIntensity((float)value);
+
+            LevelController.LevelElement e = LevelController.Instance.selectedElement;
+            e.lightIntensity = (float)value;
             LevelController.Instance.selectedElement = e;
 
             LevelController.Instance.saveSelectElement();

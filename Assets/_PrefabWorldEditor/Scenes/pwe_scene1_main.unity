@@ -455,12 +455,12 @@ Prefab:
     - target: {fileID: 224054764340674924, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000038146973
+      value: -0.000022888184
       objectReference: {fileID: 0}
     - target: {fileID: 224424469187855848, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000038146973
+      value: -0.000022888184
       objectReference: {fileID: 0}
     - target: {fileID: 224174849136075058, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
@@ -1906,7 +1906,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1575779490
 Transform:
   m_ObjectHideFlags: 0

@@ -3,12 +3,12 @@
 // Company : Decentralised Team of Developers
 //
 
-using System;
-using System.Collections;
+//using System;
+//using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.EventSystems;
+//using UnityEngine.EventSystems;
 
 using AssetsShared;
 
@@ -26,6 +26,7 @@ namespace PrefabWorldEditor
 			public Globals.PartList part;
             public int overwriteGravity;
             public float shaderSnow;
+            public float lightIntensity;
 
             public bool gravity() {
                 return (overwriteGravity == 0 ? PrefabLevelEditor.Instance.parts[part].usesGravity : (overwriteGravity == 1 ? true : false));
@@ -246,6 +247,26 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
+        public void changeLightIntensity(float value) {
+
+            if (_selectedElement.go == null) {
+                return;
+            }
+
+            float lightIntensity = 0.5f + (2f * value);
+
+            _listOfChildren.Clear();
+            getChildrenRecursive(_selectedElement.go);
+
+            int i, len = _listOfChildren.Count;
+            for (i = 0; i < len; ++i) {
+                if (_listOfChildren[i].GetComponent<Light>() != null) {
+                    _listOfChildren[i].GetComponent<Light>().intensity = lightIntensity;
+                }
+            }
+        }
+
+        // ------------------------------------------------------------------------
         public void deleteSelectedElement ()
 		{
 			if (_selectedElement.go != null) {
@@ -264,6 +285,7 @@ namespace PrefabWorldEditor
 			_selectedElement.part = Globals.PartList.End_Of_List;
             _selectedElement.overwriteGravity = 0;
             _selectedElement.shaderSnow = 0;
+            _selectedElement.lightIntensity = 0;
 
             _selectedMeshRenderers.Clear ();
 			_selectedElementBounds = new Bounds();

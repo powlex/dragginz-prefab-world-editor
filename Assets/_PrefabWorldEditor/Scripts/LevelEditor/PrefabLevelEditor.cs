@@ -338,6 +338,8 @@ namespace PrefabWorldEditor
 
                 _editMode = mode;
 
+                PweMainMenu.Instance.setAmbientLightToggle(_editMode != EditMode.Play);
+
                 trfmWalls.gameObject.SetActive(_editMode != EditMode.Play);
 
                 _levelController.resetElementComponents();
@@ -1239,6 +1241,8 @@ namespace PrefabWorldEditor
                 element.go.transform.rotation = _goEditPart.transform.rotation;
                 element.go.transform.localScale = scale;
                 element.overwriteGravity = 0;
+                element.shaderSnow = 0;
+                element.lightIntensity = (_curEditPart.type == Globals.AssetType.Lights ? 0.5f : 0);
 
                 if (_curEditPart.type == Globals.AssetType.Floor) {
                     element.go.AddComponent<Teleportable>();
@@ -1293,6 +1297,8 @@ namespace PrefabWorldEditor
 					elementTool.part = _curEditPart.id;
 					elementTool.go = go;
                     elementTool.overwriteGravity = 0;
+                    elementTool.shaderSnow = 0;
+                    elementTool.lightIntensity = 0;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 
@@ -1338,6 +1344,8 @@ namespace PrefabWorldEditor
 					elementTool.part = _toolsController.curDungeonTool.dungeonElements [i].part;
 					elementTool.go = go;
                     elementTool.overwriteGravity = 0;
+                    elementTool.shaderSnow = 0;
+                    elementTool.lightIntensity = 0;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 
@@ -1382,6 +1390,8 @@ namespace PrefabWorldEditor
 					elementTool.part = _curEditPart.id;
 					elementTool.go = go;
                     elementTool.overwriteGravity = 0;
+                    elementTool.shaderSnow = 0;
+                    elementTool.lightIntensity = 0;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 

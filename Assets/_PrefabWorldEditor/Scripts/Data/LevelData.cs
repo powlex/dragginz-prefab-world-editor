@@ -137,6 +137,7 @@ namespace PrefabWorldEditor
                     element.go.transform.localScale = scale;
                     element.overwriteGravity = levelObj.overwriteGravity;
                     element.shaderSnow = levelObj.shaderSnow;
+                    element.lightIntensity = levelObj.lightIntensity;
 
                     if (XRSettings.enabled) {
                         element.go.AddComponent<Teleportable>();
@@ -226,6 +227,7 @@ namespace PrefabWorldEditor
                 levelObj.overwriteGravity = e.overwriteGravity;
 
                 levelObj.shaderSnow = e.shaderSnow;
+                levelObj.lightIntensity = e.lightIntensity;
 
                 levelObjects.Add (levelObj);	
 			}

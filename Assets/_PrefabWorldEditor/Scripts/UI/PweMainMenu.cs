@@ -46,10 +46,13 @@ namespace PrefabWorldEditor
 		public Button btnModeClear;
 		public Button btnUNDO;
 
-		public Image imgMaterialHilight;
-		public RawImage imgSelectedItem;
+        public Toggle toggleAmbientLight;
+        public Toggle toggleSpotLight;
 
-		public Button btnAssetFloors;
+        //public Image imgMaterialHilight;
+        //public RawImage imgSelectedItem;
+
+        public Button btnAssetFloors;
 		public Button btnAssetWalls;
 		public Button btnAssetChunks;
 		public Button btnAssetProps;
@@ -344,11 +347,11 @@ namespace PrefabWorldEditor
             }
         }
 
-        /*public void showSnowLevelPanel(bool state) {
-            if (panelSnowLevel != null) {
-                panelSnowLevel.gameObject.SetActive(state);
+        public void setAmbientLightToggle(bool state) {
+            if (toggleAmbientLight != null) {
+                toggleAmbientLight.isOn = state;
             }
-        }*/
+        }
 
         // ------------------------------------------------------------------------
         public void showAssetInfo(PrefabLevelEditor.Part part)

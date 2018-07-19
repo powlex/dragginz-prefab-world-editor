@@ -4175,8 +4175,8 @@ MonoBehaviour:
   btnModeSelect: {fileID: 114551792343000988}
   btnModeClear: {fileID: 114937371398968404}
   btnUNDO: {fileID: 114787583505749716}
-  imgMaterialHilight: {fileID: 0}
-  imgSelectedItem: {fileID: 0}
+  toggleAmbientLight: {fileID: 114741679895678334}
+  toggleSpotLight: {fileID: 114900324349451214}
   btnAssetFloors: {fileID: 114321085701665704}
   btnAssetWalls: {fileID: 114475144601985482}
   btnAssetChunks: {fileID: 114001371067210788}
@@ -6727,7 +6727,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!114 &114763964551136728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9136,7 +9136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000076293945}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224055923133634880
@@ -10023,7 +10023,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000076293945}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224425439138029460
