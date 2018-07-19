@@ -207,7 +207,7 @@ namespace PrefabWorldEditor
             container = new GameObject("[Container]").transform;
 
 			_levelController = LevelController.Instance;
-			_levelController.init (container);
+			_levelController.init ();
 
             setWalls();
 

@@ -55,10 +55,12 @@ namespace PrefabWorldEditor
 
             if (sliderSnowLevel != null) {
                 sliderSnowLevel.value = element.shaderSnow;
+                sliderSnowLevel.transform.parent.gameObject.SetActive(LevelController.Instance.hasSnowShader);
             }
 
             if (sliderLightIntensity != null) {
                 sliderLightIntensity.value = element.lightIntensity;
+                sliderLightIntensity.transform.parent.gameObject.SetActive(LevelController.Instance.hasLighSource);
             }
         }
 

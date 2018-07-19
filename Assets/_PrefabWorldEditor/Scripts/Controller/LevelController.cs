@@ -3,12 +3,9 @@
 // Company : Decentralised Team of Developers
 //
 
-//using System;
-//using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
-//using UnityEngine.EventSystems;
 
 using AssetsShared;
 
@@ -54,88 +51,70 @@ namespace PrefabWorldEditor
 			public bool inverse;
 		};
 
-		#endregion
+        #endregion
 
-		// ------------------------------------------------------------------------
+        //
 
-		#region PrivateAttributes
+        #region PrivateAttributes
 
-		//private Transform _container;
+        public Dictionary<string, LevelElement> levelElements { get; private set; }
 
-		private Dictionary<string, LevelElement> _levelElements;
+        public List<ElementGroup> aElementGroups { get; private set; }
+        public int iSelectedGroupIndex { get; set; }
 
-		private List<ElementGroup> _aElementGroups;
-		private int _iSelectedGroupIndex;
+        public LevelElement selectedElement { get; set; }
+        public Bounds selectedElementBounds { get; private set; }
 
-		private LevelElement _selectedElement;
-		private Bounds _selectedElementBounds;
-		private List<MeshRenderer> _selectedMeshRenderers;
+        private List<MeshRenderer> _selectedMeshRenderers;
         private List<Material> _selectedMaterials;
 
         private List<GameObject> _listOfChildren;
+        private List<GameObject> _childrenOfSelectedElement;
 
-		#endregion
+        public bool hasLighSource { get; private set; }
+        public bool hasSnowShader { get; private set; }
 
-		// ------------------------------------------------------------------------
+        #endregion
 
-		#region Getters
+        //
 
-		public Dictionary<string, LevelElement> levelElements {
-			get { return _levelElements; }
-		}
+        #region PublicMethods
 
-		public List<ElementGroup> aElementGroups {
-			get { return _aElementGroups; }
-		}
-
-		public int iSelectedGroupIndex {
-			get { return _iSelectedGroupIndex; }
-			set { _iSelectedGroupIndex = value; }
-		}
-
-		public LevelElement selectedElement {
-			get { return _selectedElement; }
-			set { _selectedElement = value; }
-		}
-
-		public Bounds selectedElementBounds {
-			get { return _selectedElementBounds; }
-		}
-
-		#endregion
-
-		#region PublicMethods
-
-		// ------------------------------------------------------------------------
-		public void init(Transform container)
+        // ------------------------------------------------------------------------
+        public void init()
 		{
-			//_container = container;
+			levelElements = new Dictionary<string, LevelElement> ();
 
-			_levelElements = new Dictionary<string, LevelElement> ();
-
-			_aElementGroups = new List<ElementGroup> ();
-			_iSelectedGroupIndex = -1;
+			aElementGroups = new List<ElementGroup> ();
+			iSelectedGroupIndex = -1;
 
 			_selectedMeshRenderers = new List<MeshRenderer> ();
 
             _selectedMaterials = new List<Material>();
 
             _listOfChildren = new List<GameObject> ();
-		}
+            _childrenOfSelectedElement = new List<GameObject>();
+
+            hasLighSource = false;
+            hasSnowShader = false;
+        }
 
 		// ------------------------------------------------------------------------
 		public void clearLevel()
 		{
-			foreach (KeyValuePair<string, LevelElement> element in _levelElements) {
+			foreach (KeyValuePair<string, LevelElement> element in levelElements) {
 				GameObject.Destroy (element.Value.go);
 			}
 
-			_levelElements.Clear ();
-			_aElementGroups.Clear ();
-		}
+			levelElements.Clear ();
+			aElementGroups.Clear ();
 
-		// ------------------------------------------------------------------------
-		public void setMeshCollider (GameObject go, bool state) {
+            hasLighSource = false;
+            hasSnowShader = false;
+        }
+
+        // ------------------------------------------------------------------------
+        public void setMeshCollider (GameObject go, bool state) {
 
 			_listOfChildren.Clear ();
 			getChildrenRecursive (go);
@@ -153,7 +132,7 @@ namespace PrefabWorldEditor
 		{
 			_listOfChildren.Clear ();
 
-			foreach (KeyValuePair<string, LevelController.LevelElement> element in _levelElements)
+			foreach (KeyValuePair<string, LevelController.LevelElement> element in levelElements)
 			{
 				getChildrenRecursive (element.Value.go);
 			}
@@ -204,12 +183,18 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void selectElement (string name)
 		{
-			_selectedElement = _levelElements [name];
+            hasLighSource = false;
+            hasSnowShader = false;
 
-            setMeshCollider(_selectedElement.go, false);
-			setRigidBody (_selectedElement.go, false);
+            _childrenOfSelectedElement.Clear();
+            _childrenOfSelectedElement = getChildrenRecursive(selectedElement.go);
 
-			getSelectedMeshRenderers (_selectedElement.go, _iSelectedGroupIndex);
+            selectedElement = levelElements [name];
+
+            setMeshCollider(selectedElement.go, false);
+			setRigidBody (selectedElement.go, false);
+
+			getSelectedMeshRenderers (selectedElement.go, iSelectedGroupIndex);
 			getSelectedMeshRendererBounds ();
 
             // snow shader
@@ -218,20 +203,27 @@ namespace PrefabWorldEditor
             for (i = 0; i < len; ++i) {
                 if (_selectedMeshRenderers[i].material.shader.name == Globals.snowShaderName) {
                     _selectedMaterials.Add(_selectedMeshRenderers[i].material);
-                    //break;
+                    hasSnowShader = true;
                 }
             }
 
-            //PweMainMenu.Instance.showSnowLevelPanel(_selectedMaterials.Count > 0);
-		}
+            // light source
+            len = _childrenOfSelectedElement.Count;
+            for (i = 0; i < len; ++i) {
+                if (_childrenOfSelectedElement[i].GetComponent<Light>() != null) {
+                    hasLighSource = true;
+                    break;
+                }
+            }
+        }
 
         // ------------------------------------------------------------------------
         public void saveSelectElement() {
 
-            if (_selectedElement.go != null) {
-                string name = _selectedElement.go.name;
-                if (_levelElements.ContainsKey(name)) {
-                    _levelElements[name] = _selectedElement;
+            if (selectedElement.go != null) {
+                string name = selectedElement.go.name;
+                if (levelElements.ContainsKey(name)) {
+                    levelElements[name] = selectedElement;
                 }
             }
         }
@@ -249,14 +241,14 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void changeLightIntensity(float value) {
 
-            if (_selectedElement.go == null) {
+            if (selectedElement.go == null) {
                 return;
             }
 
             float lightIntensity = 0.5f + (2f * value);
 
             _listOfChildren.Clear();
-            getChildrenRecursive(_selectedElement.go);
+            getChildrenRecursive(selectedElement.go);
 
             int i, len = _listOfChildren.Count;
             for (i = 0; i < len; ++i) {
@@ -269,39 +261,53 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void deleteSelectedElement ()
 		{
-			if (_selectedElement.go != null) {
-				if (_levelElements.ContainsKey (_selectedElement.go.name)) {
-					_levelElements.Remove (_selectedElement.go.name);
-				}
-				GameObject.Destroy (_selectedElement.go);
-				_selectedElement.go = null;
-			}
-		}
+            if (selectedElement.go == null) {
+                return;
+            }
 
-		// ------------------------------------------------------------------------
-		public void resetSelectedElement()
+            LevelElement e = selectedElement;
+
+            if (levelElements.ContainsKey (e.go.name)) {
+				levelElements.Remove (e.go.name);
+			}
+			GameObject.Destroy (e.go);
+            e.go = null;
+
+			selectedElement = e;
+
+            hasLighSource = false;
+            hasSnowShader = false;
+        }
+
+        // ------------------------------------------------------------------------
+        public void resetSelectedElement()
 		{
-			_selectedElement = new LevelElement();
-			_selectedElement.part = Globals.PartList.End_Of_List;
-            _selectedElement.overwriteGravity = 0;
-            _selectedElement.shaderSnow = 0;
-            _selectedElement.lightIntensity = 0;
+            LevelElement e = new LevelElement();
+			e.part = Globals.PartList.End_Of_List;
+            e.overwriteGravity = 0;
+            e.shaderSnow = 0;
+            e.lightIntensity = 0;
+
+            selectedElement = e;
 
             _selectedMeshRenderers.Clear ();
-			_selectedElementBounds = new Bounds();
-		}
+			selectedElementBounds = new Bounds();
 
-		// ------------------------------------------------------------------------
-		public void resetElementComponents()
+            hasLighSource = false;
+            hasSnowShader = false;
+        }
+
+        // ------------------------------------------------------------------------
+        public void resetElementComponents()
 		{
-			if (_selectedElement.go != null) {
+			if (selectedElement.go != null) {
 
-				PrefabLevelEditor.Part part = PrefabLevelEditor.Instance.parts [_selectedElement.part];
+				PrefabLevelEditor.Part part = PrefabLevelEditor.Instance.parts [selectedElement.part];
 
-				setMeshCollider(_selectedElement.go, true);
+				setMeshCollider(selectedElement.go, true);
 
-                bool gravity = (_selectedElement.overwriteGravity == 0 ? part.usesGravity : (_selectedElement.overwriteGravity == 1 ? true : false));
-                setRigidBody (_selectedElement.go, gravity);
+                bool gravity = (selectedElement.overwriteGravity == 0 ? part.usesGravity : (selectedElement.overwriteGravity == 1 ? true : false));
+                setRigidBody (selectedElement.go, gravity);
 			}
 		}
 
@@ -310,15 +316,15 @@ namespace PrefabWorldEditor
 		{
 			getSelectedMeshRendererBounds ();
 
-			if (_iSelectedGroupIndex != -1) {
+			if (iSelectedGroupIndex != -1) {
 
 				Vector3 pos;
-				int index = _iSelectedGroupIndex;
-				int i, len = _aElementGroups [index].gameObjects.Count;
+				int index = iSelectedGroupIndex;
+				int i, len = aElementGroups [index].gameObjects.Count;
 				for (i = 0; i < len; ++i) {
-					if (_aElementGroups [index].gameObjects [i] != null && _aElementGroups [index].gameObjects [i] != _selectedElement.go) {
-						pos = _aElementGroups [index].gameObjects [i].transform.position + posChange;
-						_aElementGroups [index].gameObjects [i].transform.position = pos;
+					if (aElementGroups [index].gameObjects [i] != null && aElementGroups [index].gameObjects [i] != selectedElement.go) {
+						pos = aElementGroups [index].gameObjects [i].transform.position + posChange;
+						aElementGroups [index].gameObjects [i].transform.position = pos;
 					}
 				}
 			}
@@ -335,9 +341,9 @@ namespace PrefabWorldEditor
 
 			if (iSelectedGroupIndex != -1)
 			{
-				len = _aElementGroups [iSelectedGroupIndex].gameObjects.Count;
+				len = aElementGroups [iSelectedGroupIndex].gameObjects.Count;
 				for (i = 0; i < len; ++i) {
-					getChildrenRecursive (_aElementGroups [iSelectedGroupIndex].gameObjects [i]);
+					getChildrenRecursive (aElementGroups [iSelectedGroupIndex].gameObjects [i]);
 				}
 			}
 			else
@@ -356,14 +362,14 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		public void getSelectedMeshRendererBounds()
 		{
-			if (_selectedElement.go != null) {
-				if (_selectedElement.part != Globals.PartList.End_Of_List) {
+			if (selectedElement.go != null) {
+				if (selectedElement.part != Globals.PartList.End_Of_List) {
 
                     if (_selectedMeshRenderers.Count > 0) {
-						_selectedElementBounds = _selectedMeshRenderers [0].bounds;
+						selectedElementBounds = _selectedMeshRenderers [0].bounds;
 						int i, len = _selectedMeshRenderers.Count;
 						for (i = 1; i < len; ++i) {
-							_selectedElementBounds.Encapsulate (_selectedMeshRenderers [i].bounds);
+							selectedElementBounds.Encapsulate (_selectedMeshRenderers [i].bounds);
                         }
 					}
 				}
@@ -374,11 +380,11 @@ namespace PrefabWorldEditor
 		public int findElementInGroup(GameObject go)
 		{
 			int index = -1;
-			int i, len = _aElementGroups.Count;
+			int i, len = aElementGroups.Count;
 			for (i = 0; i < len; ++i) {
-				int j, len2 = _aElementGroups [i].gameObjects.Count;
+				int j, len2 = aElementGroups [i].gameObjects.Count;
 				for (j = 0; j < len2; ++j) {
-					if (_aElementGroups [i].gameObjects [j] == go) {
+					if (aElementGroups [i].gameObjects [j] == go) {
 						index = i;
 						i = len;
 						break;
@@ -389,24 +395,6 @@ namespace PrefabWorldEditor
 			return index;
 		}
 
-		// ------------------------------------------------------------------------
-		/*public void placeDungeonPrefab (int index)
-		{
-			Vector3 pos = Camera.main.transform.position + Camera.main.transform.forward * 4f;
-			int partId = (int)Globals.PartList.Dungeon_Floor + index;
-
-			LevelElement element = new LevelController.LevelElement ();
-			element.part = (Globals.PartList)partId;
-			element.go = PrefabLevelEditor.Instance.createPartAt (element.part, pos.x, pos.y, pos.z);
-
-			setMeshCollider (element.go, true);
-			setRigidBody (element.go, false);
-
-			element.go.AddComponent<Draggable> ();
-
-			_levelElements.Add (element.go.name, element);
-		}*/
-
 		#endregion
 
 		#region PrivateMethods
@@ -414,10 +402,10 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		// Private Methods
 		// ------------------------------------------------------------------------
-		private void getChildrenRecursive(GameObject go)
+		private List<GameObject> getChildrenRecursive(GameObject go)
 		{
 			if (go == null) {
-				return;
+				return new List<GameObject>();
 			}
 
 			_listOfChildren.Add (go);
@@ -429,6 +417,8 @@ namespace PrefabWorldEditor
 					getChildrenRecursive (child.gameObject);
 				}
 			}
+
+            return _listOfChildren;
 		}
 
 		#endregion
