@@ -140,8 +140,10 @@ namespace PrefabWorldEditor
 
         #endregion
 
-        // ------------------------------------------------------------------------
-        // System Methods
+        // 
+
+        #region SystemMethods
+
         // ------------------------------------------------------------------------
         void Start()
         {
@@ -266,8 +268,8 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		// ------------------------------------------------------------------------
-		/*void LateUpdate()
+        // ------------------------------------------------------------------------
+        /*void LateUpdate()
 		{
 			if (!XRSettings.enabled) {
 				return;
@@ -283,10 +285,12 @@ namespace PrefabWorldEditor
 			}
 		}*/
 
-		// ------------------------------------------------------------------------
-		// Public Methods
-		// ------------------------------------------------------------------------
-		public void newLevelWithDimensions(int x, int y, int z)
+        #endregion
+
+        // ------------------------------------------------------------------------
+        // Public Methods
+        // ------------------------------------------------------------------------
+        public void newLevelWithDimensions(int x, int y, int z)
 		{
 			levelSize.x = x;
 			levelSize.y = y;

@@ -3,36 +3,45 @@
 // Company : Decentralised Team of Developers
 //
 
+using System.Reflection;
+
 using UnityEngine;
 
-namespace AssetsShared
+namespace PrefabWorldEditor
 {
     public class FlickeringLight : MonoBehaviour
     {
+        public Light myLight;
 
         public enum WaveForm { sin, tri, sqr, saw, inv, noise };
         public WaveForm waveform = WaveForm.sin;
 
         public float baseStart = 0.0f; // start 
         public float amplitude = 1.0f; // amplitude of the wave
+
+        [Range(0.0f, 5f)]
         public float phase = 0.0f; // start point inside on wave cycle
+
+        [Range(0.1f, 5f)]
         public float frequency = 0.5f; // cycle frequency per second
 
-        // Keep a copy of the original color
         private Color originalColor;
-        private Light light;
 
-        // Store the original color
-        void Start() {
-            light = GetComponent<Light>();
-            originalColor = light.color;
+        // ------------------------------------------------------------------------
+        void Start()
+        {
+            originalColor = myLight.color;
         }
 
-        void Update() {
-            light.color = originalColor * (EvalWave());
+        // ------------------------------------------------------------------------
+        void Update()
+        {
+            myLight.color = originalColor * (EvalWave());
         }
 
-        float EvalWave() {
+        // ------------------------------------------------------------------------
+        private float EvalWave()
+        {
             float x = (Time.time + phase) * frequency;
             float y;
             x = x - Mathf.Floor(x); // normalized value (0..1)
@@ -71,6 +80,25 @@ namespace AssetsShared
                 y = 1.0f;
             }
             return (y * amplitude) + baseStart;
+        }
+
+        // ------------------------------------------------------------------------
+        private void showFields() {
+
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
+            /*BindingFlags.NonPublic |  | BindingFlags.Instance | BindingFlags.Static*/
+
+            FieldInfo[] fields = this.GetType().GetFields(flags);
+            foreach (FieldInfo fieldInfo in fields) {
+                Debug.Log("FieldInfo Obj: " + this.name + ", Field: " + fieldInfo.Name + ", type: " + fieldInfo.GetType() + ", value: " + fieldInfo.GetValue(fieldInfo));
+            }
+
+            /*
+            PropertyInfo[] properties = this.GetType().GetProperties(flags);
+            foreach (PropertyInfo propertyInfo in properties) {
+                Debug.Log("PropertyInfo Obj: " + this.name + ", Property: " + propertyInfo.Name);
+            }
+            */
         }
     }
 }

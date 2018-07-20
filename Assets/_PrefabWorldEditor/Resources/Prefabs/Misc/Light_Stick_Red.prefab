@@ -38,7 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4605189271796046}
   - component: {fileID: 108370708238559108}
-  - component: {fileID: 114301269876214468}
   m_Layer: 0
   m_Name: Candle
   m_TagString: Untagged
@@ -255,22 +254,6 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114301269876214468
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1710955291784120}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3554c135d44b06f4b86574bf831d180a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waveform: 0
-  baseStart: 0
-  amplitude: 1
-  phase: 0
-  frequency: 0.5
 --- !u!135 &135923419020587228
 SphereCollider:
   m_ObjectHideFlags: 1

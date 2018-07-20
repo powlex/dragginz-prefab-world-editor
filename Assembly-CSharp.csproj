@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\FlickeringLight.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\FlyCam.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\LevelController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\ToolsController.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Tools\RoomTool.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Tools\RoomToolDefault.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIMenuPanel.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelSlider.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UISelectionBox.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDungeonTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDynamicMenusVR.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweRoomTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweWorldSpaceMenus.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIAssetInfo.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIDynamicInstanceSettings.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIInstanceInfo.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleTransformer.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleTranslator.cs" />
@@ -112,7 +115,6 @@
     <Compile Include="Assets\AssetsShared\Scripts\Utils\DataTypeQuaternion.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\DataTypeVector2.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\DataTypeVector3.cs" />
-    <Compile Include="Assets\AssetsShared\Scripts\Utils\FlickeringLight.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\GLTools.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\MonoSingleton.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\ReparentGameObject.cs" />
