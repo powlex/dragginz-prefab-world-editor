@@ -4,7 +4,8 @@
 //
 
 using System;
-using System.Reflection;
+using System.Collections.Generic;
+//using System.Reflection;
 
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace PrefabWorldEditor
         public enum WaveForm { sin, tri, sqr, saw, inv, noise };
         public WaveForm waveform = WaveForm.sin;
 
+        [Range(0.0f, 1.0f)]
         public float baseStart = 0.0f; // start 
 
         [Range(0.1f, 5f)]
@@ -28,111 +30,125 @@ namespace PrefabWorldEditor
         [Range(0.1f, 5f)]
         public float frequency = 0.5f; // cycle frequency per second
 
-        private Color originalColor;
+        //
+
+        private bool _isActive;
+        private Color _originalColor;
+
+        float _x;
+        float _y;
+        
+        // ------------------------------------------------------------------------
+        private void Awake()
+        {
+            _isActive = true;
+            _originalColor = myLight.color;
+
+        }
 
         // ------------------------------------------------------------------------
         void Start()
         {
-            Globals.UIElementSetup esu = new Globals.UIElementSetup();
-            esu.type = Globals.UIElementType.Dropdown;
-            esu.label = "Wave Form";
-            esu.dropdownOptions = new System.Collections.Generic.List<string>();
+            // 0
+            createToggle("Is Active", _isActive);
+
+            // 1
+            List<string> options = new List<string>();
             foreach (string wf in Enum.GetNames(typeof(WaveForm))) {
-                esu.dropdownOptions.Add(wf);
+                options.Add(wf);
             }
-            setupList.Add(esu);
+            createDropdown("Wave Form", options);
 
-            esu = new Globals.UIElementSetup();
-            esu.type = Globals.UIElementType.Slider;
-            esu.label = "Frequency";
-            esu.rangeMin = 0.1f;
-            esu.rangeMax = 0.5f;
-            esu.defaultValue = 0.1f;
-            setupList.Add(esu);
+            // 2
+            createSlider("Frequency", 0.1f, 0.5f, 0.1f);
+            
+            // 3
+            createSlider("Amplitude", 0.1f, 10.0f, 1.0f);
+        }
 
-            esu = new Globals.UIElementSetup();
-            esu.type = Globals.UIElementType.Toggle;
-            esu.label = "Blah Toggle";
-            esu.isOn = false;
-            setupList.Add(esu);
+        // ------------------------------------------------------------------------
+        public override void updateSliderValue(int elementIndex, float value)
+        {
+            if (elementIndex == 2) {
+                frequency = value;
+            }
+            else if (elementIndex == 3) {
+                amplitude = value;
+            }
+        }
 
-            esu = new Globals.UIElementSetup();
-            esu.type = Globals.UIElementType.Slider;
-            esu.label = "Amplitude";
-            esu.rangeMin = 0.1f;
-            esu.rangeMax = 10.0f;
-            esu.defaultValue = 1.0f;
-            setupList.Add(esu);
+        // ------------------------------------------------------------------------
+        public override void updateToggleValue(int elementIndex, bool value)
+        {
+            if (elementIndex == 0) {
+                _isActive = value;
+                myLight.gameObject.SetActive(_isActive);
+            }
+        }
 
-            originalColor = myLight.color;
+        // ------------------------------------------------------------------------
+        public override void updateDropdownValue(int elementIndex, int value)
+        {
+            if (elementIndex == 1) {
+                waveform = (WaveForm)value;
+            }
         }
 
         // ------------------------------------------------------------------------
         void Update()
         {
-            myLight.color = originalColor * (EvalWave());
+            if (_isActive) {
+                myLight.color = _originalColor * (EvalWave());
+            }
         }
 
         // ------------------------------------------------------------------------
         private float EvalWave()
         {
-            float x = (Time.time + phase) * frequency;
-            float y;
-            x = x - Mathf.Floor(x); // normalized value (0..1)
+            _x = (Time.time + phase) * frequency;
+            _x = _x - Mathf.Floor(_x); // normalized value (0..1)
 
             if (waveform == WaveForm.sin) {
-
-                y = Mathf.Sin(x * 2 * Mathf.PI);
+                _y = Mathf.Sin(_x * 2 * Mathf.PI);
             }
             else if (waveform == WaveForm.tri) {
-
-                if (x < 0.5f)
-                    y = 4.0f * x - 1.0f;
+                if (_x < 0.5f)
+                    _y = 4.0f * _x - 1.0f;
                 else
-                    y = -4.0f * x + 3.0f;
+                    _y = -4.0f * _x + 3.0f;
             }
             else if (waveform == WaveForm.sqr) {
-
-                if (x < 0.5f)
-                    y = 1.0f;
+                if (_x < 0.5f)
+                    _y = 1.0f;
                 else
-                    y = -1.0f;
+                    _y = -1.0f;
             }
             else if (waveform == WaveForm.saw) {
-
-                y = x;
+                _y = _x;
             }
             else if (waveform == WaveForm.inv) {
-
-                y = 1.0f - x;
+                _y = 1.0f - _x;
             }
             else if (waveform == WaveForm.noise) {
-
-                y = 1f - (UnityEngine.Random.value * 2);
+                _y = 1f - (UnityEngine.Random.value * 2);
             }
             else {
-                y = 1.0f;
+                _y = 1.0f;
             }
-            return (y * amplitude) + baseStart;
+
+            return (_y * amplitude) + baseStart;
         }
 
         // ------------------------------------------------------------------------
-        private void showFields() {
+        /*private void showFields() {
 
-            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
-            /*BindingFlags.NonPublic |  | BindingFlags.Instance | BindingFlags.Static*/
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance; //BindingFlags.NonPublic |  | BindingFlags.Instance | BindingFlags.Static
 
             FieldInfo[] fields = this.GetType().GetFields(flags);
             foreach (FieldInfo fieldInfo in fields) {
                 Debug.Log("FieldInfo Obj: " + this.name + ", Field: " + fieldInfo.Name + ", type: " + fieldInfo.GetType() + ", value: " + fieldInfo.GetValue(fieldInfo));
             }
 
-            /*
-            PropertyInfo[] properties = this.GetType().GetProperties(flags);
-            foreach (PropertyInfo propertyInfo in properties) {
-                Debug.Log("PropertyInfo Obj: " + this.name + ", Property: " + propertyInfo.Name);
-            }
-            */
-        }
+        }*/
     }
 }

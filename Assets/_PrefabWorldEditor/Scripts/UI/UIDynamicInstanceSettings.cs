@@ -77,7 +77,8 @@ namespace PrefabWorldEditor
                 {
                     _uiElements.Add( createToggle(i, esu) );
                 }
-                else if (esu.type == Globals.UIElementType.Dropdown) {
+                else if (esu.type == Globals.UIElementType.Dropdown)
+                {
                     _uiElements.Add(createDropdown(i, esu));
                 }
             }
@@ -209,7 +210,7 @@ namespace PrefabWorldEditor
         }
 
         #endregion
-        
+
         //
 
         #region EventHandlers
@@ -222,7 +223,11 @@ namespace PrefabWorldEditor
             Globals.UIElementSetup esu = _setupList[elementIndex];
 
             // forward change to asset!
-            //float realValue = esu.rangeMin + (esu.rangeMax - esu.rangeMin) * value;
+            DynamicAsset dynAssetScript = LevelController.Instance.selectedElement.go.GetComponent<DynamicAsset>();
+            if (dynAssetScript != null) {
+                float realValue = esu.rangeMin + (esu.rangeMax - esu.rangeMin) * value;
+                dynAssetScript.updateSliderValue(elementIndex, realValue);
+            }
         }
 
         // ---------------------------------------------------------------------------------------------
@@ -233,16 +238,24 @@ namespace PrefabWorldEditor
             Globals.UIElementSetup esu = _setupList[elementIndex];
 
             // forward change to asset!
+            DynamicAsset dynAssetScript = LevelController.Instance.selectedElement.go.GetComponent<DynamicAsset>();
+            if (dynAssetScript != null) {
+                dynAssetScript.updateToggleValue(elementIndex, value);
+            }
         }
 
         // ---------------------------------------------------------------------------------------------
         private void onDropdownChange(int elementIndex, int value) {
 
-            Debug.Log("elementIndex " + elementIndex + " - onDropdownChange: " + value);
+            //Debug.Log("elementIndex " + elementIndex + " - onDropdownChange: " + value);
 
             Globals.UIElementSetup esu = _setupList[elementIndex];
 
             // forward change to asset!
+            DynamicAsset dynAssetScript = LevelController.Instance.selectedElement.go.GetComponent<DynamicAsset>();
+            if (dynAssetScript != null) {
+                dynAssetScript.updateDropdownValue(elementIndex, value);
+            }
         }
 
         #endregion
