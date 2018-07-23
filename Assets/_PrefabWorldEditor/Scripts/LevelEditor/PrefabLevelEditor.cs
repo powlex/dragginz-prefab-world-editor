@@ -198,9 +198,10 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Dungeon_Wall_L_NF, Globals.AssetType.Dungeon, "Dungeons/Dungeon_Wall_L_NF", 2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Wall No Floor");
 			createPart(Globals.PartList.Dungeon_Corner_NF, Globals.AssetType.Dungeon, "Dungeons/Dungeon_Corner_NF", 2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner No Floor");
 
-            // Interactables
-            createPart(Globals.PartList.Light_Stick_Yellow, Globals.AssetType.Lights, "Misc/Light_Stick_Yellow", 0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Yellow Light Stick");
-            createPart(Globals.PartList.Light_Stick_Red,    Globals.AssetType.Lights, "Misc/Light_Stick_Red",    0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Red Light Stick");
+            // Lights
+            createPart(Globals.PartList.Light_Stick_Yellow,  Globals.AssetType.Lights, "Misc/Light_Stick_Yellow",  0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Yellow Light Stick");
+            createPart(Globals.PartList.Light_Stick_Red,     Globals.AssetType.Lights, "Misc/Light_Stick_Red",     0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Red Light Stick");
+            createPart(Globals.PartList.Light_Stick_Dynamic, Globals.AssetType.Lights, "Misc/Light_Stick_Dynamic", 0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Dynamic Light Stick");
 
             //
 

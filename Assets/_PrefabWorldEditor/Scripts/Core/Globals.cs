@@ -87,8 +87,27 @@ namespace PrefabWorldEditor
 			Dungeon_Corner_NF,
             Light_Stick_Yellow,
             Light_Stick_Red,
+            Light_Stick_Dynamic,
             End_Of_List
 		};
+
+        public enum UIElementType
+        {
+            Slider,
+            Toggle,
+            Dropdown
+        };
+
+        public struct UIElementSetup
+        {
+            public UIElementType type;
+            public string label;
+            public float rangeMin;
+            public float rangeMax;
+            public float defaultValue;
+            public bool isOn;
+            public List<string> dropdownOptions;
+        };
 
         static public readonly string snowShaderName = "Custom/ShaderSnow";
 

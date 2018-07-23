@@ -1817,7 +1817,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Header
+  m_Text: Dynamic Settings
 --- !u!114 &114481189919871028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2415,6 +2415,7 @@ MonoBehaviour:
   gravity: {fileID: 114535453598530968}
   sliderSnowLevel: {fileID: 114383459169661832}
   sliderLightIntensity: {fileID: 114301994095750264}
+  dynamicSettings: {fileID: 114844614298330822}
 --- !u!114 &114824182515877008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2546,6 +2547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e3ff2962f8daa04db589048b29f214f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rectTransform: {fileID: 224507026954342150}
   header: {fileID: 114480499603218962}
   container: {fileID: 224325616342557858}
 --- !u!114 &114861689161403028
@@ -2560,7 +2562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.7058824, b: 0, a: 0.7058824}
+  m_Color: {r: 0, g: 0.7058824, b: 0, a: 0.9411765}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

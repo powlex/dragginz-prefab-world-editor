@@ -343,6 +343,11 @@ namespace PrefabWorldEditor
 
         public void showInstanceInfoPanel(bool state) {
             if (panelInstanceInfo != null) {
+                if (instanceInfo != null) {
+                    if (!state) {
+                        instanceInfo.showDynamicSettings(state);
+                    }
+                }
                 panelInstanceInfo.gameObject.SetActive(state);
             }
         }

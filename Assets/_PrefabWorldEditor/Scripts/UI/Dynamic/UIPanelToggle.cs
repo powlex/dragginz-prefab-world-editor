@@ -8,18 +8,18 @@ using UnityEngine.UI;
 
 namespace PrefabWorldEditor
 {
-	public class UIPanelSlider : MonoBehaviour
+	public class UIPanelToggle : MonoBehaviour
     {
 		public Text label;
-		public Slider slider;
+		public Toggle toggle;
 
-		public delegate void ChangeHandler(int elementIndex, float value);
+		public delegate void ChangeHandler(int elementIndex, bool value);
 		public event ChangeHandler changeHandler;
 
         public int elementIndex;
 
 		// ------------------------------------------------------------------------
-		public void onValueChange(float value) {
+		public void onValueChange(bool value) {
 
 			if (changeHandler != null) {
                 changeHandler(elementIndex, value);

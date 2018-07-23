@@ -23,6 +23,8 @@ namespace PrefabWorldEditor
         public Slider sliderSnowLevel;
         public Slider sliderLightIntensity;
 
+        public UIDynamicInstanceSettings dynamicSettings;
+
         // ---------------------------------------------------------------------------------------------
         public void init(PrefabLevelEditor.Part part, LevelController.LevelElement element) {
 
@@ -62,6 +64,18 @@ namespace PrefabWorldEditor
                 sliderLightIntensity.value = element.lightIntensity;
                 sliderLightIntensity.transform.parent.gameObject.SetActive(LevelController.Instance.hasLighSource);
             }
+
+            // dynamic asset settings
+            DynamicAsset dynAssetScript = element.go.GetComponent<DynamicAsset>();
+            if (dynAssetScript != null) {
+                showDynamicSettings(true);
+                dynamicSettings.init(dynAssetScript.setupList);
+            }
+        }
+
+        // ---------------------------------------------------------------------------------------------
+        public void showDynamicSettings(bool state) {
+            dynamicSettings.gameObject.SetActive(state);
         }
 
         // ---------------------------------------------------------------------------------------------

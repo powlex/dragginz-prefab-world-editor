@@ -3,13 +3,14 @@
 // Company : Decentralised Team of Developers
 //
 
+using System;
 using System.Reflection;
 
 using UnityEngine;
 
 namespace PrefabWorldEditor
 {
-    public class FlickeringLight : MonoBehaviour
+    public class FlickeringLight : DynamicAsset
     {
         public Light myLight;
 
@@ -17,6 +18,8 @@ namespace PrefabWorldEditor
         public WaveForm waveform = WaveForm.sin;
 
         public float baseStart = 0.0f; // start 
+
+        [Range(0.1f, 5f)]
         public float amplitude = 1.0f; // amplitude of the wave
 
         [Range(0.0f, 5f)]
@@ -30,6 +33,37 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         void Start()
         {
+            Globals.UIElementSetup esu = new Globals.UIElementSetup();
+            esu.type = Globals.UIElementType.Dropdown;
+            esu.label = "Wave Form";
+            esu.dropdownOptions = new System.Collections.Generic.List<string>();
+            foreach (string wf in Enum.GetNames(typeof(WaveForm))) {
+                esu.dropdownOptions.Add(wf);
+            }
+            setupList.Add(esu);
+
+            esu = new Globals.UIElementSetup();
+            esu.type = Globals.UIElementType.Slider;
+            esu.label = "Frequency";
+            esu.rangeMin = 0.1f;
+            esu.rangeMax = 0.5f;
+            esu.defaultValue = 0.1f;
+            setupList.Add(esu);
+
+            esu = new Globals.UIElementSetup();
+            esu.type = Globals.UIElementType.Toggle;
+            esu.label = "Blah Toggle";
+            esu.isOn = false;
+            setupList.Add(esu);
+
+            esu = new Globals.UIElementSetup();
+            esu.type = Globals.UIElementType.Slider;
+            esu.label = "Amplitude";
+            esu.rangeMin = 0.1f;
+            esu.rangeMax = 10.0f;
+            esu.defaultValue = 1.0f;
+            setupList.Add(esu);
+
             originalColor = myLight.color;
         }
 
@@ -74,7 +108,7 @@ namespace PrefabWorldEditor
             }
             else if (waveform == WaveForm.noise) {
 
-                y = 1f - (Random.value * 2);
+                y = 1f - (UnityEngine.Random.value * 2);
             }
             else {
                 y = 1.0f;

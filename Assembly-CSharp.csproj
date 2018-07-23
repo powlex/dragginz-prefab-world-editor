@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\DynamicAsset.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\FlickeringLight.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\FlyCam.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\LevelController.cs" />
@@ -90,7 +91,9 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Tools\RoomTool.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Tools\RoomToolDefault.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIMenuPanel.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelDropdown.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelSlider.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelToggle.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UISelectionBox.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDungeonTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDynamicMenusVR.cs" />

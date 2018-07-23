@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4865515968843952}
   - component: {fileID: 114236580963489148}
   m_Layer: 0
-  m_Name: Light_Stick_White
+  m_Name: Light_Stick_Dynamic
   m_TagString: PartContainer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
