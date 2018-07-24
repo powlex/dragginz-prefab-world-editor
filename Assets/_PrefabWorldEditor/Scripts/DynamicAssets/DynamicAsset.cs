@@ -13,6 +13,7 @@ namespace PrefabWorldEditor
     {
         public List<Globals.UIElementSetup> setupList = new List<Globals.UIElementSetup>();
 
+        protected string _delimiter = ";";
 
         #region ProtectedMethods
 
@@ -74,6 +75,19 @@ namespace PrefabWorldEditor
 
         // ------------------------------------------------------------------------
         public virtual void updateDropdownValue(int elementIndex, int value)
+        {
+            // OVERRIDE ME
+        }
+
+        // ------------------------------------------------------------------------
+        public virtual string dataToString ()
+        {
+            // OVERRIDE ME
+            return "";
+        }
+
+        // ------------------------------------------------------------------------
+        public virtual void stringToData (string s)
         {
             // OVERRIDE ME
         }

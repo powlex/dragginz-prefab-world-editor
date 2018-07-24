@@ -4,8 +4,6 @@
 //
 
 using System;
-using System.Collections.Generic;
-
 
 using UnityEngine;
 
@@ -15,27 +13,14 @@ namespace PrefabWorldEditor
     {
         public Light myLight;
 
-        private bool _isActive;
+        private bool _isActive = true;
 
-        private float _intensity;
-        private float _range;
+        private float _intensity = 1f;
+        private float _range = 10f;
 
-        private float _colorR;
-        private float _colorG;
-        private float _colorB;
-
-        // ------------------------------------------------------------------------
-        private void Awake()
-        {
-            _isActive = true;
-
-            _intensity = 1.0f;
-            _range = 10.0f;
-
-            _colorR = 1.0f;
-            _colorG = 1.0f;
-            _colorB = 1.0f;
-        }
+        private float _colorR = 1f;
+        private float _colorG = 1f;
+        private float _colorB = 1f;
 
         // ------------------------------------------------------------------------
         void Start()
@@ -91,6 +76,51 @@ namespace PrefabWorldEditor
             setLight ();
         }
 
+        // ------------------------------------------------------------------------
+        public override string dataToString ()
+        {
+            string s = "";
+
+            s += (_isActive ? "1" : "0");
+            s += _delimiter + _intensity.ToString ();
+            s += _delimiter + _range.ToString ();
+            s += _delimiter + _colorR.ToString ();
+            s += _delimiter + _colorG.ToString ();
+            s += _delimiter + _colorB.ToString ();
+
+            return s;
+        }
+
+        // ------------------------------------------------------------------------
+        public override void stringToData (string s)
+        {
+            string[] data = s.Split(Convert.ToChar(_delimiter));
+
+            int len = data.Length;
+            if (len > 0) {
+                _isActive = (data[0] == "1" ? true : false);
+            }
+            if (len > 1) {
+                _intensity = float.Parse(data[1]);
+            }
+            if (len > 2) {
+                _range = float.Parse (data[2]);
+            }
+            if (len > 3) {
+                _colorR = float.Parse (data[3]);
+            }
+            if (len > 4) {
+                _colorG = float.Parse (data[4]);
+            }
+            if (len > 5) {
+                _colorB = float.Parse (data[5]);
+            }
+
+            setLight ();
+        }
+
+        // ------------------------------------------------------------------------
+        // Private Methods
         // ------------------------------------------------------------------------
         private void setLight()
         {

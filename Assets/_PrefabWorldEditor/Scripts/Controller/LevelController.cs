@@ -71,7 +71,7 @@ namespace PrefabWorldEditor
         private List<GameObject> _listOfChildren;
         private List<GameObject> _childrenOfSelectedElement;
 
-        public bool hasLighSource { get; private set; }
+        public bool hasLightSource { get; private set; }
         public bool hasSnowShader { get; private set; }
 
         #endregion
@@ -95,7 +95,7 @@ namespace PrefabWorldEditor
             _listOfChildren = new List<GameObject> ();
             _childrenOfSelectedElement = new List<GameObject>();
 
-            hasLighSource = false;
+            hasLightSource = false;
             hasSnowShader = false;
         }
 
@@ -109,7 +109,7 @@ namespace PrefabWorldEditor
 			levelElements.Clear ();
 			aElementGroups.Clear ();
 
-            hasLighSource = false;
+            hasLightSource = false;
             hasSnowShader = false;
         }
 
@@ -183,7 +183,7 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void selectElement (string name)
 		{
-            hasLighSource = false;
+            hasLightSource = false;
             hasSnowShader = false;
 
             _childrenOfSelectedElement.Clear();
@@ -208,13 +208,15 @@ namespace PrefabWorldEditor
             }
 
             // light source
+            /*
             len = _childrenOfSelectedElement.Count;
             for (i = 0; i < len; ++i) {
                 if (_childrenOfSelectedElement[i].GetComponent<Light>() != null) {
-                    hasLighSource = true;
+                    hasLightSource = true;
                     break;
                 }
             }
+            */
         }
 
         // ------------------------------------------------------------------------
@@ -275,7 +277,7 @@ namespace PrefabWorldEditor
 
 			selectedElement = e;
 
-            hasLighSource = false;
+            hasLightSource = false;
             hasSnowShader = false;
         }
 
@@ -293,7 +295,7 @@ namespace PrefabWorldEditor
             _selectedMeshRenderers.Clear ();
 			selectedElementBounds = new Bounds();
 
-            hasLighSource = false;
+            hasLightSource = false;
             hasSnowShader = false;
         }
 

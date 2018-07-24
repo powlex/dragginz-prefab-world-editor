@@ -39,6 +39,9 @@ namespace PrefabWorldEditor
         [SerializeField]
         public float lightIntensity { get; set; }
 
+        [SerializeField]
+        public string customData { get; set; }
+
         //
         // Parse JSON data
         //
@@ -115,6 +118,11 @@ namespace PrefabWorldEditor
             if (data["li"] != null) {
                 lightIntensity = (float)data["li"];
             }
+
+            customData = "";
+            if (data["c"] != null) {
+                customData = data["c"];
+            }
         }
 
         //
@@ -136,6 +144,9 @@ namespace PrefabWorldEditor
             }
             if (lightIntensity != 0) {
                 s += ",\"li\":" + lightIntensity.ToString();
+            }
+            if (customData != "") {
+                s += ",\"c\":\"" + customData + "\"";
             }
 
             s += "}";

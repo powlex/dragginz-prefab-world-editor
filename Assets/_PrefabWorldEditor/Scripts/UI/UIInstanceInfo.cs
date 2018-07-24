@@ -62,7 +62,7 @@ namespace PrefabWorldEditor
 
             if (sliderLightIntensity != null) {
                 sliderLightIntensity.value = element.lightIntensity;
-                sliderLightIntensity.transform.parent.gameObject.SetActive(LevelController.Instance.hasLighSource);
+                sliderLightIntensity.transform.parent.gameObject.SetActive(LevelController.Instance.hasLightSource);
             }
 
             // dynamic asset settings
@@ -108,13 +108,13 @@ namespace PrefabWorldEditor
         // -------------------------------------------------------------------------------------
         public void onSliderLightIntensityChange(Single value) {
 
-            LevelController.Instance.changeLightIntensity((float)value);
+            /*LevelController.Instance.changeLightIntensity((float)value);
 
             LevelController.LevelElement e = LevelController.Instance.selectedElement;
             e.lightIntensity = (float)value;
             LevelController.Instance.selectedElement = e;
 
-            LevelController.Instance.saveSelectElement();
+            LevelController.Instance.saveSelectElement();*/
         }
     }
 }

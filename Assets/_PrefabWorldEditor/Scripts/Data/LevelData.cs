@@ -151,6 +151,13 @@ namespace PrefabWorldEditor
 
                         levelController.setSnowLevel (element.go, element.shaderSnow);
 
+                        if (levelObj.customData != "") {
+                            DynamicAsset dynAssetScript = element.go.GetComponent<DynamicAsset>();
+                            if (dynAssetScript != null) {
+                                dynAssetScript.stringToData (levelObj.customData);
+                            }
+                        }
+
                         levelController.levelElements.Add (element.go.name, element);
                     }
 				}
@@ -231,6 +238,9 @@ namespace PrefabWorldEditor
 
                 levelObj.shaderSnow = e.shaderSnow;
                 levelObj.lightIntensity = e.lightIntensity;
+
+                DynamicAsset dynAssetScript = e.go.GetComponent<DynamicAsset>();
+                levelObj.customData = (dynAssetScript != null ? dynAssetScript.dataToString() : "");
 
                 levelObjects.Add (levelObj);	
 			}
