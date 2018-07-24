@@ -70,6 +70,8 @@ namespace PrefabWorldEditor
             if (dynAssetScript != null) {
                 showDynamicSettings(true);
                 dynamicSettings.init(dynAssetScript.setupList);
+            } else {
+                showDynamicSettings (false);
             }
         }
 

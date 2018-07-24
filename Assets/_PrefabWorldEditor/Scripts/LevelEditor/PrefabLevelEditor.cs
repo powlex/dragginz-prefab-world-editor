@@ -173,7 +173,7 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Chunk_Corner,       Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Corner",        4.00f,  2.00f,  4.00f, Vector3Int.one, false, "Corner Chunk");
 			createPart(Globals.PartList.Chunk_Base,         Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Base",          4.00f,  2.00f,  4.00f, Vector3Int.one, false, "Rounded Base");
 
-			createPart(Globals.PartList.Prop_Toilet,    Globals.AssetType.Prop, "Misc/Prop_Toilet",          0.50f,  1.00f,  0.74f, Vector3Int.one,  true,  "Dirty Toilet");
+			createPart(Globals.PartList.Prop_Toilet,    Globals.AssetType.Prop, "Props/Prop_Toilet",         0.50f,  1.00f,  0.74f, Vector3Int.one,  true,  "Dirty Toilet");
 			createPart(Globals.PartList.Prop_BonePile,  Globals.AssetType.Prop, "MDC/Props/Prop_BonePile",   2.00f,  0.75f,  2.00f, Vector3Int.one,  false, "Bone Pile");
 			createPart(Globals.PartList.Prop_Debris,    Globals.AssetType.Prop, "MDC/Props/Prop_Debris",     3.30f,  1.20f,  3.70f, Vector3Int.one,  false, "Debris");
 			createPart(Globals.PartList.Prop_Grave_1,   Globals.AssetType.Prop, "MDC/Props/Prop_Grave_1",    1.00f,  0.88f,  3.00f, Vector3Int.one,  true,  "Grave");
@@ -199,9 +199,8 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Dungeon_Corner_NF, Globals.AssetType.Dungeon, "Dungeons/Dungeon_Corner_NF", 2.00f, 2.00f, 2.00f, Vector3Int.one, false, "Dungeon Corner No Floor");
 
             // Lights
-            createPart(Globals.PartList.Light_Stick_Yellow,  Globals.AssetType.Lights, "Misc/Light_Stick_Yellow",  0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Yellow Light Stick");
-            createPart(Globals.PartList.Light_Stick_Red,     Globals.AssetType.Lights, "Misc/Light_Stick_Red",     0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Red Light Stick");
-            createPart(Globals.PartList.Light_Stick_Dynamic, Globals.AssetType.Lights, "Misc/Light_Stick_Dynamic", 0.20f, 0.50f, 0.20f, Vector3Int.one, false, "Dynamic Light Stick");
+            createPart(Globals.PartList.Light_Lantern, Globals.AssetType.Lights, "Lights/Light_Lantern", 0.25f, 0.50f, 0.25f, Vector3Int.one, false, "Lantern");
+            createPart(Globals.PartList.Light_Torch,   Globals.AssetType.Lights, "Lights/Light_Torch",   0.25f, 1.50f, 0.25f, Vector3Int.one, false, "Torch");
 
             //
 
@@ -1181,9 +1180,13 @@ namespace PrefabWorldEditor
 			}
 
 			Part newPart = _assetTypeList [part.type] [index];
-            PweMainMenu.Instance.showAssetInfo (newPart);
 
-			string name = _levelController.selectedElement.go.name;
+            //PweMainMenu.Instance.showAssetInfo (newPart);
+            //PweMainMenu.Instance.showAssetInfoPanel (false);
+            //PweMainMenu.Instance.showInstanceInfoPanel (true);
+            PweMainMenu.Instance.showInstanceInfo (newPart);
+
+            string name = _levelController.selectedElement.go.name;
 			Vector3 pos = _levelController.selectedElement.go.transform.position;
 			Quaternion rot = _levelController.selectedElement.go.transform.rotation;
 

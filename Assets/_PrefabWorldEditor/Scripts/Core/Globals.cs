@@ -85,9 +85,8 @@ namespace PrefabWorldEditor
 			Dungeon_Ramp_2,
 			Dungeon_Wall_L_NF,
 			Dungeon_Corner_NF,
-            Light_Stick_Yellow,
-            Light_Stick_Red,
-            Light_Stick_Dynamic,
+            Light_Lantern,
+            Light_Torch,
             End_Of_List
 		};
 

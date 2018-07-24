@@ -15,7 +15,7 @@ namespace PrefabWorldEditor
     {
         public Light myLight;
 
-        public enum WaveForm { sin, tri, sqr, saw, inv, noise };
+        public enum WaveForm {none, sin, tri, sqr, saw, inv, noise};
         public WaveForm waveform = WaveForm.sin;
 
         [Range(0.0f, 1.0f)]
@@ -97,7 +97,7 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         void Update()
         {
-            if (_isActive) {
+            if (_isActive && waveform != WaveForm.none) {
                 myLight.color = _originalColor * (EvalWave());
             }
         }

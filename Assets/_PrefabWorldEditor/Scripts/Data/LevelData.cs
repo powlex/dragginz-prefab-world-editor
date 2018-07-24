@@ -133,23 +133,26 @@ namespace PrefabWorldEditor
                     LevelController.LevelElement element = new LevelController.LevelElement ();
 					element.part = partId;
 					element.go = prefabLevelEditor.createPartAt (partId, pos.x, pos.y, pos.z);
-					element.go.transform.rotation = rotation;
-                    element.go.transform.localScale = scale;
-                    element.overwriteGravity = levelObj.overwriteGravity;
-                    element.shaderSnow = levelObj.shaderSnow;
-                    element.lightIntensity = levelObj.lightIntensity;
+                    if (element.go != null)
+                    {
+                        element.go.transform.rotation = rotation;
+                        element.go.transform.localScale = scale;
+                        element.overwriteGravity = levelObj.overwriteGravity;
+                        element.shaderSnow = levelObj.shaderSnow;
+                        element.lightIntensity = levelObj.lightIntensity;
 
-                    if (XRSettings.enabled) {
-                        element.go.AddComponent<Teleportable>();
-                        //element.go.AddComponent<Draggable>();
+                        if (XRSettings.enabled) {
+                            element.go.AddComponent<Teleportable> ();
+                            //element.go.AddComponent<Draggable>();
+                        }
+
+                        levelController.setMeshCollider (element.go, true);
+                        levelController.setRigidBody (element.go, part.usesGravity);
+
+                        levelController.setSnowLevel (element.go, element.shaderSnow);
+
+                        levelController.levelElements.Add (element.go.name, element);
                     }
-
-                    levelController.setMeshCollider (element.go, true);
-					levelController.setRigidBody (element.go, part.usesGravity);
-
-                    levelController.setSnowLevel(element.go, element.shaderSnow);
-
-                    levelController.levelElements.Add (element.go.name, element);
 				}
 			}
 		}

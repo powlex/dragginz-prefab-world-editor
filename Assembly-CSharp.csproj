@@ -61,8 +61,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\DynamicAsset.cs" />
-    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\FlickeringLight.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\FlyCam.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\LevelController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\ToolsController.cs" />
@@ -71,6 +69,10 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Data\LevelData.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Data\LevelFile.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Data\LevelObject.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\DynamicAsset.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\DynAssetLantern.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\DynAssetTorch.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\FlickeringLight.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\JSON\SimpleJSON.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\PrefabLevelEditor.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\VREditor.cs" />
