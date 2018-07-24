@@ -332,6 +332,10 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Data\LevelData.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Data\LevelFile.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Data\LevelObject.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\DynamicAsset.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\DynAssetLantern.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\DynAssetTorch.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\FlickeringLight.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\JSON\SimpleJSON.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\PrefabLevelEditor.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\VREditor.cs" />
@@ -352,6 +356,9 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Tools\RoomTool.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Tools\RoomToolDefault.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIMenuPanel.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelDropdown.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelSlider.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelToggle.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UISelectionBox.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDungeonTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDynamicMenusVR.cs" />
@@ -361,6 +368,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweRoomTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweWorldSpaceMenus.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIAssetInfo.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIDynamicInstanceSettings.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIInstanceInfo.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleTransformer.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleTranslator.cs" />
@@ -375,7 +383,6 @@
     <Compile Include="Assets\AssetsShared\Scripts\Utils\DataTypeQuaternion.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\DataTypeVector2.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\DataTypeVector3.cs" />
-    <Compile Include="Assets\AssetsShared\Scripts\Utils\FlickeringLight.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\GLTools.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\MonoSingleton.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\Utils\ReparentGameObject.cs" />
