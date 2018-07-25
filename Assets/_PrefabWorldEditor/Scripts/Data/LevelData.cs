@@ -139,11 +139,9 @@ namespace PrefabWorldEditor
                         element.go.transform.localScale = scale;
                         element.overwriteGravity = levelObj.overwriteGravity;
                         element.shaderSnow = levelObj.shaderSnow;
-                        element.lightIntensity = levelObj.lightIntensity;
 
                         if (XRSettings.enabled) {
                             element.go.AddComponent<Teleportable> ();
-                            //element.go.AddComponent<Draggable>();
                         }
 
                         levelController.setMeshCollider (element.go, true);
@@ -237,7 +235,6 @@ namespace PrefabWorldEditor
                 levelObj.overwriteGravity = e.overwriteGravity;
 
                 levelObj.shaderSnow = e.shaderSnow;
-                levelObj.lightIntensity = e.lightIntensity;
 
                 DynamicAsset dynAssetScript = e.go.GetComponent<DynamicAsset>();
                 levelObj.customData = (dynAssetScript != null ? dynAssetScript.dataToString() : "");

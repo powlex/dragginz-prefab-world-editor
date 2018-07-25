@@ -21,6 +21,7 @@ namespace PrefabWorldEditor
 		{
 			public GameObject go;
 			public Globals.PartList part;
+            public int overwriteStatic;
             public int overwriteGravity;
             public float shaderSnow;
             public float lightIntensity;
@@ -71,7 +72,6 @@ namespace PrefabWorldEditor
         private List<GameObject> _listOfChildren;
         private List<GameObject> _childrenOfSelectedElement;
 
-        public bool hasLightSource { get; private set; }
         public bool hasSnowShader { get; private set; }
 
         #endregion
@@ -95,7 +95,6 @@ namespace PrefabWorldEditor
             _listOfChildren = new List<GameObject> ();
             _childrenOfSelectedElement = new List<GameObject>();
 
-            hasLightSource = false;
             hasSnowShader = false;
         }
 
@@ -109,7 +108,6 @@ namespace PrefabWorldEditor
 			levelElements.Clear ();
 			aElementGroups.Clear ();
 
-            hasLightSource = false;
             hasSnowShader = false;
         }
 
@@ -128,7 +126,7 @@ namespace PrefabWorldEditor
 		}		
 
 		// ------------------------------------------------------------------------
-		public void setMeshColliders (bool state)
+		/*public void setMeshColliders (bool state)
 		{
 			_listOfChildren.Clear ();
 
@@ -143,7 +141,7 @@ namespace PrefabWorldEditor
 					_listOfChildren [i].GetComponent<Collider> ().enabled = state;
 				}
 			}
-		}
+		}*/
 
 		// ------------------------------------------------------------------------
 		public void setRigidBody (GameObject go, bool state) {
@@ -183,7 +181,6 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void selectElement (string name)
 		{
-            hasLightSource = false;
             hasSnowShader = false;
 
             _childrenOfSelectedElement.Clear();
@@ -206,17 +203,6 @@ namespace PrefabWorldEditor
                     hasSnowShader = true;
                 }
             }
-
-            // light source
-            /*
-            len = _childrenOfSelectedElement.Count;
-            for (i = 0; i < len; ++i) {
-                if (_childrenOfSelectedElement[i].GetComponent<Light>() != null) {
-                    hasLightSource = true;
-                    break;
-                }
-            }
-            */
         }
 
         // ------------------------------------------------------------------------
@@ -241,26 +227,6 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        /*public void changeLightIntensity(float value) {
-
-            if (selectedElement.go == null) {
-                return;
-            }
-
-            float lightIntensity = 0.5f + (2f * value);
-
-            _listOfChildren.Clear();
-            getChildrenRecursive(selectedElement.go);
-
-            int i, len = _listOfChildren.Count;
-            for (i = 0; i < len; ++i) {
-                if (_listOfChildren[i].GetComponent<Light>() != null) {
-                    _listOfChildren[i].GetComponent<Light>().intensity = lightIntensity;
-                }
-            }
-        }*/
-
-        // ------------------------------------------------------------------------
         public void deleteSelectedElement ()
 		{
             if (selectedElement.go == null) {
@@ -277,7 +243,6 @@ namespace PrefabWorldEditor
 
 			selectedElement = e;
 
-            hasLightSource = false;
             hasSnowShader = false;
         }
 
@@ -286,6 +251,7 @@ namespace PrefabWorldEditor
 		{
             LevelElement e = new LevelElement();
 			e.part = Globals.PartList.End_Of_List;
+            e.overwriteStatic = 0;
             e.overwriteGravity = 0;
             e.shaderSnow = 0;
             e.lightIntensity = 0;
@@ -295,7 +261,6 @@ namespace PrefabWorldEditor
             _selectedMeshRenderers.Clear ();
 			selectedElementBounds = new Bounds();
 
-            hasLightSource = false;
             hasSnowShader = false;
         }
 

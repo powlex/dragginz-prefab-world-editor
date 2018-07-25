@@ -21,7 +21,8 @@ namespace PrefabWorldEditor
         public Toggle rotateY;
         public Toggle rotateZ;
 
-        public Toggle gravity;
+        public Toggle toggleStatic;
+        public Toggle toggleGravity;
 
         // ---------------------------------------------------------------------------------------------
         public void init(PrefabLevelEditor.Part part, LevelController.LevelElement element) {
@@ -43,28 +44,15 @@ namespace PrefabWorldEditor
                 rotateZ.interactable = false;
             }
 
-            if (gravity != null) {
-                gravity.isOn = part.usesGravity;
-                gravity.interactable = false;
-                /*if (element.go != null) {
-                    gravity.isOn = (element.overwriteGravity == 0 ? part.usesGravity : (element.overwriteGravity == 1 ? true : false));
-                }
-                else {
-                    gravity.isOn = part.usesGravity;
-                }
-                gravity.interactable = true;*/
+            if (toggleStatic != null) {
+                toggleStatic.isOn = part.isStatic;
+                toggleStatic.interactable = false;
+            }
+
+            if (toggleGravity != null) {
+                toggleGravity.isOn = part.usesGravity;
+                toggleGravity.interactable = false;
             }
         }
-        
-        // ---------------------------------------------------------------------------------------------
-        /*public void onGravityValueChange(bool value) {
-
-            if (LevelController.Instance.selectedElement.go != null) {
-
-                LevelController.LevelElement e = LevelController.Instance.selectedElement;
-                e.overwriteGravity = (gravity.isOn ? 1 : 2);
-                LevelController.Instance.selectedElement = e;
-            }
-        }*/
     }
 }

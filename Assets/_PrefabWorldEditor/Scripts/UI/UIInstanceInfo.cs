@@ -18,7 +18,8 @@ namespace PrefabWorldEditor
         public Toggle rotateY;
         public Toggle rotateZ;
 
-        public Toggle gravity;
+        public Toggle toggleStatic;
+        public Toggle toggleGravity;
 
         public Slider sliderSnowLevel;
 
@@ -44,14 +45,14 @@ namespace PrefabWorldEditor
                 rotateZ.interactable = false;
             }
 
-            if (gravity != null) {
+            if (toggleGravity != null) {
                 if (element.go != null) {
-                    gravity.isOn = (element.overwriteGravity == 0 ? part.usesGravity : (element.overwriteGravity == 1 ? true : false));
+                    toggleGravity.isOn = (element.overwriteGravity == 0 ? part.usesGravity : (element.overwriteGravity == 1 ? true : false));
                 }
                 else {
-                    gravity.isOn = part.usesGravity;
+                    toggleGravity.isOn = part.usesGravity;
                 }
-                gravity.interactable = (part.type != Globals.AssetType.Floor && part.type != Globals.AssetType.Wall && part.type != Globals.AssetType.Dungeon);
+                toggleGravity.interactable = (part.type != Globals.AssetType.Floor && part.type != Globals.AssetType.Wall && part.type != Globals.AssetType.Dungeon);
             }
 
             if (sliderSnowLevel != null) {
@@ -80,10 +81,23 @@ namespace PrefabWorldEditor
             if (LevelController.Instance.selectedElement.go != null) {
 
                 LevelController.LevelElement e = LevelController.Instance.selectedElement;
-                e.overwriteGravity = (gravity.isOn ? 1 : 2);
+                e.overwriteGravity = (toggleGravity.isOn ? 1 : 2);
                 LevelController.Instance.selectedElement = e;
 
                 LevelController.Instance.saveSelectElement();
+            }
+        }
+
+        // ---------------------------------------------------------------------------------------------
+        public void onStaticValueChange (bool value) {
+
+            if (LevelController.Instance.selectedElement.go != null) {
+
+                LevelController.LevelElement e = LevelController.Instance.selectedElement;
+                e.overwriteGravity = (toggleGravity.isOn ? 1 : 2);
+                LevelController.Instance.selectedElement = e;
+
+                LevelController.Instance.saveSelectElement ();
             }
         }
 

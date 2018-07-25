@@ -65,7 +65,8 @@ namespace PrefabWorldEditor
             public float d;
 
 			public Vector3Int canRotate;
-			public bool usesGravity;
+            public bool isStatic;
+            public bool usesGravity;
 
 			public string name;
 			public string extra;
@@ -1250,6 +1251,7 @@ namespace PrefabWorldEditor
 				element.go = createPartAt (_curEditPart.id, pos.x, pos.y, pos.z);
                 element.go.transform.rotation = _goEditPart.transform.rotation;
                 element.go.transform.localScale = scale;
+                element.overwriteStatic = 0;
                 element.overwriteGravity = 0;
                 element.shaderSnow = 0;
                 element.lightIntensity = (_curEditPart.type == Globals.AssetType.Lights ? 0.5f : 0);
@@ -1306,6 +1308,7 @@ namespace PrefabWorldEditor
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _curEditPart.id;
 					elementTool.go = go;
+                    elementTool.overwriteStatic = 0;
                     elementTool.overwriteGravity = 0;
                     elementTool.shaderSnow = 0;
                     elementTool.lightIntensity = 0;
@@ -1353,6 +1356,7 @@ namespace PrefabWorldEditor
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _toolsController.curDungeonTool.dungeonElements [i].part;
 					elementTool.go = go;
+                    elementTool.overwriteStatic = 0;
                     elementTool.overwriteGravity = 0;
                     elementTool.shaderSnow = 0;
                     elementTool.lightIntensity = 0;
@@ -1399,6 +1403,7 @@ namespace PrefabWorldEditor
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _curEditPart.id;
 					elementTool.go = go;
+                    elementTool.overwriteStatic = 0;
                     elementTool.overwriteGravity = 0;
                     elementTool.shaderSnow = 0;
                     elementTool.lightIntensity = 0;
@@ -1488,6 +1493,7 @@ namespace PrefabWorldEditor
 
 			p.canRotate   = cr;
 			p.usesGravity = ug;
+            p.isStatic    = !p.usesGravity;
 
 			p.name  = n;
 			p.extra = e;

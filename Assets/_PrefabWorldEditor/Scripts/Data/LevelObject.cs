@@ -4,8 +4,6 @@
 //
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -31,13 +29,13 @@ namespace PrefabWorldEditor
         public DataTypeVector3 scale { get; set; }
 
         [SerializeField]
+        public int overwriteStatic { get; set; }
+
+        [SerializeField]
         public int overwriteGravity { get; set; }
 
         [SerializeField]
         public float shaderSnow { get; set; }
-
-        [SerializeField]
-        public float lightIntensity { get; set; }
 
         [SerializeField]
         public string customData { get; set; }
@@ -104,6 +102,11 @@ namespace PrefabWorldEditor
                 }
             }
 
+            overwriteStatic = 0;
+            if (data["os"] != null) {
+                overwriteStatic = Int32.Parse (data["os"]);
+            }
+
             overwriteGravity = 0;
             if (data["og"] != null) {
                 overwriteGravity = Int32.Parse(data["og"]);
@@ -112,11 +115,6 @@ namespace PrefabWorldEditor
             shaderSnow = 0;
             if (data["shs"] != null) {
                 shaderSnow = (float)data["shs"];
-            }
-
-            lightIntensity = 0;
-            if (data["li"] != null) {
-                lightIntensity = (float)data["li"];
             }
 
             customData = "";
@@ -136,14 +134,14 @@ namespace PrefabWorldEditor
 			s += ",\"p\":" + position.getJsonString();
 			s += ",\"r\":" + rotation.getJsonString();
             s += ",\"s\":" + scale.getJsonString();
+            if (overwriteStatic != 0) {
+                s += ",\"os\":" + overwriteStatic.ToString ();
+            }
             if (overwriteGravity != 0) {
                 s += ",\"og\":" + overwriteGravity.ToString();
             }
             if (shaderSnow != 0) {
                 s += ",\"shs\":" + shaderSnow.ToString();
-            }
-            if (lightIntensity != 0) {
-                s += ",\"li\":" + lightIntensity.ToString();
             }
             if (customData != "") {
                 s += ",\"c\":\"" + customData + "\"";
