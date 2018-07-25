@@ -241,7 +241,7 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        public void changeLightIntensity(float value) {
+        /*public void changeLightIntensity(float value) {
 
             if (selectedElement.go == null) {
                 return;
@@ -258,7 +258,7 @@ namespace PrefabWorldEditor
                     _listOfChildren[i].GetComponent<Light>().intensity = lightIntensity;
                 }
             }
-        }
+        }*/
 
         // ------------------------------------------------------------------------
         public void deleteSelectedElement ()

@@ -44,6 +44,7 @@ namespace PrefabWorldEditor
             }
 
             if (gravity != null) {
+                gravity.isOn = part.usesGravity;
                 gravity.interactable = false;
                 /*if (element.go != null) {
                     gravity.isOn = (element.overwriteGravity == 0 ? part.usesGravity : (element.overwriteGravity == 1 ? true : false));

@@ -157,6 +157,7 @@ namespace PrefabWorldEditor
             createPart(Globals.PartList.Wall_Z,   Globals.AssetType.Wall,  "MDC/WallsZ/Wall_Z",   1.00f,  1.00f,  0.25f, Vector3Int.zero, false, "Wall Left",  "Z");
 			createPart(Globals.PartList.Wall_X,   Globals.AssetType.Wall,  "MDC/WallsX/Wall_X",   0.25f,  1.00f,  1.00f, Vector3Int.zero, false, "Wall Right", "X");
 
+            // Chunks
 			createPart(Globals.PartList.Chunk_Rock_1,       Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Rock_1",        4.00f,  3.50f,  4.00f, Vector3Int.one, false, "Rock 1");
 			createPart(Globals.PartList.Chunk_Rock_2,       Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Rock_2",        4.00f,  2.40f,  4.00f, Vector3Int.one, false, "Rock 2");
 			createPart(Globals.PartList.Chunk_Rock_3,       Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Rock_3",        5.00f,  5.00f,  5.00f, Vector3Int.one, false, "Rock 3");
@@ -173,6 +174,7 @@ namespace PrefabWorldEditor
 			createPart(Globals.PartList.Chunk_Corner,       Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Corner",        4.00f,  2.00f,  4.00f, Vector3Int.one, false, "Corner Chunk");
 			createPart(Globals.PartList.Chunk_Base,         Globals.AssetType.Chunk, "MDC/Chunks/Chunk_Base",          4.00f,  2.00f,  4.00f, Vector3Int.one, false, "Rounded Base");
 
+            // Props
 			createPart(Globals.PartList.Prop_Toilet,    Globals.AssetType.Prop, "Props/Prop_Toilet",         0.50f,  1.00f,  0.74f, Vector3Int.one,  true,  "Dirty Toilet");
 			createPart(Globals.PartList.Prop_BonePile,  Globals.AssetType.Prop, "MDC/Props/Prop_BonePile",   2.00f,  0.75f,  2.00f, Vector3Int.one,  false, "Bone Pile");
 			createPart(Globals.PartList.Prop_Debris,    Globals.AssetType.Prop, "MDC/Props/Prop_Debris",     3.30f,  1.20f,  3.70f, Vector3Int.one,  false, "Debris");

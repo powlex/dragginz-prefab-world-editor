@@ -21,7 +21,6 @@ namespace PrefabWorldEditor
         public Toggle gravity;
 
         public Slider sliderSnowLevel;
-        public Slider sliderLightIntensity;
 
         public UIDynamicInstanceSettings dynamicSettings;
 
@@ -52,17 +51,12 @@ namespace PrefabWorldEditor
                 else {
                     gravity.isOn = part.usesGravity;
                 }
-                gravity.interactable = true;
+                gravity.interactable = (part.type != Globals.AssetType.Floor && part.type != Globals.AssetType.Wall && part.type != Globals.AssetType.Dungeon);
             }
 
             if (sliderSnowLevel != null) {
                 sliderSnowLevel.value = element.shaderSnow;
                 sliderSnowLevel.transform.parent.gameObject.SetActive(LevelController.Instance.hasSnowShader);
-            }
-
-            if (sliderLightIntensity != null) {
-                sliderLightIntensity.value = element.lightIntensity;
-                sliderLightIntensity.transform.parent.gameObject.SetActive(LevelController.Instance.hasLightSource);
             }
 
             // dynamic asset settings
@@ -103,18 +97,6 @@ namespace PrefabWorldEditor
             LevelController.Instance.selectedElement = e;
 
             LevelController.Instance.saveSelectElement();
-        }
-
-        // -------------------------------------------------------------------------------------
-        public void onSliderLightIntensityChange(Single value) {
-
-            /*LevelController.Instance.changeLightIntensity((float)value);
-
-            LevelController.LevelElement e = LevelController.Instance.selectedElement;
-            e.lightIntensity = (float)value;
-            LevelController.Instance.selectedElement = e;
-
-            LevelController.Instance.saveSelectElement();*/
         }
     }
 }

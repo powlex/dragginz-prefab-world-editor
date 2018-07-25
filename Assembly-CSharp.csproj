@@ -73,6 +73,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\DynAssetLantern.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\DynAssetTorch.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\FlickeringLight.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\LightFlickerEffect.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\JSON\SimpleJSON.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\PrefabLevelEditor.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\VREditor.cs" />

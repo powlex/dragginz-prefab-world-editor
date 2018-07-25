@@ -4,6 +4,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -22,8 +23,14 @@ namespace PrefabWorldEditor
         private float _colorG = 1f;
         private float _colorB = 1f;
 
+        // light flicker effect
+        private int smoothing = 20;
+        private Queue<float> _smoothQueue;
+        private float _lastSum;
+        private float _newVal;
+
         // ------------------------------------------------------------------------
-        void Start()
+        void Start ()
         {
             // 0
             createToggle("Is Active", _isActive);
@@ -42,6 +49,32 @@ namespace PrefabWorldEditor
 
             // 3
             createSlider ("Color Blue", 0.0f, 1.0f, _colorB);
+
+            // light flicker effect
+            _smoothQueue = new Queue<float> (smoothing);
+            _lastSum = 0;
+        }
+
+        // ------------------------------------------------------------------------
+        void Update ()
+        {
+            while (_smoothQueue.Count >= smoothing) {
+                _lastSum -= _smoothQueue.Dequeue ();
+            }
+
+            // Generate random new item, calculate new average
+            _newVal = UnityEngine.Random.Range (_intensity - 0.2f, _intensity + 0.2f);
+            _smoothQueue.Enqueue (_newVal);
+            _lastSum += _newVal;
+
+            myLight.intensity = _lastSum / (float)_smoothQueue.Count;
+        }
+
+        // ------------------------------------------------------------------------
+        private void resetFlickerEffect ()
+        {
+            _smoothQueue.Clear ();
+            _lastSum = 0;
         }
 
         // ------------------------------------------------------------------------
@@ -129,6 +162,9 @@ namespace PrefabWorldEditor
             }
 
             myLight.gameObject.SetActive (_isActive);
+            if (!_isActive) {
+                resetFlickerEffect ();
+            }
 
             myLight.intensity = _intensity;
             myLight.range = _range;
