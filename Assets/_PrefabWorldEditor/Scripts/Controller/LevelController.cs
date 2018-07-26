@@ -112,6 +112,22 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
+        public void setSelectedElementComponents ()
+        {
+            if (selectedElement.go != null) {
+
+            }
+        }
+
+        // ------------------------------------------------------------------------
+        public void resetSelectedElementComponents()
+        {
+            if (selectedElement.go != null) {
+
+            }
+        }
+
+        // ------------------------------------------------------------------------
         public void setMeshCollider (GameObject go, bool state) {
 
 			_listOfChildren.Clear ();

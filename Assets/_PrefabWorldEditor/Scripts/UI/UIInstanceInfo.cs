@@ -25,8 +25,12 @@ namespace PrefabWorldEditor
 
         public UIDynamicInstanceSettings dynamicSettings;
 
+        private bool initUIComponents;
+
         // ---------------------------------------------------------------------------------------------
-        public void init(PrefabLevelEditor.Part part, LevelController.LevelElement element) {
+        public void init(PrefabLevelEditor.Part part, LevelController.LevelElement element)
+        {
+            initUIComponents = true;
 
             if (name != null) {
                 assetName.text = part.name;
@@ -45,6 +49,10 @@ namespace PrefabWorldEditor
                 rotateZ.interactable = false;
             }
 
+            if (toggleStatic != null) {
+                toggleStatic.isOn = (element.overwriteStatic == 0 ? part.isStatic : (element.overwriteStatic == 1 ? true : false));
+            }
+
             if (toggleGravity != null) {
                 if (element.go != null) {
                     toggleGravity.isOn = (element.overwriteGravity == 0 ? part.usesGravity : (element.overwriteGravity == 1 ? true : false));
@@ -54,6 +62,7 @@ namespace PrefabWorldEditor
                 }
                 toggleGravity.interactable = (part.type != Globals.AssetType.Floor && part.type != Globals.AssetType.Wall && part.type != Globals.AssetType.Dungeon);
             }
+            toggleGravity.interactable = !toggleStatic.isOn;
 
             if (sliderSnowLevel != null) {
                 sliderSnowLevel.value = element.shaderSnow;
@@ -68,6 +77,8 @@ namespace PrefabWorldEditor
             } else {
                 showDynamicSettings (false);
             }
+
+            initUIComponents = false;
         }
 
         // ---------------------------------------------------------------------------------------------
@@ -78,6 +89,7 @@ namespace PrefabWorldEditor
         // ---------------------------------------------------------------------------------------------
         public void onGravityValueChange(bool value) {
 
+            Debug.Log ("onGravityValueChange");
             if (LevelController.Instance.selectedElement.go != null) {
 
                 LevelController.LevelElement e = LevelController.Instance.selectedElement;
@@ -91,18 +103,32 @@ namespace PrefabWorldEditor
         // ---------------------------------------------------------------------------------------------
         public void onStaticValueChange (bool value) {
 
+            if (initUIComponents) {
+                return;
+            }
+
+            Debug.Log ("onStaticValueChange");
             if (LevelController.Instance.selectedElement.go != null) {
 
                 LevelController.LevelElement e = LevelController.Instance.selectedElement;
-                e.overwriteGravity = (toggleGravity.isOn ? 1 : 2);
+                e.overwriteStatic = (toggleStatic.isOn ? 1 : 2);
                 LevelController.Instance.selectedElement = e;
 
                 LevelController.Instance.saveSelectElement ();
+
+                if (e.overwriteStatic == 1) {
+                    toggleGravity.isOn = false;
+                }
+                toggleGravity.interactable = !toggleStatic.isOn;
             }
         }
 
         // -------------------------------------------------------------------------------------
         public void onSliderSnowLevelChange(Single value) {
+
+            if (initUIComponents) {
+                return;
+            }
 
             LevelController.Instance.changeSnowLevel((float)value);
 
