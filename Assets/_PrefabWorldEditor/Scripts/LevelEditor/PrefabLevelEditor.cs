@@ -474,7 +474,7 @@ namespace PrefabWorldEditor
             _goEditPart = createPartAt(_curEditPart.id, -10, -10, -10);
             setMarkerScale(_curEditPart);
 
-            _levelController.setMeshCollider(_goEditPart, false);
+            _levelController.setComponents (_goEditPart, false, false);
 
             PweMainMenu.Instance.showAssetInfo(_curEditPart);
         }
@@ -1260,8 +1260,9 @@ namespace PrefabWorldEditor
                     element.go.AddComponent<Teleportable>();
                 }
 
-				_levelController.setMeshCollider (element.go, true);
-				_levelController.setRigidBody (element.go, _curEditPart.usesGravity);
+                _levelController.setComponents (element.go, true, _curEditPart.usesGravity);
+                //_levelController.setMeshCollider (element.go, true);
+				//_levelController.setRigidBody (element.go, _curEditPart.usesGravity);
 
 				_levelController.levelElements.Add (element.go.name, element);
 			}
@@ -1302,8 +1303,9 @@ namespace PrefabWorldEditor
 					go.transform.SetParent (container);
 					go.name = "part_" + (_iCounter++).ToString ();
 
-					_levelController.setMeshCollider (go, true);
-					_levelController.setRigidBody (go, _curEditPart.usesGravity);
+                    _levelController.setComponents (go, true, _curEditPart.usesGravity);
+                    //_levelController.setMeshCollider (go, true);
+					//_levelController.setRigidBody (go, _curEditPart.usesGravity);
 
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _curEditPart.id;
@@ -1350,8 +1352,7 @@ namespace PrefabWorldEditor
 					go.transform.SetParent (container);
 					go.name = "part_" + (_iCounter++).ToString ();
 
-					_levelController.setMeshCollider (go, true);
-					_levelController.setRigidBody (go, false);
+                    _levelController.setComponents (go, true, false);
 
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _toolsController.curDungeonTool.dungeonElements [i].part;
@@ -1397,8 +1398,9 @@ namespace PrefabWorldEditor
 					go.transform.SetParent (container);
 					go.name = "part_" + (_iCounter++).ToString ();
 
-					_levelController.setMeshCollider (go, true);
-					_levelController.setRigidBody (go, _curEditPart.usesGravity);
+                    _levelController.setComponents (go, true, _curEditPart.usesGravity);
+                    //_levelController.setMeshCollider (go, true);
+					//_levelController.setRigidBody (go, _curEditPart.usesGravity);
 
 					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
 					elementTool.part = _curEditPart.id;

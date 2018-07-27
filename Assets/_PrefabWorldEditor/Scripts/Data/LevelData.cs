@@ -144,8 +144,9 @@ namespace PrefabWorldEditor
                             element.go.AddComponent<Teleportable> ();
                         }
 
-                        levelController.setMeshCollider (element.go, true);
-                        levelController.setRigidBody (element.go, part.usesGravity);
+                        levelController.setComponents (element.go, true, part.usesGravity);
+                        //levelController.setMeshCollider (element.go, true);
+                        //levelController.setRigidBody (element.go, part.usesGravity);
 
                         levelController.setSnowLevel (element.go, element.shaderSnow);
 

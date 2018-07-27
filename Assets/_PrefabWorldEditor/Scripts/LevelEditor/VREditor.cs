@@ -143,8 +143,9 @@ namespace PrefabWorldEditor
                 _goEditPart.transform.localScale = new Vector3 (scale, scale, scale);
                 _goEditPart.transform.rotation = Quaternion.Euler(new Vector3(-24f, -24f, 24f));
 
-                //LevelController.Instance.setMeshCollider(_goEditPart, false);
-                LevelController.Instance.setRigidBody(_goEditPart, false);
+                LevelController.Instance.setComponents (_goEditPart, true, false);
+                //LevelController.Instance.setMeshCollider(_goEditPart, true);
+                //LevelController.Instance.setRigidBody(_goEditPart, false);
 
                 Draggable draggable = _goEditPart.AddComponent<Draggable>();
                 draggable.afterGrabberGrabbed += onAssetGrabbed;

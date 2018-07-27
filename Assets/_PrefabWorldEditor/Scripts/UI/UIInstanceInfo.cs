@@ -130,7 +130,7 @@ namespace PrefabWorldEditor
                 return;
             }
 
-            LevelController.Instance.changeSnowLevel((float)value);
+            LevelController.Instance.changeSelectedElementSnowLevel ((float)value);
 
             LevelController.LevelElement e = LevelController.Instance.selectedElement;
             e.shaderSnow = (float)value;

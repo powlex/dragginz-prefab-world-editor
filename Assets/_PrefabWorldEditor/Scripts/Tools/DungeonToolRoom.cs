@@ -109,8 +109,9 @@ namespace PrefabWorldEditor
 								}
 							}
 
-							LevelController.Instance.setMeshCollider (go, false);
-							LevelController.Instance.setRigidBody (go, false);
+                            LevelController.Instance.setComponents (go, false, false);
+                            //LevelController.Instance.setMeshCollider (go, false);
+							//LevelController.Instance.setRigidBody (go, false);
 
 							LevelController.LevelElement element = new LevelController.LevelElement ();
 							element.go = go;
