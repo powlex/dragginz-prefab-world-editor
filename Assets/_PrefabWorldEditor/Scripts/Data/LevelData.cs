@@ -138,6 +138,7 @@ namespace PrefabWorldEditor
                         element.go.transform.rotation = rotation;
                         element.go.transform.localScale = scale;
                         element.overwriteGravity = levelObj.overwriteGravity;
+                        element.overwriteStatic = levelObj.overwriteStatic;
                         element.shaderSnow = levelObj.shaderSnow;
 
                         if (XRSettings.enabled) {
@@ -234,6 +235,7 @@ namespace PrefabWorldEditor
                 levelObj.scale.z = e.go.transform.localScale.z;
 
                 levelObj.overwriteGravity = e.overwriteGravity;
+                levelObj.overwriteStatic = e.overwriteStatic;
 
                 levelObj.shaderSnow = e.shaderSnow;
 

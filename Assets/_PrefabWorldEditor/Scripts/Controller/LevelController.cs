@@ -71,6 +71,7 @@ namespace PrefabWorldEditor
                 colliders     = new List<Collider> ();
                 meshRenderers = new List<MeshRenderer> ();
                 materials     = new List<Material> ();
+                bounds        = new Bounds ();
                 hasSnowShader = false;
             }
 
@@ -210,8 +211,12 @@ namespace PrefabWorldEditor
                 for (i = 0; i < len; ++i) {
                     _selectedElementComponents.rigidBodies[i].useGravity     = useGravity;
                     _selectedElementComponents.rigidBodies[i].velocity       = Vector3.zero;
-                    _selectedElementComponents.rigidBodies[i].freezeRotation = !useGravity;
-                    _selectedElementComponents.rigidBodies[i].freezeRotation = !useGravity;
+                    if (useGravity) {
+                        _selectedElementComponents.rigidBodies[i].constraints = RigidbodyConstraints.None;
+                    }
+                    else {
+                        _selectedElementComponents.rigidBodies[i].constraints = RigidbodyConstraints.FreezeAll;
+                    }
                 }
             }
         }
@@ -238,8 +243,12 @@ namespace PrefabWorldEditor
             for (i = 0; i < len; ++i) {
                 comps.rigidBodies[i].useGravity = useGravity;
                 comps.rigidBodies[i].velocity = Vector3.zero;
-                comps.rigidBodies[i].freezeRotation = !useGravity;
-                comps.rigidBodies[i].freezeRotation = !useGravity;
+                if (useGravity) {
+                    comps.rigidBodies[i].constraints = RigidbodyConstraints.None;
+                }
+                else {
+                    comps.rigidBodies[i].constraints = RigidbodyConstraints.FreezeAll;
+                }
             }
 
             comps.reset ();
