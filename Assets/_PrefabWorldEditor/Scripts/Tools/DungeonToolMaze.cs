@@ -86,11 +86,11 @@ namespace PrefabWorldEditor
 
                         LevelController.Instance.setComponents (go, false, false);
                         //LevelController.Instance.setMeshCollider (go, false);
-						//LevelController.Instance.setRigidBody (go, false);
+                        //LevelController.Instance.setRigidBody (go, false);
 
-						LevelController.LevelElement element = new LevelController.LevelElement ();
-						element.go = go;
-						element.part = partId;
+                        LevelController.LevelElement element = LevelController.Instance.createLevelElement(go, partId); // new LevelController.LevelElement ();
+						//element.go = go;
+						//element.part = partId;
 
 						_dungeonElements.Add (element);
 					}

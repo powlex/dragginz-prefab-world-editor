@@ -21,6 +21,8 @@ namespace PrefabWorldEditor
         public Toggle toggleStatic;
         public Toggle toggleGravity;
 
+        public Toggle toggleLocked;
+
         public Slider sliderSnowLevel;
 
         public UIDynamicInstanceSettings dynamicSettings;
@@ -64,6 +66,10 @@ namespace PrefabWorldEditor
             }
             toggleGravity.interactable = !toggleStatic.isOn;
 
+            if (toggleLocked != null) {
+                toggleLocked.isOn = element.isLocked;
+            }
+
             if (sliderSnowLevel != null) {
                 sliderSnowLevel.value = element.shaderSnow;
                 sliderSnowLevel.transform.parent.gameObject.SetActive(LevelController.Instance.hasSnowShader);
@@ -89,7 +95,6 @@ namespace PrefabWorldEditor
         // ---------------------------------------------------------------------------------------------
         public void onGravityValueChange(bool value) {
 
-            Debug.Log ("onGravityValueChange");
             if (LevelController.Instance.selectedElement.go != null) {
 
                 LevelController.LevelElement e = LevelController.Instance.selectedElement;
@@ -107,7 +112,6 @@ namespace PrefabWorldEditor
                 return;
             }
 
-            Debug.Log ("onStaticValueChange");
             if (LevelController.Instance.selectedElement.go != null) {
 
                 LevelController.LevelElement e = LevelController.Instance.selectedElement;
@@ -120,6 +124,20 @@ namespace PrefabWorldEditor
                     toggleGravity.isOn = false;
                 }
                 toggleGravity.interactable = !toggleStatic.isOn;
+            }
+        }
+
+        // ---------------------------------------------------------------------------------------------
+        public void onLockedValueChange (bool value) {
+
+            Debug.Log ("onLockedValueChange");
+            if (LevelController.Instance.selectedElement.go != null) {
+
+                LevelController.LevelElement e = LevelController.Instance.selectedElement;
+                e.isLocked = toggleLocked.isOn;
+                LevelController.Instance.selectedElement = e;
+
+                LevelController.Instance.saveSelectElement ();
             }
         }
 

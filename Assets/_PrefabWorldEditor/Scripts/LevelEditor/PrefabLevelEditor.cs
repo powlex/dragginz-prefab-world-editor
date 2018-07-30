@@ -1246,15 +1246,15 @@ namespace PrefabWorldEditor
 
 			if (_toolsController.curPlacementTool == null && _toolsController.curDungeonTool == null && _toolsController.curRoomTool == null)
 			{
-				LevelController.LevelElement element = new LevelController.LevelElement ();
-				element.part = _curEditPart.id;
+				LevelController.LevelElement element = LevelController.Instance.createLevelElement(null, _curEditPart.id); //new LevelController.LevelElement ();
+                //element.part = _curEditPart.id;
 				element.go = createPartAt (_curEditPart.id, pos.x, pos.y, pos.z);
                 element.go.transform.rotation = _goEditPart.transform.rotation;
                 element.go.transform.localScale = scale;
-                element.overwriteStatic = 0;
-                element.overwriteGravity = 0;
-                element.shaderSnow = 0;
-                element.lightIntensity = (_curEditPart.type == Globals.AssetType.Lights ? 0.5f : 0);
+                //element.overwriteStatic = 0;
+                //element.overwriteGravity = 0;
+                //element.isLocked = false;
+                //element.shaderSnow = 0;
 
                 if (_curEditPart.type == Globals.AssetType.Floor) {
                     element.go.AddComponent<Teleportable>();
@@ -1307,13 +1307,13 @@ namespace PrefabWorldEditor
                     //_levelController.setMeshCollider (go, true);
 					//_levelController.setRigidBody (go, _curEditPart.usesGravity);
 
-					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
-					elementTool.part = _curEditPart.id;
-					elementTool.go = go;
-                    elementTool.overwriteStatic = 0;
-                    elementTool.overwriteGravity = 0;
-                    elementTool.shaderSnow = 0;
-                    elementTool.lightIntensity = 0;
+					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _curEditPart.id); //new LevelController.LevelElement ();
+					//elementTool.part = _curEditPart.id;
+					//elementTool.go = go;
+                    //elementTool.overwriteStatic = 0;
+                    //elementTool.overwriteGravity = 0;
+                    //elementTool.shaderSnow = 0;
+                    //elementTool.isLocked = false;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 
@@ -1354,13 +1354,13 @@ namespace PrefabWorldEditor
 
                     _levelController.setComponents (go, true, false);
 
-					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
-					elementTool.part = _toolsController.curDungeonTool.dungeonElements [i].part;
-					elementTool.go = go;
-                    elementTool.overwriteStatic = 0;
-                    elementTool.overwriteGravity = 0;
-                    elementTool.shaderSnow = 0;
-                    elementTool.lightIntensity = 0;
+					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _toolsController.curDungeonTool.dungeonElements [i].part); //new LevelController.LevelElement ();
+					//elementTool.part = _toolsController.curDungeonTool.dungeonElements [i].part;
+					//elementTool.go = go;
+                    //elementTool.overwriteStatic = 0;
+                    //elementTool.overwriteGravity = 0;
+                    //elementTool.shaderSnow = 0;
+                    //elementTool.isLocked = false;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 
@@ -1402,13 +1402,13 @@ namespace PrefabWorldEditor
                     //_levelController.setMeshCollider (go, true);
 					//_levelController.setRigidBody (go, _curEditPart.usesGravity);
 
-					LevelController.LevelElement elementTool = new LevelController.LevelElement ();
-					elementTool.part = _curEditPart.id;
-					elementTool.go = go;
-                    elementTool.overwriteStatic = 0;
-                    elementTool.overwriteGravity = 0;
-                    elementTool.shaderSnow = 0;
-                    elementTool.lightIntensity = 0;
+					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _curEditPart.id); //new LevelController.LevelElement ();
+					//elementTool.part = _curEditPart.id;
+					//elementTool.go = go;
+                    //elementTool.overwriteStatic = 0;
+                    //elementTool.overwriteGravity = 0;
+                    //elementTool.shaderSnow = 0;
+                    //elementTool.isLocked = false;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 

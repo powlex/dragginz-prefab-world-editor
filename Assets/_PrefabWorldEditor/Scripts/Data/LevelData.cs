@@ -130,16 +130,17 @@ namespace PrefabWorldEditor
                     scale.y = levelObj.scale.y;
                     scale.z = levelObj.scale.z;
 
-                    LevelController.LevelElement element = new LevelController.LevelElement ();
-					element.part = partId;
+                    LevelController.LevelElement element = LevelController.Instance.createLevelElement(null, partId); //new LevelController.LevelElement ();
+                    //element.part = partId;
 					element.go = prefabLevelEditor.createPartAt (partId, pos.x, pos.y, pos.z);
                     if (element.go != null)
                     {
-                        element.go.transform.rotation = rotation;
+                        element.go.transform.rotation   = rotation;
                         element.go.transform.localScale = scale;
                         element.overwriteGravity = levelObj.overwriteGravity;
-                        element.overwriteStatic = levelObj.overwriteStatic;
-                        element.shaderSnow = levelObj.shaderSnow;
+                        element.overwriteStatic  = levelObj.overwriteStatic;
+                        element.isLocked         = levelObj.isLocked;
+                        element.shaderSnow       = levelObj.shaderSnow;
 
                         if (XRSettings.enabled) {
                             element.go.AddComponent<Teleportable> ();
@@ -235,9 +236,9 @@ namespace PrefabWorldEditor
                 levelObj.scale.z = e.go.transform.localScale.z;
 
                 levelObj.overwriteGravity = e.overwriteGravity;
-                levelObj.overwriteStatic = e.overwriteStatic;
-
-                levelObj.shaderSnow = e.shaderSnow;
+                levelObj.overwriteStatic  = e.overwriteStatic;
+                levelObj.isLocked         = e.isLocked;
+                levelObj.shaderSnow       = e.shaderSnow;
 
                 DynamicAsset dynAssetScript = e.go.GetComponent<DynamicAsset>();
                 levelObj.customData = (dynAssetScript != null ? dynAssetScript.dataToString() : "");

@@ -23,8 +23,8 @@ namespace PrefabWorldEditor
 			public Globals.PartList part;
             public int   overwriteStatic;
             public int   overwriteGravity;
+            public bool  isLocked;
             public float shaderSnow;
-            public float lightIntensity;
 
             public bool gravity() {
                 return (overwriteGravity == 0 ? PrefabLevelEditor.Instance.parts[part].usesGravity : (overwriteGravity == 1 ? true : false));
@@ -222,6 +222,20 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
+        public LevelElement createLevelElement (GameObject go, Globals.PartList partId)
+        {
+            LevelElement e     = new LevelElement();
+            e.go               = go;
+            e.part             = partId;
+            e.overwriteStatic  = 0;
+            e.overwriteGravity = 0;
+            e.isLocked         = false;
+            e.shaderSnow       = 0;
+
+            return e;
+        }
+
+        // ------------------------------------------------------------------------
         public void setComponents (GameObject go, bool colliderEnabled, bool useGravity)
         {
             if (go == null) {
@@ -390,8 +404,8 @@ namespace PrefabWorldEditor
 			e.part = Globals.PartList.End_Of_List;
             e.overwriteStatic = 0;
             e.overwriteGravity = 0;
+            e.isLocked = false;
             e.shaderSnow = 0;
-            e.lightIntensity = 0;
 
             selectedElement = e;
 

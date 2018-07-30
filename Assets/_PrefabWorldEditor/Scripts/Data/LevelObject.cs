@@ -35,6 +35,9 @@ namespace PrefabWorldEditor
         public int overwriteGravity { get; set; }
 
         [SerializeField]
+        public bool isLocked { get; set; }
+
+        [SerializeField]
         public float shaderSnow { get; set; }
 
         [SerializeField]
@@ -112,6 +115,11 @@ namespace PrefabWorldEditor
                 overwriteGravity = Int32.Parse(data["og"]);
             }
 
+            isLocked = false;
+            if (data["l"] != null) {
+                isLocked = (Int32.Parse (data["l"]) == 1);
+            }
+
             shaderSnow = 0;
             if (data["shs"] != null) {
                 shaderSnow = (float)data["shs"];
@@ -139,6 +147,9 @@ namespace PrefabWorldEditor
             }
             if (overwriteGravity != 0) {
                 s += ",\"og\":" + overwriteGravity.ToString();
+            }
+            if (isLocked) {
+                s += ",\"l\":1";
             }
             if (shaderSnow != 0) {
                 s += ",\"shs\":" + shaderSnow.ToString();
