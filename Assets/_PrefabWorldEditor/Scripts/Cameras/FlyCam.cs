@@ -3,9 +3,6 @@
 // Company : Decentralised Team of Developers
 //
 
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 
 using AssetsShared;
@@ -18,8 +15,6 @@ namespace PrefabWorldEditor
 
 		private static float movementSpeed = 0.15f;
 
-		//private Camera _myCam;
-
 		private Transform _player;
 		private Vector3 _initialPos;
 		private Vector3 _initialRotation;
@@ -27,11 +22,8 @@ namespace PrefabWorldEditor
 		private Vector3 playerEuler;
 		private Vector3 camOffset;
         
-		//private float _time;
-		//private float _nextPosUpdate;
-
         private bool _mouseRightIsDown;
-        //private bool _move;
+        private bool _mouseWheelIsDown;
 
         public bool drawWireframe;
 
@@ -45,8 +37,6 @@ namespace PrefabWorldEditor
 
 		void Awake()
 		{
-			//_myCam = GetComponent<Camera> ();
-
 			_player = transform.parent;
 
 			_initialPos = _player.position;
@@ -54,11 +44,8 @@ namespace PrefabWorldEditor
 
 			playerEuler = _player.eulerAngles;
 
-			//_time = 0;
-			//_nextPosUpdate = 0;
-
             _mouseRightIsDown = false;
-            //_move = false;
+            _mouseWheelIsDown = false;
 
             drawWireframe = false;
         }
@@ -66,10 +53,11 @@ namespace PrefabWorldEditor
 		//
 		void Update ()
 		{
-			//_time = Time.realtimeSinceStartup;
-			//_move = Input.GetAxis ("Horizontal") != 0.0f || Input.GetAxis ("Vertical") != 0.0f || Input.GetAxis ("Depth") != 0.0f;
+            if (PweMainMenu.Instance.popup.isVisible ()) {
+                return;
+            }
 
-			if (!_mouseRightIsDown) {
+            if (!_mouseRightIsDown) {
 				if (Input.GetMouseButtonDown (1)) {
 					_mouseRightIsDown = true;
 				}
@@ -80,18 +68,29 @@ namespace PrefabWorldEditor
 				}
 			}
 
-			// Looking around with the mouse
-			if (_mouseRightIsDown) {
-				//Debug.Log ("mouse is down - axis x: " + Input.GetAxis ("Mouse X"));
+            if (!_mouseWheelIsDown) {
+                if (Input.GetMouseButtonDown (2)) {
+                    _mouseWheelIsDown = true;
+                }
+            }
+            else {
+                if (Input.GetMouseButtonUp (2)) {
+                    _mouseWheelIsDown = false;
+                }
+            }
+
+            // Looking around with the mouse
+            if (_mouseRightIsDown) {
 				_player.Rotate(-2f * Input.GetAxis("Mouse Y"), 2f * Input.GetAxis("Mouse X"), 0);
 				playerEuler = _player.eulerAngles;
 				playerEuler.z = 0;
 				_player.eulerAngles = playerEuler;
 			}
+            else if (_mouseWheelIsDown) {
+                _player.Translate (-0.2f * Input.GetAxis ("Mouse X"), -0.2f * Input.GetAxis ("Mouse Y"), 0);
+            }
 
 			_player.position += (transform.right * Input.GetAxis ("Horizontal") + transform.forward * Input.GetAxis ("Vertical") + transform.up * Input.GetAxis ("Depth")) * movementSpeed;
-
-            //Debug.Log(transform.forward);
 		}
 
         void OnPreRender()

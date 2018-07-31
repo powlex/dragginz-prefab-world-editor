@@ -310,9 +310,9 @@ namespace PrefabWorldEditor
         public void clearLevel()
 		{
 			setNewEditPart(_assetTypeList[_assetType][0]); // reset to floor tile
-			setEditMode(EditMode.None);
+			setEditMode(EditMode.None, true); // force reset
 
-			PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Confirmation, "Clear Level", "Are you sure?", clearLevelConfirm);
+            PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Confirmation, "Clear Level", "Are you sure?", clearLevelConfirm);
 		}
 
         public void clearLevelConfirm(int buttonId) {
@@ -339,9 +339,9 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        public void setEditMode(EditMode mode)
+        public void setEditMode(EditMode mode, bool force = false)
 		{
-            if (mode != _editMode) {
+            if (force || mode != _editMode) {
 
                 _editMode = mode;
 
@@ -573,25 +573,32 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		private void updateEditMode()
 		{
-			if (Input.GetKeyDown (KeyCode.Escape)) {
-				if (PweMainMenu.Instance.popup.isVisible ()) {
-					PweMainMenu.Instance.popup.hide ();
-				} else if (_toolsController.curPlacementTool != null) {
-					resetCurPlacementTool ();
-				} else if (_toolsController.curDungeonTool != null) {
-					resetCurDungeonTool ();
-				} else if (_toolsController.curRoomTool != null) {
-					resetCurRoomTool ();
-				}
-				else {
-					setEditMode (EditMode.Transform);
-				}
-			}
-			else if (Input.GetKeyDown (KeyCode.P)) {
+            if (Input.GetKeyDown (KeyCode.Escape))
+            {
+                if (PweMainMenu.Instance.popup.isVisible ()) {
+                    PweMainMenu.Instance.popup.hide ();
+                } else if (_toolsController.curPlacementTool != null) {
+                    resetCurPlacementTool ();
+                } else if (_toolsController.curDungeonTool != null) {
+                    resetCurDungeonTool ();
+                } else if (_toolsController.curRoomTool != null) {
+                    resetCurRoomTool ();
+                }
+                else {
+                    setEditMode (EditMode.Transform, true); // force reset
+                }
+            }
+            else
+            {
+                if (PweMainMenu.Instance.popup.isVisible ()) {
+                    return;
+                }
+            }
+
+			if (Input.GetKeyDown (KeyCode.P)) {
 				setEditMode (EditMode.Play);
 			}
-
-            if (Input.GetKeyDown(KeyCode.LeftShift)) {
+            else if (Input.GetKeyDown(KeyCode.LeftShift)) {
                 FlyCam.Instance.drawWireframe = true;
             }
             else if (Input.GetKeyUp(KeyCode.LeftShift)) {
@@ -1020,12 +1027,15 @@ namespace PrefabWorldEditor
 					Part part = _parts [_levelController.selectedElement.part];
 					setMarkerScale (part);
 
-					gizmoTranslateScript.translateTarget = _levelController.selectedElement.go;
-					gizmoTranslateScript.init();
-					gizmoRotateScript.rotateTarget = _levelController.selectedElement.go;
-					gizmoRotateScript.init();
+                    setTransformGizmos (!_levelController.selectedElement.isLocked);
+                    /*if (!_levelController.selectedElement.isLocked) {
+                        gizmoTranslateScript.translateTarget = _levelController.selectedElement.go;
+                        gizmoTranslateScript.init ();
+                        gizmoRotateScript.rotateTarget = _levelController.selectedElement.go;
+                        gizmoRotateScript.init ();
+                    }*/
 
-					selectTransformTool (PweMainMenu.Instance.iSelectedTool);
+					//selectTransformTool (PweMainMenu.Instance.iSelectedTool);
 
 					PweMainMenu.Instance.showAssetInfoPanel (false);
                     PweMainMenu.Instance.showInstanceInfoPanel (true);
@@ -1209,8 +1219,10 @@ namespace PrefabWorldEditor
 
 				setMarkerScale (newPart);
 
-				gizmoTranslateScript.translateTarget = _levelController.selectedElement.go;
-				gizmoRotateScript.rotateTarget = _levelController.selectedElement.go;
+                if (!_levelController.selectedElement.isLocked) {
+                    gizmoTranslateScript.translateTarget = _levelController.selectedElement.go;
+                    gizmoRotateScript.rotateTarget = _levelController.selectedElement.go;
+                }
 			}
 		}
 
@@ -1567,6 +1579,7 @@ namespace PrefabWorldEditor
             setWall("wall_d", "bounds_d", new Vector3(w, d, 1), new Vector3(w / 2f, 0, d / 2f), new Vector2(w, d));
         }
 
+        // ------------------------------------------------------------------------
         private void setWall(string name, string boundsName, Vector3 scale, Vector3 pos, Vector2 matScale) {
 
             Transform child = trfmWalls.Find(name);
@@ -1584,8 +1597,8 @@ namespace PrefabWorldEditor
 
             child = trfmBounds.Find(boundsName);
             if (child != null) {
-                child.localScale = scale;
-                child.localPosition = pos;
+                //child.localScale = scale;
+                //child.localPosition = pos;
                 child.gameObject.isStatic = true;
             }
         }
@@ -1597,28 +1610,41 @@ namespace PrefabWorldEditor
 
 			_levelController.resetSelectedElement ();
 
-			gizmoTranslateScript.translateTarget = null;
-			gizmoTranslateScript.gameObject.SetActive (false);
-
-			if (_groupEventHandlerSet) {
-				gizmoTranslateScript.positionChanged -= onSelectedObjectPositionChanged;
-				_groupEventHandlerSet = false;
-			}
-
-			gizmoRotateScript.rotateTarget = null;
-			gizmoRotateScript.gameObject.SetActive (false);
+            setTransformGizmos (false);
 
 			PweMainMenu.Instance.showAssetInfoPanel (false);
             PweMainMenu.Instance.showInstanceInfoPanel (false);
 
             PweMainMenu.Instance.setSpecialHelpText ("");
-            //PweMainMenu.Instance.showSnowLevelPanel(false);
         }
 
-		// ------------------------------------------------------------------------
-		// Marker stuff
-		// ------------------------------------------------------------------------
-		private void setMarkerActive(bool state)
+        // ------------------------------------------------------------------------
+        public void setTransformGizmos(bool state)
+        {
+            GameObject go = (state ? LevelController.Instance.selectedElement.go : null);
+
+            gizmoTranslateScript.translateTarget = go;
+            gizmoTranslateScript.gameObject.SetActive (state);
+
+            if (state) {
+                gizmoTranslateScript.init ();
+                selectTransformTool (PweMainMenu.Instance.iSelectedTool);
+            }
+            else {
+                if (_groupEventHandlerSet) {
+                    gizmoTranslateScript.positionChanged -= onSelectedObjectPositionChanged;
+                    _groupEventHandlerSet = false;
+                }
+            }
+
+            gizmoRotateScript.rotateTarget = null;
+            gizmoRotateScript.gameObject.SetActive (false);
+        }
+
+        // ------------------------------------------------------------------------
+        // Marker stuff
+        // ------------------------------------------------------------------------
+        private void setMarkerActive(bool state)
 		{
 			_trfmMarkerX.gameObject.SetActive (state);
 			_trfmMarkerY.gameObject.SetActive (state);

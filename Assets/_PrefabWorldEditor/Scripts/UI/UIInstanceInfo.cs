@@ -130,7 +130,6 @@ namespace PrefabWorldEditor
         // ---------------------------------------------------------------------------------------------
         public void onLockedValueChange (bool value) {
 
-            Debug.Log ("onLockedValueChange");
             if (LevelController.Instance.selectedElement.go != null) {
 
                 LevelController.LevelElement e = LevelController.Instance.selectedElement;
@@ -138,6 +137,8 @@ namespace PrefabWorldEditor
                 LevelController.Instance.selectedElement = e;
 
                 LevelController.Instance.saveSelectElement ();
+
+                PrefabLevelEditor.Instance.setTransformGizmos (!toggleLocked.isOn);
             }
         }
 

@@ -505,8 +505,7 @@ namespace PrefabWorldEditor
 		// ---------------------------------------------------------------------------------------------
 		private void showNewLevelDialog()
 		{
-            PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform);
-            //EditorObjectSelection.Instance.ClearSelection(false);
+            PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform, true); // force reset
 
             _popup.showPopup (Globals.PopupMode.NewLevel, "New Level", "", createNewLevel);
 		}
@@ -533,7 +532,7 @@ namespace PrefabWorldEditor
         // Load Test Level
         // ---------------------------------------------------------------------------------------------
         private void showLoadTestLevelDialog() {
-            PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform);
+            PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform, true); // force reset
             _popup.showPopup(Globals.PopupMode.Confirmation, "Load Test Level", "Are you sure?\nAll unsaved changes will be lost!", loadTestLevel);
         }
 
@@ -552,10 +551,9 @@ namespace PrefabWorldEditor
         // ---------------------------------------------------------------------------------------------
         private void showLoadFileDialog() {
 
-			//EditorObjectSelection.Instance.ClearSelection(false);
-			PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform);
+			PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform, true); // force reset
 
-			#if UNITY_WEBGL
+#if UNITY_WEBGL
 				_popup.showPopup(
 					Globals.PopupMode.Notification,
 					Globals.txtSorry,
@@ -563,9 +561,9 @@ namespace PrefabWorldEditor
 					webGLPopupCallbackLoad
 				);
 				return;
-			#endif
+#endif
 
-			_popup.showPopup (Globals.PopupMode.Confirmation, "Load Level", "Are you sure?\nAll unsaved changes will be lost!", showLoadFileBrowser);
+            _popup.showPopup (Globals.PopupMode.Confirmation, "Load Level", "Are you sure?\nAll unsaved changes will be lost!", showLoadFileBrowser);
         }
 
 		//
@@ -594,9 +592,9 @@ namespace PrefabWorldEditor
 		// ---------------------------------------------------------------------------------------------
         private void showSaveFileDialog() {
 
-			PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform);
+			PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform, true); // force reset
 
-			#if UNITY_WEBGL
+#if UNITY_WEBGL
 				_popup.showPopup(
 					Globals.PopupMode.Notification,
                     Globals.txtSorry,
@@ -604,9 +602,9 @@ namespace PrefabWorldEditor
                     webGLPopupCallbackSave
                 );
 				return;
-			#endif
+#endif
 
-			_popup.showPopup(Globals.PopupMode.Input, "Save Level", "Level Name: (50 chars max)", "Enter Level Name...", showSaveFileDialogContinue);
+            _popup.showPopup(Globals.PopupMode.Input, "Save Level", "Level Name: (50 chars max)", "Enter Level Name...", showSaveFileDialogContinue);
         }
 
 		//
@@ -745,14 +743,14 @@ namespace PrefabWorldEditor
         public void onPointerDownFile(BaseEventData data) {
             if (_trfmDropDownFile) {
                 resetDropDown(_trfmDropDownFile);
-                PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform);
+                PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform, true); // force reset
             }
         }
 
 		public void onPointerDownLevel(BaseEventData data) {
 			if (_trfmDropDownLevel) {
 				resetDropDown(_trfmDropDownLevel);
-                PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform);
+                PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform, true); // force reset
             }
 		}
 
