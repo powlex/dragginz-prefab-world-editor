@@ -89,6 +89,7 @@ namespace PrefabWorldEditor
             Light_Lantern,
             Light_Torch,
             Moving_Platform,
+            Impling,
             End_Of_List
 		};
 

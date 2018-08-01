@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4104500168415742}
   - component: {fileID: 33060449684538840}
   - component: {fileID: 23478521562230080}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovingPlatformCorner (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4199348511391250}
   - component: {fileID: 33159731271652100}
   - component: {fileID: 23483935687035682}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovingPlatformSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4692828769657760}
   - component: {fileID: 33071580636085094}
   - component: {fileID: 23346732551090010}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovingPlatformSide (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 4606925585374502}
   - component: {fileID: 33444369585643338}
   - component: {fileID: 23597668595045508}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovingPlatformCorner (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4889226555283512}
   - component: {fileID: 33387108697354048}
   - component: {fileID: 23923297347147124}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovingPlatformCorner (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 4039331509736532}
   - component: {fileID: 33525336880411336}
   - component: {fileID: 23968963613093228}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovingPlatformCorner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 114142354689399860}
   - component: {fileID: 114360688432479386}
   - component: {fileID: 114477850545858540}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovingPlatform
   m_TagString: PartContainer
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 114308977764646214}
   - component: {fileID: 54785275811346474}
   - component: {fileID: 65321573377321350}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MovingPlatformRigidbody
   m_TagString: Untagged
   m_Icon: {fileID: 0}

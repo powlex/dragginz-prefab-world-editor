@@ -208,6 +208,7 @@ namespace PrefabWorldEditor
 
             // Misc
             createPart (Globals.PartList.Moving_Platform, Globals.AssetType.Misc, "3DGameKit/Misc/MovingPlatform", 2.00f, 0.50f, 2.00f, Vector3Int.one, false, "Moving Platform");
+            createPart (Globals.PartList.Impling,         Globals.AssetType.Misc, "Enemies/Impling",               1.00f, 0.75f, 1.00f, Vector3Int.one, true,  "Impling");
 
             //
 

@@ -16,10 +16,10 @@ TagManager:
   - 
   - 
   - DynamicMenusVR
-  - 
-  - 
+  - Player
+  - Environment
   - GizmoLayer
-  - 
+  - Enemy
   - 
   - 
   - 
