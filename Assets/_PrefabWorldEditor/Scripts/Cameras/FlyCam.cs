@@ -14,8 +14,9 @@ namespace PrefabWorldEditor
 		public Material matLineBounds;
 
 		private static float movementSpeed = 0.15f;
+        private static float mouseWheelSpeed = 5.0f;
 
-		private Transform _player;
+        private Transform _player;
 		private Vector3 _initialPos;
 		private Vector3 _initialRotation;
 
@@ -104,7 +105,12 @@ namespace PrefabWorldEditor
 		}
 
 		//
+        public void mouseWheelMove(float value)
+        {
+            _player.position += transform.forward * value * mouseWheelSpeed;
+        }
 
+        //
 		public void setNewInitialPosition(Vector3 newPos, Vector3 newRot)
 		{
 			_initialPos = newPos;

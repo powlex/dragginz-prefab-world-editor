@@ -13,7 +13,7 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v07.31.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v08.01.1a";
 
         static public readonly string resourcesPath = "Assets/_PrefabWorldEditor/Resources/";
 
@@ -36,7 +36,8 @@ namespace PrefabWorldEditor
 			Chunk,
 			Prop,
 			Dungeon,
-            Lights
+            Lights,
+            Misc
 		};
 
 		public enum PartList {
@@ -87,6 +88,7 @@ namespace PrefabWorldEditor
 			Dungeon_Corner_NF,
             Light_Lantern,
             Light_Torch,
+            Moving_Platform,
             End_Of_List
 		};
 

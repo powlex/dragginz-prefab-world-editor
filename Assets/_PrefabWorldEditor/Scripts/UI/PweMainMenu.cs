@@ -57,7 +57,8 @@ namespace PrefabWorldEditor
 		public Button btnAssetChunks;
 		public Button btnAssetProps;
 		public Button btnAssetDungeons;
-        public Button btnAssetInteractables;
+        public Button btnAssetLights;
+        public Button btnAssetMisc;
 
         public Button btnPlacementToolCircle;
 		public Button btnPlacementToolQuad;
@@ -267,7 +268,8 @@ namespace PrefabWorldEditor
 			btnAssetChunks.interactable   = (type != Globals.AssetType.Chunk);
 			btnAssetProps.interactable    = (type != Globals.AssetType.Prop);
 			btnAssetDungeons.interactable = (type != Globals.AssetType.Dungeon);
-            btnAssetInteractables.interactable = (type != Globals.AssetType.Lights);
+            btnAssetLights.interactable   = (type != Globals.AssetType.Lights);
+            btnAssetMisc.interactable     = (type != Globals.AssetType.Misc);
         }
 
         // ------------------------------------------------------------------------

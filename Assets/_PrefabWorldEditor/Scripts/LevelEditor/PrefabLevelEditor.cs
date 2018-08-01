@@ -108,6 +108,7 @@ namespace PrefabWorldEditor
 
         private bool _bSpotLightsActive;
 
+        private float _mousewheel;
         private float _timer;
         private float _lastMouseWheelUpdate;
 
@@ -205,9 +206,12 @@ namespace PrefabWorldEditor
             createPart(Globals.PartList.Light_Lantern, Globals.AssetType.Lights, "Lights/Light_Lantern", 0.25f, 0.50f, 0.25f, Vector3Int.one, false, "Lantern");
             createPart(Globals.PartList.Light_Torch,   Globals.AssetType.Lights, "Lights/Light_Torch",   0.25f, 1.50f, 0.25f, Vector3Int.one, false, "Torch");
 
+            // Misc
+            createPart (Globals.PartList.Moving_Platform, Globals.AssetType.Misc, "3DGameKit/Misc/MovingPlatform", 2.00f, 0.50f, 2.00f, Vector3Int.one, false, "Moving Platform");
+
             //
 
-            createAssetTypeCount();
+            createAssetTypeCount ();
 
             container = new GameObject("[Container]").transform;
 
@@ -341,6 +345,7 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void setEditMode(EditMode mode, bool force = false)
 		{
+            //Debug.Log ("setEditMode "+mode);
             if (force || mode != _editMode) {
 
                 _editMode = mode;
@@ -617,7 +622,9 @@ namespace PrefabWorldEditor
 				_rayDistance = _hit.distance;
 			}
 
-			if (_editMode == EditMode.Transform)
+            _mousewheel = Input.GetAxis ("Mouse ScrollWheel");
+
+            if (_editMode == EditMode.Transform)
 			{
 				if (Input.GetMouseButtonDown (0))
 				{
@@ -645,6 +652,11 @@ namespace PrefabWorldEditor
 						positionSelectedElement ();
 					}
 				}
+                else {
+                    if (_mousewheel != 0) {
+                        FlyCam.Instance.mouseWheelMove (_mousewheel);
+                    }
+                }
 			}
 			else if (_editMode == EditMode.Place)
 			{
@@ -839,14 +851,14 @@ namespace PrefabWorldEditor
 			// Mousewheel
 			//
 
-			float mousewheel = Input.GetAxis ("Mouse ScrollWheel");
+			//_mousewheel = Input.GetAxis ("Mouse ScrollWheel");
 
-			if (mousewheel != 0)
+			if (_mousewheel != 0)
 			{
 				if (_timer > _lastMouseWheelUpdate)
 				{
 					_lastMouseWheelUpdate = _timer + 0.2f;
-					float dir = (mousewheel > 0 ? 1 : -1);
+					float dir = (_mousewheel > 0 ? 1 : -1);
 
 					if (_toolsController.curDungeonTool != null) {
 					
@@ -867,7 +879,7 @@ namespace PrefabWorldEditor
 						} else if (Input.GetKey (KeyCode.Alpha3)) {
 							PwePlacementTools.Instance.updateDensityValue ((int)dir, _toolsController.curPlacementTool.placementMode);
 						} else {
-							toggleEditPart (mousewheel);
+							toggleEditPart (_mousewheel);
 							_toolsController.curPlacementTool.updatePart (_curEditPart);
 						}
 					}
@@ -879,7 +891,7 @@ namespace PrefabWorldEditor
 						else if (Input.GetKey (KeyCode.Alpha2)) {
 							PweRoomTools.Instance.updateHeightValue ((int)dir, _toolsController.curRoomTool.roomPattern);
 						} else {
-							toggleEditPart (mousewheel);
+							toggleEditPart (_mousewheel);
 							_toolsController.curRoomTool.updatePart (_curEditPart);
 						}
 					}
@@ -907,7 +919,7 @@ namespace PrefabWorldEditor
                             scale.z += (scale.z * .1f * dir);
                             _goEditPart.transform.localScale = scale;
 						} else {
-							toggleEditPart (mousewheel);
+							toggleEditPart (_mousewheel);
 						}
 					}
 				}
@@ -1114,16 +1126,16 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		private void positionSelectedElement()
 		{
-			float mousewheel = Input.GetAxis ("Mouse ScrollWheel");
+			//float _mousewheel = Input.GetAxis ("Mouse ScrollWheel");
 
-			if (mousewheel != 0)
+			if (_mousewheel != 0)
 			{
 				if (_timer > _lastMouseWheelUpdate)
 				{
 					Part part = _parts [_levelController.selectedElement.part];
 
 					_lastMouseWheelUpdate = _timer + 0.2f;
-					float dir = (mousewheel > 0 ? 1 : -1);
+					float dir = (_mousewheel > 0 ? 1 : -1);
                     float multiply = (part.type == Globals.AssetType.Dungeon ? 90f * dir : 15f * dir);
 
                     if (Input.GetKey (KeyCode.X)) {
@@ -1147,7 +1159,7 @@ namespace PrefabWorldEditor
                         _levelController.selectedElement.go.transform.localScale = scale;
 					}
 					else {
-						toggleSelectedElement (mousewheel);
+						toggleSelectedElement (_mousewheel);
 					}
 				}
 			}
@@ -1258,23 +1270,16 @@ namespace PrefabWorldEditor
 
 			if (_toolsController.curPlacementTool == null && _toolsController.curDungeonTool == null && _toolsController.curRoomTool == null)
 			{
-				LevelController.LevelElement element = LevelController.Instance.createLevelElement(null, _curEditPart.id); //new LevelController.LevelElement ();
-                //element.part = _curEditPart.id;
+				LevelController.LevelElement element = LevelController.Instance.createLevelElement(null, _curEditPart.id);
 				element.go = createPartAt (_curEditPart.id, pos.x, pos.y, pos.z);
                 element.go.transform.rotation = _goEditPart.transform.rotation;
                 element.go.transform.localScale = scale;
-                //element.overwriteStatic = 0;
-                //element.overwriteGravity = 0;
-                //element.isLocked = false;
-                //element.shaderSnow = 0;
 
                 if (_curEditPart.type == Globals.AssetType.Floor) {
                     element.go.AddComponent<Teleportable>();
                 }
 
                 _levelController.setComponents (element.go, true, _curEditPart.usesGravity);
-                //_levelController.setMeshCollider (element.go, true);
-				//_levelController.setRigidBody (element.go, _curEditPart.usesGravity);
 
 				_levelController.levelElements.Add (element.go.name, element);
 			}
@@ -1316,16 +1321,8 @@ namespace PrefabWorldEditor
 					go.name = "part_" + (_iCounter++).ToString ();
 
                     _levelController.setComponents (go, true, _curEditPart.usesGravity);
-                    //_levelController.setMeshCollider (go, true);
-					//_levelController.setRigidBody (go, _curEditPart.usesGravity);
 
-					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _curEditPart.id); //new LevelController.LevelElement ();
-					//elementTool.part = _curEditPart.id;
-					//elementTool.go = go;
-                    //elementTool.overwriteStatic = 0;
-                    //elementTool.overwriteGravity = 0;
-                    //elementTool.shaderSnow = 0;
-                    //elementTool.isLocked = false;
+					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _curEditPart.id);
 
                     _levelController.levelElements.Add (go.name, elementTool);
 
@@ -1366,13 +1363,7 @@ namespace PrefabWorldEditor
 
                     _levelController.setComponents (go, true, false);
 
-					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _toolsController.curDungeonTool.dungeonElements [i].part); //new LevelController.LevelElement ();
-					//elementTool.part = _toolsController.curDungeonTool.dungeonElements [i].part;
-					//elementTool.go = go;
-                    //elementTool.overwriteStatic = 0;
-                    //elementTool.overwriteGravity = 0;
-                    //elementTool.shaderSnow = 0;
-                    //elementTool.isLocked = false;
+					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _toolsController.curDungeonTool.dungeonElements [i].part);
 
                     _levelController.levelElements.Add (go.name, elementTool);
 
@@ -1411,16 +1402,8 @@ namespace PrefabWorldEditor
 					go.name = "part_" + (_iCounter++).ToString ();
 
                     _levelController.setComponents (go, true, _curEditPart.usesGravity);
-                    //_levelController.setMeshCollider (go, true);
-					//_levelController.setRigidBody (go, _curEditPart.usesGravity);
 
-					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _curEditPart.id); //new LevelController.LevelElement ();
-					//elementTool.part = _curEditPart.id;
-					//elementTool.go = go;
-                    //elementTool.overwriteStatic = 0;
-                    //elementTool.overwriteGravity = 0;
-                    //elementTool.shaderSnow = 0;
-                    //elementTool.isLocked = false;
+					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _curEditPart.id);
 
                     _levelController.levelElements.Add (go.name, elementTool);
 

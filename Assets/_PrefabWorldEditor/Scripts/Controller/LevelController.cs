@@ -138,11 +138,7 @@ namespace PrefabWorldEditor
         public LevelElement selectedElement { get; set; }
         private SelectedElementComponents _selectedElementComponents;
 
-        //private List<MeshRenderer> _selectedMeshRenderers;
-        //private List<Material> _selectedMaterials;
-
         private List<GameObject> _tempListOfChildren;
-        //private List<GameObject> _childrenOfSelectedElement;
 
         #endregion
 
@@ -168,17 +164,9 @@ namespace PrefabWorldEditor
 			aElementGroups = new List<ElementGroup> ();
 			iSelectedGroupIndex = -1;
 
-			//_selectedMeshRenderers = new List<MeshRenderer> ();
-
-            //_selectedMaterials = new List<Material>();
-
             _tempListOfChildren = new List<GameObject> ();
-            //_childrenOfSelectedElement = new List<GameObject>();
-
-            //hasSnowShader = false;
 
             _selectedElementComponents = new SelectedElementComponents ();
-            //selectedElementComponents.reset ();
 
             resetSelectedElement ();
         }
@@ -194,7 +182,6 @@ namespace PrefabWorldEditor
 			aElementGroups.Clear ();
 
             _selectedElementComponents.reset ();
-            //hasSnowShader = false;
         }
 
         // ------------------------------------------------------------------------
@@ -269,39 +256,6 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        /*public void setMeshColliders (bool state)
-		{
-			_listOfChildren.Clear ();
-
-			foreach (KeyValuePair<string, LevelController.LevelElement> element in levelElements)
-			{
-				getChildrenRecursive (element.Value.go);
-			}
-
-			int i, len = _listOfChildren.Count;
-			for (i = 0; i < len; ++i) {
-				if (_listOfChildren [i].GetComponent<Collider> ()) {
-					_listOfChildren [i].GetComponent<Collider> ().enabled = state;
-				}
-			}
-		}*/
-
-        // ------------------------------------------------------------------------
-        /*public void setRigidBody (GameObject go, bool state) {
-
-			if (go.GetComponent<Rigidbody>()) {
-				go.GetComponent<Rigidbody>().useGravity = state;
-			}
-			else {
-				foreach (Transform child in go.transform) {
-					if (child.gameObject.GetComponent<Rigidbody> ()) {
-						child.gameObject.GetComponent<Rigidbody> ().useGravity = state;
-					}
-				}
-			}
-		}*/
-
-        // ------------------------------------------------------------------------
         public void setSnowLevel(GameObject go, float value)
         {
             if (go == null) {
@@ -326,31 +280,9 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void selectElement (string name)
 		{
-            //hasSnowShader = false;
-
-            //_childrenOfSelectedElement.Clear();
-            //_childrenOfSelectedElement = getChildrenRecursive(selectedElement.go);
-
             selectedElement = levelElements [name];
             _selectedElementComponents.init (getChildrenRecursive (selectedElement.go));
             setSelectedElementComponents (false, false);
-            //setMeshCollider(selectedElement.go, false);
-			//setRigidBody (selectedElement.go, false);
-
-			//getSelectedMeshRenderers (selectedElement.go, iSelectedGroupIndex);
-			//getSelectedMeshRendererBounds ();
-
-            // snow shader
-            /*
-            _selectedMaterials.Clear();
-            int i, len = _selectedMeshRenderers.Count;
-            for (i = 0; i < len; ++i) {
-                if (_selectedMeshRenderers[i].material.shader.name == Globals.snowShaderName) {
-                    _selectedMaterials.Add(_selectedMeshRenderers[i].material);
-                    hasSnowShader = true;
-                }
-            }
-            */
         }
 
         // ------------------------------------------------------------------------
@@ -393,8 +325,6 @@ namespace PrefabWorldEditor
 
 			selectedElement = e;
             _selectedElementComponents.reset ();
-
-            //hasSnowShader = false;
         }
 
         // ------------------------------------------------------------------------
@@ -410,10 +340,6 @@ namespace PrefabWorldEditor
             selectedElement = e;
 
             _selectedElementComponents.reset ();
-            //_selectedMeshRenderers.Clear ();
-			//selectedElementBounds = new Bounds();
-
-            //hasSnowShader = false;
         }
 
         // ------------------------------------------------------------------------
@@ -423,9 +349,7 @@ namespace PrefabWorldEditor
 
 				PrefabLevelEditor.Part part = PrefabLevelEditor.Instance.parts [selectedElement.part];
 
-				//setMeshCollider(selectedElement.go, true);
                 bool gravity = (selectedElement.overwriteGravity == 0 ? part.usesGravity : (selectedElement.overwriteGravity == 1 ? true : false));
-                //setRigidBody (selectedElement.go, gravity);
                 setSelectedElementComponents (true, gravity);
 			}
 		}
@@ -433,7 +357,6 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		public void updatedSelectedObjectPosition(Vector3 posChange)
 		{
-            //getSelectedMeshRendererBounds ();
             _selectedElementComponents.getMeshRendererBounds ();
 
 			if (iSelectedGroupIndex != -1) {
@@ -449,52 +372,6 @@ namespace PrefabWorldEditor
 				}
 			}
 		}
-
-		// ------------------------------------------------------------------------
-		/*public void getSelectedMeshRenderers (GameObject go, int iSelectedGroupIndex)
-		{
-			_selectedMeshRenderers.Clear ();
-
-			_tempListOfChildren.Clear ();
-
-			int i, len;
-
-			if (iSelectedGroupIndex != -1)
-			{
-				len = aElementGroups [iSelectedGroupIndex].gameObjects.Count;
-				for (i = 0; i < len; ++i) {
-					getChildrenRecursive (aElementGroups [iSelectedGroupIndex].gameObjects [i]);
-				}
-			}
-			else
-			{
-				getChildrenRecursive (go);
-			}
-
-			len = _tempListOfChildren.Count;
-			for (i = 0; i < len; ++i) {
-				if (_tempListOfChildren [i].GetComponent<MeshRenderer> ()) {
-					_selectedMeshRenderers.Add(_tempListOfChildren [i].GetComponent<MeshRenderer> ());
-				}
-			}
-		}*/
-
-		// ------------------------------------------------------------------------
-		/*private void getSelectedMeshRendererBounds()
-		{
-			if (selectedElement.go != null) {
-				if (selectedElement.part != Globals.PartList.End_Of_List) {
-
-                    if (_selectedMeshRenderers.Count > 0) {
-						selectedElementBounds = _selectedMeshRenderers [0].bounds;
-						int i, len = _selectedMeshRenderers.Count;
-						for (i = 1; i < len; ++i) {
-							selectedElementBounds.Encapsulate (_selectedMeshRenderers [i].bounds);
-                        }
-					}
-				}
-			}
-		}*/
 
 		// ------------------------------------------------------------------------
 		public int findElementInGroup(GameObject go)
