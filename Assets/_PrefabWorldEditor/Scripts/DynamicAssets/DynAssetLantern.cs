@@ -110,6 +110,42 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
+        //
+        // ------------------------------------------------------------------------
+        public override float getCurSliderValue (int elementIndex)
+        {
+            if (elementIndex == 1) {
+                return _intensity;
+            }
+            else if (elementIndex == 2) {
+                return _range;
+            }
+            else if (elementIndex == 3) {
+                return _colorR;
+            }
+            else if (elementIndex == 4) {
+                return _colorG;
+            }
+            else if (elementIndex == 5) {
+                return _colorB;
+            }
+
+            return 0;
+        }
+
+        // ------------------------------------------------------------------------
+        public override bool getCurToggleValue (int elementIndex)
+        {
+            if (elementIndex == 0) {
+                return _isActive;
+            }
+
+            return false;
+        }
+
+        // ------------------------------------------------------------------------
+        //
+        // ------------------------------------------------------------------------
         public override string dataToString ()
         {
             string s = "";

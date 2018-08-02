@@ -62,6 +62,8 @@ namespace PrefabWorldEditor
         #region PublicOverrideMethods
 
         // ------------------------------------------------------------------------
+        //
+        // ------------------------------------------------------------------------
         public virtual void updateSliderValue(int elementIndex, float value)
         {
             // OVERRIDE ME
@@ -79,6 +81,31 @@ namespace PrefabWorldEditor
             // OVERRIDE ME
         }
 
+        // ------------------------------------------------------------------------
+        //
+        // ------------------------------------------------------------------------
+        public virtual float getCurSliderValue (int elementIndex)
+        {
+            // OVERRIDE ME
+            return 0;
+        }
+
+        // ------------------------------------------------------------------------
+        public virtual bool getCurToggleValue (int elementIndex)
+        {
+            // OVERRIDE ME
+            return false;
+        }
+
+        // ------------------------------------------------------------------------
+        public virtual int getCurDropdownValue (int elementIndex)
+        {
+            // OVERRIDE ME
+            return 0;
+        }
+
+        // ------------------------------------------------------------------------
+        //
         // ------------------------------------------------------------------------
         public virtual string dataToString ()
         {

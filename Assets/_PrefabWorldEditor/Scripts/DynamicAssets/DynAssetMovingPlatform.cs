@@ -15,7 +15,7 @@ namespace PrefabWorldEditor
     {
         public SimpleTranslator translatorScript;
 
-        private bool _isActive = true;
+        private bool _isActive = false;
 
         private float _height = 2f;
         private float _duration = 5f;
@@ -34,10 +34,7 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        //void Update ()
-        //{
-        //}
-
+        //
         // ------------------------------------------------------------------------
         public override void updateSliderValue (int elementIndex, float value)
         {
@@ -61,6 +58,33 @@ namespace PrefabWorldEditor
             setPlatform ();
         }
 
+        // ------------------------------------------------------------------------
+        //
+        // ------------------------------------------------------------------------
+        public override float getCurSliderValue (int elementIndex)
+        {
+            if (elementIndex == 1) {
+                return _height;
+            }
+            else if (elementIndex == 2) {
+                return _duration;
+            }
+
+            return 0;
+        }
+
+        // ------------------------------------------------------------------------
+        public override bool getCurToggleValue (int elementIndex)
+        {
+            if (elementIndex == 0) {
+                return _isActive;
+            }
+
+            return false;
+        }
+
+        // ------------------------------------------------------------------------
+        //
         // ------------------------------------------------------------------------
         public override string dataToString ()
         {

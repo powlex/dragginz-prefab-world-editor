@@ -57,29 +57,36 @@ namespace PrefabWorldEditor
         #region PublicMethods
 
         // ---------------------------------------------------------------------------------------------
-        public void init(List<Globals.UIElementSetup> setupList)
+        public void init(DynamicAsset dynAsset)
         {
-            _setupList = setupList;
+            _setupList = dynAsset.setupList;
 
             _yPos = 10;
 
             removeElements();
 
-            int i, len = setupList.Count;
+            float fValue;
+            bool bValue;
+            int iValue;
+
+            int i, len = _setupList.Count;
             for (i = 0; i < len; ++i)
             {
-                Globals.UIElementSetup esu = setupList[i];
+                Globals.UIElementSetup esu = _setupList[i];
                 if (esu.type == Globals.UIElementType.Slider)
                 {
-                    _uiElements.Add( createSlider(i, esu) );
+                    fValue = dynAsset.getCurSliderValue (i);
+                    _uiElements.Add( createSlider(i, esu, fValue) );
                 }
                 else if (esu.type == Globals.UIElementType.Toggle)
                 {
-                    _uiElements.Add( createToggle(i, esu) );
+                    bValue = dynAsset.getCurToggleValue (i);
+                    _uiElements.Add( createToggle(i, esu, bValue) );
                 }
                 else if (esu.type == Globals.UIElementType.Dropdown)
                 {
-                    _uiElements.Add(createDropdown(i, esu));
+                    iValue = dynAsset.getCurDropdownValue (i);
+                    _uiElements.Add(createDropdown(i, esu, iValue));
                 }
             }
 
@@ -93,7 +100,7 @@ namespace PrefabWorldEditor
         #region PrivateMethods
 
         // ---------------------------------------------------------------------------------------------
-        private UIElement createSlider(int elementIndex, Globals.UIElementSetup esu)
+        private UIElement createSlider(int elementIndex, Globals.UIElementSetup esu, float value)
         {
             UIElement e = new UIElement();
 
@@ -108,7 +115,7 @@ namespace PrefabWorldEditor
 
                 UIPanelSlider script = e.go.GetComponent<UIPanelSlider>();
                 script.label.text = esu.label;
-                script.slider.value = (esu.defaultValue - esu.rangeMin) / (esu.rangeMax - esu.rangeMin);
+                script.slider.value = (value - esu.rangeMin) / (esu.rangeMax - esu.rangeMin); //esu.defaultValue
 
                 script.elementIndex = elementIndex;
                 script.changeHandler += onSliderChange;
@@ -122,7 +129,7 @@ namespace PrefabWorldEditor
         }
 
         // ---------------------------------------------------------------------------------------------
-        private UIElement createToggle(int elementIndex, Globals.UIElementSetup esu)
+        private UIElement createToggle(int elementIndex, Globals.UIElementSetup esu, bool value)
         {
             UIElement e = new UIElement();
 
@@ -137,7 +144,7 @@ namespace PrefabWorldEditor
 
                 UIPanelToggle script = e.go.GetComponent<UIPanelToggle>();
                 script.label.text = esu.label;
-                script.toggle.isOn = esu.isOn;
+                script.toggle.isOn = value; //esu.isOn;
 
                 script.elementIndex = elementIndex;
                 script.changeHandler += onToggleChange;
@@ -151,7 +158,7 @@ namespace PrefabWorldEditor
         }
 
         // ---------------------------------------------------------------------------------------------
-        private UIElement createDropdown(int elementIndex, Globals.UIElementSetup esu)
+        private UIElement createDropdown(int elementIndex, Globals.UIElementSetup esu, int value)
         {
             UIElement e = new UIElement();
 
@@ -170,6 +177,8 @@ namespace PrefabWorldEditor
                 for (i = 0; i < len; ++i) {
                     script.dropdown.options.Add(new Dropdown.OptionData() { text = esu.dropdownOptions[i] });
                 }
+
+                script.dropdown.value = value;
 
                 script.elementIndex = elementIndex;
                 script.changeHandler += onDropdownChange;

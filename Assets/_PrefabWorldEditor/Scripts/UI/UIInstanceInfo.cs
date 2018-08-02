@@ -79,7 +79,7 @@ namespace PrefabWorldEditor
             DynamicAsset dynAssetScript = element.go.GetComponent<DynamicAsset>();
             if (dynAssetScript != null) {
                 showDynamicSettings(true);
-                dynamicSettings.init(dynAssetScript.setupList);
+                dynamicSettings.init(dynAssetScript);
             } else {
                 showDynamicSettings (false);
             }

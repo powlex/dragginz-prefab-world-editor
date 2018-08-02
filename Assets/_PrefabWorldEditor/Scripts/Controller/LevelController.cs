@@ -60,6 +60,7 @@ namespace PrefabWorldEditor
             public List<Collider>     colliders;
             public List<MeshRenderer> meshRenderers;
             public List<Material>     materials;
+            public List<Animator>     animators;
             public Bounds             bounds;
             public bool               hasSnowShader;
 
@@ -71,6 +72,7 @@ namespace PrefabWorldEditor
                 colliders     = new List<Collider> ();
                 meshRenderers = new List<MeshRenderer> ();
                 materials     = new List<Material> ();
+                animators     = new List<Animator> ();
                 bounds        = new Bounds ();
                 hasSnowShader = false;
             }
@@ -101,6 +103,9 @@ namespace PrefabWorldEditor
                             if (meshRenderers[j].material.shader.name == Globals.snowShaderName) {
                                 hasSnowShader = true;
                             }
+                        }
+                        if (children[i].GetComponent<Animator> ()) {
+                            animators.Add (children[i].GetComponent<Animator> ());
                         }
                     }
 
@@ -194,6 +199,11 @@ namespace PrefabWorldEditor
                     _selectedElementComponents.colliders[i].enabled = colliderEnabled;
                 }
 
+                len = _selectedElementComponents.animators.Count;
+                for (i = 0; i < len; ++i) {
+                    _selectedElementComponents.animators[i].enabled = colliderEnabled;
+                }
+
                 len = _selectedElementComponents.rigidBodies.Count;
                 for (i = 0; i < len; ++i) {
                     _selectedElementComponents.rigidBodies[i].useGravity     = useGravity;
@@ -238,6 +248,11 @@ namespace PrefabWorldEditor
             for (i = 0; i < len; ++i) {
                 comps.colliders[i].enabled = colliderEnabled;
 			}
+
+            len = comps.animators.Count;
+            for (i = 0; i < len; ++i) {
+                comps.animators[i].enabled = colliderEnabled;
+            }
 
             len = comps.rigidBodies.Count;
             //Debug.Log ("comps.rigidBodies.Count: " + comps.rigidBodies.Count);
