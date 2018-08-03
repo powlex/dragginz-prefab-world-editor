@@ -59,6 +59,9 @@ public class GizmoClickDetection : MonoBehaviour {
     [HideInInspector]
     public bool pressingPlane = false;
 
+    private Ray ray;
+    //private int layerMask = 1 << 11;
+
     /// <summary>
     ///     On wake-up
     /// </summary>
@@ -66,65 +69,135 @@ public class GizmoClickDetection : MonoBehaviour {
         previousMaterials = new Dictionary<MeshRenderer, Material>();
     }
 
-    /// <summary>
-    ///     Checks for hits on the target objects, highlighting when found
-    /// </summary>
-	public void Update () {
-
-        // If the left mouse button is pressed      
-        if (!ALREADY_CLICKED && Input.GetMouseButtonDown(0)) {         
+    public void mouseDown ()
+    {
+        if (!ALREADY_CLICKED) {
 
             // Detect the object(s) the user has clicked
-            Ray ray = gizmoCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit[] hits = Physics.RaycastAll(ray, gizmoLayer);
+            ray = gizmoCamera.ScreenPointToRay (Input.mousePosition);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 100f, gizmoLayer);
             bool detected = false;
             pressingPlane = false;
 
             // Check if object are our targets (skipping the collision if the renderer isn't enabled)
             foreach (RaycastHit hit in hits) {
-                if (Array.IndexOf(targets, hit.collider.gameObject) >= 0) {
+                if (Array.IndexOf (targets, hit.collider.gameObject) >= 0) {
                     //Debug.Log("hit.collider.gameObject: " + hit.collider.gameObject.name);
-                    if (!hit.collider.gameObject.GetComponent<Renderer>().enabled) continue;
-                    if (hit.collider.gameObject.name.Contains("_plane_")) pressingPlane = true;
+                    if (!hit.collider.gameObject.GetComponent<Renderer> ().enabled) continue;
+                    if (hit.collider.gameObject.name.Contains ("_plane_")) pressingPlane = true;
                     detected = true;
                     pressing = true;
                 }
             }
 
-            if(detected) {
+            if (detected) {
                 // Store the current materials of the targets, then highlight them
-                if(previousMaterials != null) previousMaterials.Clear();
+                if (previousMaterials != null) previousMaterials.Clear ();
 
                 foreach (GameObject target in targets) {
 
                     try {
-                        foreach (MeshRenderer renderer in target.GetComponentsInChildren<MeshRenderer>(false)) {
+                        foreach (MeshRenderer renderer in target.GetComponentsInChildren<MeshRenderer> (false)) {
                             previousMaterials[renderer] = renderer.sharedMaterial;
                             renderer.material = highlight;
                         }
-                    } catch (NullReferenceException exception) {
+                    }
+                    catch (NullReferenceException exception) {
                         // Perhaps no previous materials could be found?
-						Debug.Log(exception.Message);
+                        Debug.Log (exception.Message);
                     }
 
                 }
 
                 ALREADY_CLICKED = true;
             }
+        }
+    }
 
+    public void mouseUp()
+    {
+        // If the left mouse button was released and we haven't un-highlighted yet 
+        if (previousMaterials.Count > 0) {
 
-        } else if(Input.GetMouseButtonUp(0) && previousMaterials.Count > 0) {
-            // If the left mouse button was released and we haven't un-highlighted yet 
-             
             foreach (MeshRenderer renderer in previousMaterials.Keys) {
                 renderer.material = previousMaterials[renderer];
             }
-            previousMaterials.Clear();
+            previousMaterials.Clear ();
             pressing = false;
             pressingPlane = false;
             ALREADY_CLICKED = false;
         }
-	}
+    }
 
+    /// <summary>
+    ///     Checks for hits on the target objects, highlighting when found
+    /// </summary>
+    /*public void Update () {
+
+        // If the left mouse button is pressed      
+        if (Input.GetMouseButtonDown (0))
+        {
+            if (!ALREADY_CLICKED) {
+
+                // Detect the object(s) the user has clicked
+                ray = gizmoCamera.ScreenPointToRay (Input.mousePosition);
+                RaycastHit[] hits = Physics.RaycastAll(ray, 100f, gizmoLayer);
+                bool detected = false;
+                pressingPlane = false;
+
+                // Check if object are our targets (skipping the collision if the renderer isn't enabled)
+                foreach (RaycastHit hit in hits) {
+                    if (Array.IndexOf (targets, hit.collider.gameObject) >= 0) {
+                        //Debug.Log("hit.collider.gameObject: " + hit.collider.gameObject.name);
+                        if (!hit.collider.gameObject.GetComponent<Renderer> ().enabled) continue;
+                        if (hit.collider.gameObject.name.Contains ("_plane_")) pressingPlane = true;
+                        detected = true;
+                        pressing = true;
+                    }
+                }
+
+                if (detected) {
+                    // Store the current materials of the targets, then highlight them
+                    if (previousMaterials != null) previousMaterials.Clear ();
+
+                    foreach (GameObject target in targets) {
+
+                        try {
+                            foreach (MeshRenderer renderer in target.GetComponentsInChildren<MeshRenderer> (false)) {
+                                previousMaterials[renderer] = renderer.sharedMaterial;
+                                renderer.material = highlight;
+                            }
+                        } catch (NullReferenceException exception) {
+                            // Perhaps no previous materials could be found?
+                            Debug.Log (exception.Message);
+                        }
+
+                    }
+
+                    ALREADY_CLICKED = true;
+                }
+            }
+        }
+        else if(Input.GetMouseButtonUp(0))
+        {
+            // If the left mouse button was released and we haven't un-highlighted yet 
+            if (previousMaterials.Count > 0) {
+
+                foreach (MeshRenderer renderer in previousMaterials.Keys) {
+                    renderer.material = previousMaterials[renderer];
+                }
+                previousMaterials.Clear ();
+                pressing = false;
+                pressingPlane = false;
+                ALREADY_CLICKED = false;
+            }
+        }
+	}*/
+
+    public void reset() {
+        pressing = false;
+        pressingPlane = false;
+        ALREADY_CLICKED = false;
+    }
 }
 // End of script.

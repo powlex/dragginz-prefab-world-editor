@@ -41,6 +41,9 @@ public class GizmoTranslateScript : MonoBehaviour {
     /// </summary>
     public GameObject translateTarget;
 
+    [HideInInspector]
+    public bool handlePressed = false;
+
     /// <summary>
     ///     Array of detector scripts stored as [x, y, z]
     /// </summary>
@@ -70,7 +73,34 @@ public class GizmoTranslateScript : MonoBehaviour {
 		if (translateTarget != null) {
 			transform.position = translateTarget.transform.position;
 		}
-	}
+        reset ();
+    }
+
+    public void reset () {
+        handlePressed = false;
+        detectors[0].reset ();
+        detectors[1].reset ();
+        detectors[2].reset ();
+    }
+
+    public void mouseDown () {
+        handlePressed = false;
+        int i;
+        for (i = 0; i < 3; i++) {
+            detectors[i].mouseDown ();
+            if (detectors[i].pressing) {
+                handlePressed = true;
+            }
+        }
+    }
+
+    public void mouseUp() {
+        handlePressed = false;
+        int i;
+        for (i = 0; i < 3; i++) {
+            detectors[i].mouseUp ();
+        }
+    }
 
     /// <summary>
     ///     Once per frame
@@ -81,8 +111,12 @@ public class GizmoTranslateScript : MonoBehaviour {
 
 		lastPos = translateTarget.transform.position;
 
+        if (!Input.GetMouseButton (0)) {
+            return;
+        }
+
         for (int i = 0; i < 3; i++) {
-            if (Input.GetMouseButton(0) && detectors[i].pressing) {
+            if (detectors[i].pressing) { // && Input.GetMouseButton(0)
 
                 // Get the distance from the camera to the target (used as a scaling factor in translate)
                 float distance = Vector3.Distance(Camera.main.transform.position, translateTarget.transform.position);

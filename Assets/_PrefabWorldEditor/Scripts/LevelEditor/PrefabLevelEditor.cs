@@ -72,11 +72,17 @@ namespace PrefabWorldEditor
 			public string extra;
 		};
 
-		#endregion
+        [HideInInspector]
+        public bool leftMouseButtonPressed;
 
-		#region PrivateProperties
+        [HideInInspector]
+        public bool leftMouseButtonReleased;
 
-		private LevelController _levelController;
+        #endregion
+
+        #region PrivateProperties
+
+        private LevelController _levelController;
 		private ToolsController _toolsController;
 
 		private Transform _trfmMarkerX;
@@ -104,7 +110,7 @@ namespace PrefabWorldEditor
         private GameObject _goHit;
 
 		private Globals.AssetType _assetType;
-		private EditMode  _editMode;
+		private EditMode _editMode;
 
         private bool _bSpotLightsActive;
 
@@ -147,7 +153,7 @@ namespace PrefabWorldEditor
         #region SystemMethods
 
         // ------------------------------------------------------------------------
-        void Start()
+        void Start ()
         {
 			_parts = new Dictionary<Globals.PartList, Part>();
 
@@ -244,7 +250,10 @@ namespace PrefabWorldEditor
 
 			setNewEditPart(_assetTypeList[_assetType][0]);
 
-			if (XRSettings.enabled)
+            leftMouseButtonPressed  = false;
+            leftMouseButtonReleased = false;
+
+            if (XRSettings.enabled)
 			{
                 VREditor.Instance.init();
 				PweWorldSpaceMenus.Instance.init ();
@@ -266,7 +275,10 @@ namespace PrefabWorldEditor
 		{
 			_timer = Time.realtimeSinceStartup;
 
-			if (_editMode == EditMode.Play)
+            leftMouseButtonPressed  = Input.GetMouseButtonDown (0);
+            leftMouseButtonReleased = Input.GetMouseButtonUp (0);
+
+            if (_editMode == EditMode.Play)
 			{
 				updatePlayMode ();
 			}
@@ -615,35 +627,43 @@ namespace PrefabWorldEditor
 				return;
 			}
 
-			_rayDistance = 5f;
+            // check gizmo first when left mouse is clicked
+            if (leftMouseButtonPressed && gizmoTranslateScript.gameObject.activeSelf) {
+
+                gizmoTranslateScript.mouseDown ();
+            }
+            else if (leftMouseButtonReleased && gizmoTranslateScript.gameObject.activeSelf) {
+
+                gizmoTranslateScript.mouseUp ();
+            }
+
+            _rayDistance = 5f;
 			_goHit = null;
-			_ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if (Physics.Raycast(_ray, out _hit, 100)) {
-				_goHit = _hit.collider.gameObject;
-				_rayDistance = _hit.distance;
-			}
+            _ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+            if (Physics.Raycast (_ray, out _hit, 100)) {
+                _goHit = _hit.collider.gameObject;
+                _rayDistance = _hit.distance;
+            }
 
             _mousewheel = Input.GetAxis ("Mouse ScrollWheel");
 
             if (_editMode == EditMode.Transform)
 			{
-				if (Input.GetMouseButtonDown (0))
+                if (leftMouseButtonPressed && !gizmoTranslateScript.handlePressed && _goHit != null)
 				{
 					if (!EventSystem.current.IsPointerOverGameObject ()) {
-						if (_goHit != null) {
-                            if (Input.GetKey(KeyCode.N)) {
-                                proBuilderizeElement(_goHit.transform);
-                            }
-                            else if (Input.GetKey(KeyCode.M)) {
-                                combineMeshesInElement(_goHit.transform);
-                            }
-                            else if (Input.GetKey(KeyCode.C)) {
-                                copyElement(_goHit.transform);
-                            }
-                            else {
-                                selectElement(_goHit.transform);
-                            }
-						}
+                        if (Input.GetKey(KeyCode.N)) {
+                            proBuilderizeElement(_goHit.transform);
+                        }
+                        else if (Input.GetKey(KeyCode.M)) {
+                            combineMeshesInElement(_goHit.transform);
+                        }
+                        else if (Input.GetKey(KeyCode.C)) {
+                            copyElement(_goHit.transform);
+                        }
+                        else {
+                            selectElement(_goHit.transform);
+                        }
 					}
 				}
 				if (_levelController.selectedElement.go != null) {
@@ -926,7 +946,7 @@ namespace PrefabWorldEditor
 				}
 			}
 
-			if (Input.GetMouseButtonDown (0))
+			if (leftMouseButtonPressed)
 			{
 				if (!EventSystem.current.IsPointerOverGameObject ()) {
 					if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && _curEditPart.type == Globals.AssetType.Floor) {
@@ -1405,6 +1425,7 @@ namespace PrefabWorldEditor
                     _levelController.setComponents (go, true, _curEditPart.usesGravity);
 
 					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _curEditPart.id);
+                    elementTool.isLocked = true;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 
@@ -1615,6 +1636,7 @@ namespace PrefabWorldEditor
                 selectTransformTool (PweMainMenu.Instance.iSelectedTool);
             }
             else {
+                gizmoTranslateScript.reset ();
                 if (_groupEventHandlerSet) {
                     gizmoTranslateScript.positionChanged -= onSelectedObjectPositionChanged;
                     _groupEventHandlerSet = false;

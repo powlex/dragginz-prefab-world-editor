@@ -321,6 +321,8 @@ MonoBehaviour:
   matElementMarker: {fileID: 2100000, guid: 78b0c44be26b84f4aabe46cd492cfde0, type: 2}
   gizmoTranslateScript: {fileID: 1867238654}
   gizmoRotateScript: {fileID: 469228206}
+  leftMouseButtonPressed: 0
+  leftMouseButtonReleased: 0
 --- !u!4 &361061324
 Transform:
   m_ObjectHideFlags: 0
@@ -455,12 +457,12 @@ Prefab:
     - target: {fileID: 224054764340674924, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224424469187855848, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224174849136075058, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
