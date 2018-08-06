@@ -17,6 +17,7 @@ namespace PrefabWorldEditor
 
         public Toggle toggleAmbientLight;
         public Toggle toggleSpotLight;
+        public Toggle toggleSnapToGrid;
 
         #region SystemMethods
 
@@ -69,14 +70,17 @@ namespace PrefabWorldEditor
 
         //
         public void onToggleAmbientLight (bool state) {
-            Debug.Log ("onToggleAmbientLight "+state);
             PrefabLevelEditor.Instance.goLights.SetActive (state);
         }
 
         //
         public void onToggleSpotLight (bool state) {
-            Debug.Log ("onToggleSpotLight " + state);
             PrefabLevelEditor.Instance.setSpotLights (state);
+        }
+
+        //
+        public void onToggleSnapToGrid (bool state) {
+            PrefabLevelEditor.Instance.setSnapToGrid (state);
         }
 
         #endregion

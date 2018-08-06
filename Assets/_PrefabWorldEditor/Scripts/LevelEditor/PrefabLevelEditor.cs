@@ -116,6 +116,7 @@ namespace PrefabWorldEditor
 		private EditMode _editMode;
 
         private bool _bSpotLightsActive;
+        private bool _bSnapToGrid;
 
         private float _mousewheel;
         private float _timer;
@@ -242,6 +243,7 @@ namespace PrefabWorldEditor
 			_editMode = EditMode.None;
 
             _bSpotLightsActive = true;
+            _bSnapToGrid = true;
 
             GameObject toolContainer = new GameObject("[ContainerTools]");
 
@@ -358,6 +360,12 @@ namespace PrefabWorldEditor
             else if (playerPlay.gameObject.activeSelf) {
                 playerPlaySpotLight.SetActive(_bSpotLightsActive);
             }
+        }
+
+        // ------------------------------------------------------------------------
+        public void setSnapToGrid(bool state) {
+
+            _bSnapToGrid = state;
         }
 
         // ------------------------------------------------------------------------
@@ -813,7 +821,7 @@ namespace PrefabWorldEditor
             //
             // Positioning
             //
-            if (!partWasSnappedToOtherPart)
+            if (!partWasSnappedToOtherPart && _bSnapToGrid)
             {
                 _v3EditPartPos.x = Mathf.RoundToInt(_v3EditPartPos.x / snap) * snap;
                 if (_v3EditPartPos.x - _curEditPart.w / 2 < 0) {
