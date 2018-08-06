@@ -45,6 +45,8 @@ namespace PrefabWorldEditor
 		public GizmoTranslateScript gizmoTranslateScript;
 		public GizmoRotateScript gizmoRotateScript;
 
+        public BoundsLineRenderer boundsLineRenderer;
+
 		//
 
 		public enum EditMode {
@@ -690,7 +692,8 @@ namespace PrefabWorldEditor
 		{
 			if (posChange != Vector3.zero) {
 				_levelController.updatedSelectedObjectPosition (posChange);
-			}
+                boundsLineRenderer.updateBounds (_levelController.selectedElementBounds);
+            }
 		}
 
 		// ------------------------------------------------------------------------
@@ -1061,16 +1064,11 @@ namespace PrefabWorldEditor
 					setMarkerScale (part);
 
                     setTransformGizmos (!_levelController.selectedElement.isLocked);
-                    /*if (!_levelController.selectedElement.isLocked) {
-                        gizmoTranslateScript.translateTarget = _levelController.selectedElement.go;
-                        gizmoTranslateScript.init ();
-                        gizmoRotateScript.rotateTarget = _levelController.selectedElement.go;
-                        gizmoRotateScript.init ();
-                    }*/
 
-					//selectTransformTool (PweMainMenu.Instance.iSelectedTool);
+                    boundsLineRenderer.gameObject.SetActive (true);
+                    boundsLineRenderer.updateBounds (_levelController.selectedElementBounds);
 
-					PweMainMenu.Instance.showAssetInfoPanel (false);
+                    PweMainMenu.Instance.showAssetInfoPanel (false);
                     PweMainMenu.Instance.showInstanceInfoPanel (true);
 
                     PweMainMenu.Instance.showInstanceInfo(_parts [_levelController.selectedElement.part]);
@@ -1162,30 +1160,38 @@ namespace PrefabWorldEditor
                     if (Input.GetKey (KeyCode.X)) {
 						if (part.canRotate.x == 1) {
 							_levelController.selectedElement.go.transform.Rotate (Vector3.right * multiply);
-						}
-					} else if (Input.GetKey (KeyCode.Y)) {
+                            _levelController.updatedSelectedObjectBounds ();
+                            boundsLineRenderer.updateBounds (_levelController.selectedElementBounds);
+                        }
+                    } else if (Input.GetKey (KeyCode.Y)) {
 						if (part.canRotate.y == 1) {
 							_levelController.selectedElement.go.transform.Rotate (Vector3.up * multiply);
-						}
-					} else if (Input.GetKey (KeyCode.Z)) {
+                            _levelController.updatedSelectedObjectBounds ();
+                            boundsLineRenderer.updateBounds (_levelController.selectedElementBounds);
+                        }
+                    } else if (Input.GetKey (KeyCode.Z)) {
 						if (part.canRotate.z == 1) {
 							_levelController.selectedElement.go.transform.Rotate (Vector3.forward * multiply);
-						}
-					}
+                            _levelController.updatedSelectedObjectBounds ();
+                            boundsLineRenderer.updateBounds (_levelController.selectedElementBounds);
+                        }
+                    }
 					else if (Input.GetKey (KeyCode.C)) { // Scale
                         Vector3 scale = _levelController.selectedElement.go.transform.localScale;
                         scale.x += (scale.x * .1f * dir);
                         scale.y += (scale.y * .1f * dir);
                         scale.z += (scale.z * .1f * dir);
                         _levelController.selectedElement.go.transform.localScale = scale;
-					}
-					else {
+                        _levelController.updatedSelectedObjectBounds ();
+                        boundsLineRenderer.updateBounds (_levelController.selectedElementBounds);
+                    }
+                    else {
 						toggleSelectedElement (_mousewheel);
 					}
 				}
 			}
 
-			setMarkerPosition (_levelController.selectedElement.go.transform);
+            setMarkerPosition (_levelController.selectedElement.go.transform);
 		}
 
 		// ------------------------------------------------------------------------
@@ -1227,9 +1233,6 @@ namespace PrefabWorldEditor
 
 			Part newPart = _assetTypeList [part.type] [index];
 
-            //PweMainMenu.Instance.showAssetInfo (newPart);
-            //PweMainMenu.Instance.showAssetInfoPanel (false);
-            //PweMainMenu.Instance.showInstanceInfoPanel (true);
             PweMainMenu.Instance.showInstanceInfo (newPart);
 
             string name = _levelController.selectedElement.go.name;
@@ -1256,8 +1259,11 @@ namespace PrefabWorldEditor
                     gizmoTranslateScript.translateTarget = _levelController.selectedElement.go;
                     gizmoRotateScript.rotateTarget = _levelController.selectedElement.go;
                 }
-			}
-		}
+
+                _levelController.updatedSelectedObjectBounds ();
+                boundsLineRenderer.updateBounds (_levelController.selectedElementBounds);
+            }
+        }
 
 		// ------------------------------------------------------------------------
 		private void toggleEditPart(float mousewheel)
@@ -1616,6 +1622,8 @@ namespace PrefabWorldEditor
 			_levelController.resetSelectedElement ();
 
             setTransformGizmos (false);
+
+            boundsLineRenderer.gameObject.SetActive (false);
 
 			PweMainMenu.Instance.showAssetInfoPanel (false);
             PweMainMenu.Instance.showInstanceInfoPanel (false);

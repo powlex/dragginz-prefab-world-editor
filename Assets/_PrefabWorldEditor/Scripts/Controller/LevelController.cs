@@ -388,8 +388,14 @@ namespace PrefabWorldEditor
 			}
 		}
 
-		// ------------------------------------------------------------------------
-		public int findElementInGroup(GameObject go)
+        // ------------------------------------------------------------------------
+        public void updatedSelectedObjectBounds ()
+        {
+            _selectedElementComponents.getMeshRendererBounds ();
+        }
+
+        // ------------------------------------------------------------------------
+        public int findElementInGroup(GameObject go)
 		{
 			int index = -1;
 			int i, len = aElementGroups.Count;

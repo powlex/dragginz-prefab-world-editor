@@ -94,7 +94,7 @@ namespace PrefabWorldEditor
 			_player.position += (transform.right * Input.GetAxis ("Horizontal") + transform.forward * Input.GetAxis ("Vertical") + transform.up * Input.GetAxis ("Depth")) * movementSpeed;
 		}
 
-        void OnPreRender()
+        /*void OnPreRender()
         {
             GL.wireframe = drawWireframe;
         }
@@ -102,7 +102,7 @@ namespace PrefabWorldEditor
 		{
             GL.wireframe = false;
             GLTools.drawBoundingBox (LevelController.Instance.selectedElementBounds, matLineBounds);
-		}
+		}*/
 
 		//
         public void mouseWheelMove(float value)
