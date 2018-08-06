@@ -101,6 +101,7 @@ namespace PrefabWorldEditor
 
 		private Part _curEditPart;
         private GameObject _goEditPart;
+        private LevelController.SelectedElementComponents _curEditElementComponents;
         private Vector3 _v3EditPartPos;
 
 		private Dictionary<Globals.AssetType, List<Part>> _assetTypeList;
@@ -233,6 +234,8 @@ namespace PrefabWorldEditor
 
 			_groupEventHandlerSet = false;
 
+            _curEditElementComponents = new LevelController.SelectedElementComponents ();
+            _curEditElementComponents.reset ();
             _v3EditPartPos = Vector3.zero;
 
 			_assetType = Globals.AssetType.Floor;
@@ -365,7 +368,7 @@ namespace PrefabWorldEditor
 
                 _editMode = mode;
 
-                PweMainMenu.Instance.setAmbientLightToggle(_editMode != EditMode.Play);
+                PweSettings.Instance.setAmbientLightToggle(_editMode != EditMode.Play);
 
                 trfmWalls.gameObject.SetActive(_editMode != EditMode.Play);
 
@@ -423,14 +426,15 @@ namespace PrefabWorldEditor
 					setMarkerActive (_goEditPart.activeSelf);
 					if (_goEditPart.activeSelf) {
 						setMarkerScale (_curEditPart);
-					}
-				}
+                        boundsLineRenderer.gameObject.SetActive (_editMode == EditMode.Place);
+                    }
+                }
 				else {
 					setMarkerActive (false);
 				}
 
-				// Instructions
-				if (_editMode == EditMode.Place) {
+                // Instructions
+                if (_editMode == EditMode.Place) {
 					PweMainMenu.Instance.setInstructionsText ("Use Mousewheel to toggle through assets");
 				} else if (_editMode == EditMode.Play) {
 					PweMainMenu.Instance.setInstructionsText ("Press Esc to exit play mode");
@@ -496,6 +500,9 @@ namespace PrefabWorldEditor
 
             _levelController.setComponents (_goEditPart, false, false);
 
+            _curEditElementComponents.init(_levelController.getChildrenRecursive (_goEditPart));
+            boundsLineRenderer.updateBounds (_curEditElementComponents.bounds);
+            
             PweMainMenu.Instance.showAssetInfo(_curEditPart);
         }
 
@@ -949,7 +956,10 @@ namespace PrefabWorldEditor
 				}
 			}
 
-			if (leftMouseButtonPressed)
+            _curEditElementComponents.getMeshRendererBounds ();
+            boundsLineRenderer.updateBounds (_curEditElementComponents.bounds);
+
+            if (leftMouseButtonPressed)
 			{
 				if (!EventSystem.current.IsPointerOverGameObject ()) {
 					if ((Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) && _curEditPart.type == Globals.AssetType.Floor) {

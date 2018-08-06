@@ -29,7 +29,6 @@ namespace PrefabWorldEditor
 		public Transform panelTools;
         public Transform panelFileMenu;
 		public Transform panelLevelMenu;
-        public Transform panelLightToggles;
 
         public Transform panelAssetInfo;
 		public UIAssetInfo assetInfo;
@@ -45,12 +44,6 @@ namespace PrefabWorldEditor
 		public Button btnModeSelect;
 		public Button btnModeClear;
 		public Button btnUNDO;
-
-        public Toggle toggleAmbientLight;
-        public Toggle toggleSpotLight;
-
-        //public Image imgMaterialHilight;
-        //public RawImage imgSelectedItem;
 
         public Button btnAssetFloors;
 		public Button btnAssetWalls;
@@ -351,12 +344,6 @@ namespace PrefabWorldEditor
                     }
                 }
                 panelInstanceInfo.gameObject.SetActive(state);
-            }
-        }
-
-        public void setAmbientLightToggle(bool state) {
-            if (toggleAmbientLight != null) {
-                toggleAmbientLight.isOn = state;
             }
         }
 
@@ -682,16 +669,6 @@ namespace PrefabWorldEditor
                 }
             }
 		}
-
-        //
-        public void onToggleAmbientLight(bool state) {
-            PrefabLevelEditor.Instance.goLights.SetActive(state);
-        }
-
-        //
-        public void onToggleSpotLight(bool state) {
-            PrefabLevelEditor.Instance.setSpotLights(state);
-        }
 
         //
         public void onSelectPlacementTool(int value) {

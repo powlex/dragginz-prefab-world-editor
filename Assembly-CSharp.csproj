@@ -106,6 +106,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PwePlacementTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PwePopup.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweRoomTools.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweSettings.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweWorldSpaceMenus.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIAssetInfo.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIDynamicInstanceSettings.cs" />

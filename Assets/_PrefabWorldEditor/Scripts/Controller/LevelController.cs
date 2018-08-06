@@ -413,14 +413,8 @@ namespace PrefabWorldEditor
 			return index;
 		}
 
-		#endregion
-
-		#region PrivateMethods
-
 		// ------------------------------------------------------------------------
-		// Private Methods
-		// ------------------------------------------------------------------------
-		private List<GameObject> getChildrenRecursive(GameObject go, int count = 0)
+		public List<GameObject> getChildrenRecursive(GameObject go, int count = 0)
 		{
 			if (go == null) {
 				return new List<GameObject>();
@@ -434,7 +428,7 @@ namespace PrefabWorldEditor
 
 			foreach (Transform child in go.transform)
 			{
-				if (child != null) {
+				if (child != null && child.gameObject.activeSelf) {
 					_tempListOfChildren.Add (child.gameObject);
 					getChildrenRecursive (child.gameObject, ++count);
 				}
