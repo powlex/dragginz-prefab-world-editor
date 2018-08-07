@@ -58,7 +58,7 @@ namespace PrefabWorldEditor
             public Bounds bounds;
             public List<MeshRenderer> meshRenderers;
 
-            public void updateBounds()
+            public Bounds updateBounds ()
             {
                 bounds = new Bounds ();
                 
@@ -80,6 +80,8 @@ namespace PrefabWorldEditor
                         }
                     }
                 }
+
+                return bounds;
             }
         };
 

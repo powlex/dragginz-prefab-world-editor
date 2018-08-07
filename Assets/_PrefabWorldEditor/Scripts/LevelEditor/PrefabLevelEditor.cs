@@ -708,9 +708,10 @@ namespace PrefabWorldEditor
 			if (posChange != Vector3.zero) {
 
                 Vector3 lastPos = _v3EditPartPos = _levelController.selectedElement.go.transform.position;
-                _v3EditPartPos -= posChange;
 
                 if (_bSnapToGrid) {
+
+                    _v3EditPartPos -= posChange;
 
                     bool doSnap = false;
                     if (posChange.x != 0 && Mathf.Abs(posChange.x) >= gridSize) {
@@ -736,8 +737,8 @@ namespace PrefabWorldEditor
                 _levelController.updatedSelectedObjectPosition (posChange);
 
                 if (_levelController.iSelectedGroupIndex != -1) {
-                    _levelController.aElementGroups[_levelController.iSelectedGroupIndex].updateBounds ();
-                    boundsLineRenderer.updateBounds (_levelController.aElementGroups[_levelController.iSelectedGroupIndex].bounds);
+                    Bounds bounds = _levelController.aElementGroups[_levelController.iSelectedGroupIndex].updateBounds ();
+                    boundsLineRenderer.updateBounds (bounds);
                 }
                 else {
                     boundsLineRenderer.updateBounds (_levelController.selectedElementBounds);
