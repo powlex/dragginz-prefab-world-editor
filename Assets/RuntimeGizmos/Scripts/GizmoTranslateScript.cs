@@ -105,9 +105,10 @@ public class GizmoTranslateScript : MonoBehaviour {
     /// <summary>
     ///     Once per frame
     /// </summary>
-    public void Update() {
-
-		transform.forward = translateTarget.transform.forward;
+    public void Update()
+    {
+        transform.position = translateTarget.transform.position;
+        transform.forward  = translateTarget.transform.forward;
 
 		lastPos = translateTarget.transform.position;
 

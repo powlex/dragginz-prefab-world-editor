@@ -217,7 +217,7 @@ namespace PrefabWorldEditor
 				LevelController.LevelElement e = element.Value;
 
 				LevelObject levelObj = new LevelObject ();
-				levelObj.id = (int)e.part;
+				levelObj.id = (int)e.partId;
 
 				levelObj.position   = new DataTypeVector3 ();
 				levelObj.position.x = e.go.transform.position.x;

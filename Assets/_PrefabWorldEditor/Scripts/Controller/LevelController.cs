@@ -20,14 +20,15 @@ namespace PrefabWorldEditor
 		public struct LevelElement
 		{
 			public GameObject go;
-			public Globals.PartList part;
+			public Globals.PartList partId;
+            public PrefabLevelEditor.Part part;
             public int   overwriteStatic;
             public int   overwriteGravity;
             public bool  isLocked;
             public float shaderSnow;
 
             public bool gravity() {
-                return (overwriteGravity == 0 ? PrefabLevelEditor.Instance.parts[part].usesGravity : (overwriteGravity == 1 ? true : false));
+                return (overwriteGravity == 0 ? part.usesGravity : (overwriteGravity == 1 ? true : false));
             }
         };
 
@@ -50,7 +51,37 @@ namespace PrefabWorldEditor
 			public int  interval;
 			public int  density;
 			public bool inverse;
-		};
+
+            // bounds
+
+            public List<GameObject> allGameObjects;
+            public Bounds bounds;
+            public List<MeshRenderer> meshRenderers;
+
+            public void updateBounds()
+            {
+                bounds = new Bounds ();
+                
+                if (meshRenderers != null) {
+
+                    bool firstOneSet = false;
+                    int i, len = meshRenderers.Count;
+                    for (i = 0; i < len; ++i) {
+                        if (meshRenderers[i] == null) {
+                            continue;
+                        }
+                        if (!firstOneSet) {
+                            bounds = meshRenderers[i].bounds;
+                            //Debug.Log ("first bounds renderer: "+bounds);
+                            firstOneSet = true;
+                        }
+                        else {
+                            bounds.Encapsulate (meshRenderers[i].bounds);
+                        }
+                    }
+                }
+            }
+        };
 
         public struct SelectedElementComponents
         {
@@ -223,7 +254,8 @@ namespace PrefabWorldEditor
         {
             LevelElement e     = new LevelElement();
             e.go               = go;
-            e.part             = partId;
+            e.partId           = partId;
+            e.part             = PrefabLevelEditor.Instance.parts [partId];
             e.overwriteStatic  = 0;
             e.overwriteGravity = 0;
             e.isLocked         = false;
@@ -346,7 +378,7 @@ namespace PrefabWorldEditor
         public void resetSelectedElement()
 		{
             LevelElement e = new LevelElement();
-			e.part = Globals.PartList.End_Of_List;
+			e.partId = Globals.PartList.End_Of_List;
             e.overwriteStatic = 0;
             e.overwriteGravity = 0;
             e.isLocked = false;
@@ -362,9 +394,7 @@ namespace PrefabWorldEditor
 		{
 			if (selectedElement.go != null) {
 
-				PrefabLevelEditor.Part part = PrefabLevelEditor.Instance.parts [selectedElement.part];
-
-                bool gravity = (selectedElement.overwriteGravity == 0 ? part.usesGravity : (selectedElement.overwriteGravity == 1 ? true : false));
+                bool gravity = (selectedElement.overwriteGravity == 0 ? selectedElement.part.usesGravity : (selectedElement.overwriteGravity == 1 ? true : false));
                 setSelectedElementComponents (true, gravity);
 			}
 		}
@@ -394,6 +424,34 @@ namespace PrefabWorldEditor
             _selectedElementComponents.getMeshRendererBounds ();
         }
 
+        // ------------------------------------------------------------------------
+        public void setElementGroupBounds (ref ElementGroup eg) {
+
+            List<GameObject> allGOsInGroup = new List<GameObject>();
+
+            int i, len = eg.gameObjects.Count;
+            for (i = 0; i < len; ++i) {
+                List<GameObject> aTemp = getChildrenRecursive(eg.gameObjects[i]);
+                int j, len2 = aTemp.Count;
+                for (j = 0; j < len2; ++j) {
+                    allGOsInGroup.Add (aTemp[j]);
+                }
+            }
+
+            eg.allGameObjects = allGOsInGroup;
+            eg.meshRenderers = new List<MeshRenderer> ();
+            len = allGOsInGroup.Count;
+            for (i = 0; i < len; ++i) {
+                if (allGOsInGroup[i].GetComponent<MeshRenderer> ()) {
+                    eg.meshRenderers.Add (allGOsInGroup[i].GetComponent<MeshRenderer> ());
+                }
+            }
+
+            eg.updateBounds ();
+        }
+
+        // ------------------------------------------------------------------------
+        //
         // ------------------------------------------------------------------------
         public int findElementInGroup(GameObject go)
 		{
@@ -429,7 +487,6 @@ namespace PrefabWorldEditor
 			foreach (Transform child in go.transform)
 			{
 				if (child != null && child.gameObject.activeSelf) {
-					_tempListOfChildren.Add (child.gameObject);
 					getChildrenRecursive (child.gameObject, ++count);
 				}
 			}

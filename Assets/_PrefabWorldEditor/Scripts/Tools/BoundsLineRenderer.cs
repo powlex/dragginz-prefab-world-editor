@@ -4,7 +4,6 @@
 //
 
 using UnityEngine;
-using UnityEditor;
 
 namespace PrefabWorldEditor
 {
@@ -46,10 +45,12 @@ namespace PrefabWorldEditor
         public void updateBounds(Bounds b) {
 
             bounds = b;
+            //Debug.Log ("updateBounds "+b);
 
             v3PosMin.x = b.center.x - b.extents.x;
             v3PosMin.y = b.center.y - b.extents.y;
             v3PosMin.z = b.center.z - b.extents.z;
+            //Debug.Log ("v3PosMin: " + v3PosMin.x.ToString() + ", " + v3PosMin.y.ToString () + ", " + v3PosMin.z.ToString ());
 
             v3PosMax = v3PosMin + b.size;
 
