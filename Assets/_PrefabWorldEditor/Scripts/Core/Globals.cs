@@ -13,7 +13,7 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v08.07.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v08.08.0a";
 
         static public readonly string resourcesPath = "Assets/_PrefabWorldEditor/Resources/";
 
@@ -124,12 +124,12 @@ namespace PrefabWorldEditor
 
         static public readonly string defaultLevelName = "myLevel";
 
-		//static public readonly float RAYCAST_DISTANCE_EDIT = 10.24f;
+        //static public readonly float RAYCAST_DISTANCE_EDIT = 10.24f;
 
-		//static public readonly string urlLevelList = "";
+        static public readonly string urlLevelList = "http://obrodhage.rocks/dragginz/level-data/";
 
-		// Experimental
-		/*static public readonly string[] materialsRailgun = {"vwe_railgun_cross", "vwe_railgun_steps", "vwe_railgun_corner_right", "vwe_railgun_corner_left"};
+        // Experimental
+        /*static public readonly string[] materialsRailgun = {"vwe_railgun_cross", "vwe_railgun_steps", "vwe_railgun_corner_right", "vwe_railgun_corner_left"};
 		public struct RailgunShape
 		{
 			public int width;
@@ -150,10 +150,10 @@ namespace PrefabWorldEditor
 			}
 		};*/
 
-		/// <summary>
-		/// ...
-		/// </summary>
-		public static DataTypeVector2[] vector2ToDataTypeVector2(Vector2[] v2Array) {
+        /// <summary>
+        /// ...
+        /// </summary>
+        public static DataTypeVector2[] vector2ToDataTypeVector2(Vector2[] v2Array) {
 
 			int len = v2Array.Length;
 			DataTypeVector2[] dtv2Array = new DataTypeVector2[len];

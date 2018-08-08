@@ -1483,6 +1483,7 @@ namespace PrefabWorldEditor
                     _levelController.setComponents (go, true, false);
 
 					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _toolsController.curDungeonTool.dungeonElements [i].partId);
+                    elementTool.isLocked = true;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 
@@ -1524,7 +1525,6 @@ namespace PrefabWorldEditor
                     _levelController.setComponents (go, true, _curEditPart.usesGravity);
 
 					LevelController.LevelElement elementTool = LevelController.Instance.createLevelElement(go, _curEditPart.id);
-                    elementTool.isLocked = true;
 
                     _levelController.levelElements.Add (go.name, elementTool);
 

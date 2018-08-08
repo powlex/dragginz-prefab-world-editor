@@ -38,7 +38,7 @@ namespace PrefabWorldEditor
         private GameObject Spinner;
 
 		private bool _onlineModeAvailable;
-		//private int _iCurLevelChunk;
+		private int _iCurLevelChunk;
 
 		//
 		void Awake()
@@ -47,8 +47,9 @@ namespace PrefabWorldEditor
 			{
 				SceneManager.LoadScene (2);
 			}
-			else {
-				_onlineModeAvailable = false;
+			else
+            {
+				_onlineModeAvailable = true;
 
 				FileInfo.text = Globals.version;
 
@@ -65,7 +66,7 @@ namespace PrefabWorldEditor
 				TextButtonOffline.text = "Load and save levels\non your hard drive";
 				#endif
 		
-				//_iCurLevelChunk = 0;
+				_iCurLevelChunk = 0;
 			}
 		}
 
@@ -91,9 +92,9 @@ namespace PrefabWorldEditor
 			Message.gameObject.SetActive (true);
 			Message.text = "Connecting...";
 
-            //Spinner.SetActive(true);
+            Spinner.SetActive(true);
 
-            //AttemptConnection();
+            AttemptConnection();
         }
 
 		//
@@ -108,7 +109,6 @@ namespace PrefabWorldEditor
 			SceneManager.LoadScene (1);
 		}
 
-		/*
 		//
 		private void AttemptConnection()
         {
@@ -120,11 +120,11 @@ namespace PrefabWorldEditor
 		//
 		private void ConnectionSuccess(string data)
 		{
-			AppController.Instance.editorIsInOfflineMode = false;
+			//AppController.Instance.editorIsInOfflineMode = false;
 
 			StopCoroutine(TimerUtils.WaitAndPerform(5.0f, ConnectionTimeout));
 
-			LevelManager.Instance.init (data);
+			//LevelManager.Instance.init (data);
 
 			Message.text = "Loading Level...";
 			Update.gameObject.SetActive (true);
@@ -139,7 +139,7 @@ namespace PrefabWorldEditor
 
 			resetScreen ();
 
-			AppController.Instance.showPopup (PopupMode.Notification, "ERROR", error, timeOutPopupContinue);
+			//AppController.Instance.showPopup (PopupMode.Notification, "ERROR", error, timeOutPopupContinue);
 		}
 
 		private void ConnectionTimeout()
@@ -148,7 +148,7 @@ namespace PrefabWorldEditor
 
 			resetScreen ();
 
-			AppController.Instance.showPopup (PopupMode.Notification, "Warning", "Could not connect to Server!\n\nEditor will run in Offline Mode!", timeOutPopupContinue);
+			//AppController.Instance.showPopup (PopupMode.Notification, "Warning", "Could not connect to Server!\n\nEditor will run in Offline Mode!", timeOutPopupContinue);
 		}
 
 		//
@@ -158,7 +158,7 @@ namespace PrefabWorldEditor
 		private void loadLevelChunks()
 		{
 			// done loading?
-			if (_iCurLevelChunk >= LevelManager.Instance.numLevels)
+			/*if (_iCurLevelChunk >= LevelManager.Instance.numLevels)
 			{
 				//resetScreen ();
 				LevelEditor.Instance.initOnlineMode ();
@@ -171,7 +171,7 @@ namespace PrefabWorldEditor
 				Update.text = (_iCurLevelChunk + 1).ToString () + " of " + LevelManager.Instance.numLevels.ToString ();
 				NetManager.Instance.loadLevelChunk (LevelManager.Instance.levelByIndex[_iCurLevelChunk].filename, LoadSuccess, loadFail);
 				StartCoroutine(TimerUtils.WaitAndPerform(5.0f, LoadTimeout));
-			}
+			}*/
 		}
 
 		//
@@ -179,7 +179,7 @@ namespace PrefabWorldEditor
 		{
 			StopCoroutine(TimerUtils.WaitAndPerform(5.0f, LoadTimeout));
 
-			LevelManager.Instance.setLevelJson (LevelManager.Instance.levelByIndex [_iCurLevelChunk].id, data);
+			//LevelManager.Instance.setLevelJson (LevelManager.Instance.levelByIndex [_iCurLevelChunk].id, data);
 
 			_iCurLevelChunk++;
 
@@ -193,7 +193,7 @@ namespace PrefabWorldEditor
 
 			resetScreen ();
 
-			AppController.Instance.showPopup (PopupMode.Notification, "ERROR", error, timeOutPopupContinue);
+			//AppController.Instance.showPopup (PopupMode.Notification, "ERROR", error, timeOutPopupContinue);
 		}
 
 		//
@@ -203,7 +203,7 @@ namespace PrefabWorldEditor
 
 			resetScreen ();
 
-			AppController.Instance.showPopup (PopupMode.Notification, "Warning", "Could not load all level chunks!\n\nEditor will run in Offline Mode!", timeOutPopupContinue);
+			//AppController.Instance.showPopup (PopupMode.Notification, "Warning", "Could not load all level chunks!\n\nEditor will run in Offline Mode!", timeOutPopupContinue);
 		}
 
 		//
@@ -211,19 +211,19 @@ namespace PrefabWorldEditor
 		//
 		private IEnumerator createLevels()
 		{
-			int i, len = LevelManager.Instance.numLevels;
+            int i, len = 0;// LevelManager.Instance.numLevels;
 			for (i = 0; i < len; ++i) {
 
 				Update.text = (i + 1).ToString () + " of " + len.ToString ();
 
-				int levelId = LevelManager.Instance.getLevelIdByIndex (i);
-				LevelEditor.Instance.createLevelChunkWithIndex (levelId, i);
+				//int levelId = LevelManager.Instance.getLevelIdByIndex (i);
+				//LevelEditor.Instance.createLevelChunkWithIndex (levelId, i);
 
 				yield return new WaitForEndOfFrame();
 			}
 
 			resetScreen ();
-			LevelEditor.Instance.launch ();
+			//LevelEditor.Instance.launch ();
 		}
 
 		//
@@ -233,11 +233,9 @@ namespace PrefabWorldEditor
 		//
 		private void timeOutPopupContinue(int buttonId)
 		{
-			MainMenu.Instance.popup.hide();
+			//MainMenu.Instance.popup.hide();
 
 			workOffline ();
 		}
-
-		*/
     }
 }

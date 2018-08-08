@@ -29,6 +29,7 @@ namespace PrefabWorldEditor
 		public Transform panelTools;
         public Transform panelFileMenu;
 		public Transform panelLevelMenu;
+        public Transform panelChunksMenu;
 
         public Transform panelAssetInfo;
 		public UIAssetInfo assetInfo;
@@ -86,7 +87,10 @@ namespace PrefabWorldEditor
 		private Dropdown _trfmDropDownLevel = null;
 		private Text _txtPanelLevel = null;
 		private int _iDropDownLevelOptions = 0;
-		//private int _iSelectedLevel = -1;
+
+        private Dropdown _trfmDropDownChunks = null;
+        private Text _txtPanelChunks = null;
+        private int _iDropDownChunksOptions = 0;
 
         private int _iSelectedTool = -1;
 		private int _iSelectedAssetType = -1;
@@ -95,8 +99,6 @@ namespace PrefabWorldEditor
 		public Vector3 v3DigSettings {
 			get { return _v3DigSettings; }
 		}
-
-		//private float _lastMouseWheelUpdate;
 
 		private int _iSelectedMaterial = 0;
 		public int iSelectedMaterial {
@@ -145,7 +147,6 @@ namespace PrefabWorldEditor
                     _trfmDropDownFile = trfmMenu.GetComponent<Dropdown>();
                     if (_trfmDropDownFile) {
                         _iDropDownFileOptions = _trfmDropDownFile.options.Count;
-						//Debug.Log ("_iDropDownFileOptions: "+_iDropDownFileOptions);
                     }
                 }
             }
@@ -160,20 +161,30 @@ namespace PrefabWorldEditor
 					_trfmDropDownLevel = trfmMenu.GetComponent<Dropdown>();
 					if (_trfmDropDownLevel) {
 						_iDropDownLevelOptions = _trfmDropDownLevel.options.Count;
-						//Debug.Log ("_iDropDownLevelOptions: "+_iDropDownLevelOptions);
 					}
 				}
-				//panelLevelMenu.gameObject.SetActive (false);
 			}
 
-            //_lastMouseWheelUpdate = 0;
+            if (panelChunksMenu != null) {
+                trfmText = panelChunksMenu.Find ("Text");
+                if (trfmText != null) {
+                    _txtPanelChunks = trfmText.GetComponent<Text> ();
+                }
+                trfmMenu = panelChunksMenu.Find ("DropdownFile");
+                if (trfmMenu) {
+                    _trfmDropDownChunks = trfmMenu.GetComponent<Dropdown> ();
+                    if (_trfmDropDownChunks) {
+                        _iDropDownChunksOptions = _trfmDropDownChunks.options.Count;
+                    }
+                }
+            }
         }
 
-		#endregion
+        #endregion
 
-		#region PublicMethods
+        #region PublicMethods
 
-		public void init()
+        public void init()
 		{
 			onSelectTransformTool(0);
 
@@ -733,7 +744,14 @@ namespace PrefabWorldEditor
             }
 		}
 
-		//
+        public void onPointerDownChunks (BaseEventData data) {
+            if (_trfmDropDownChunks) {
+                resetDropDown (_trfmDropDownChunks);
+                PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform, true); // force reset
+            }
+        }
+
+        //
         public void onDropDownFileValueChanged(int value) {
             if (_trfmDropDownFile && value < _iDropDownFileOptions) {
                 if (value == 0) {
@@ -752,6 +770,17 @@ namespace PrefabWorldEditor
                 else if (value == 1) {
                     showLoadTestLevelDialog();
                 }
+            }
+        }
+
+        public void onDropDownChunksValueChanged (int value) {
+            if (_trfmDropDownChunks && value < _iDropDownChunksOptions) {
+                /*if (value == 0) {
+                    showNewLevelDialog ();
+                }
+                else if (value == 1) {
+                    showLoadTestLevelDialog ();
+                }*/
             }
         }
     }

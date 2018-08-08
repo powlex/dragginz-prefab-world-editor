@@ -76,8 +76,11 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\FlickeringLight.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\LightFlickerEffect.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\JSON\SimpleJSON.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\LevelChunk.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\LevelManager.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\PrefabLevelEditor.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\VREditor.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Server\NetManager.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\SplashScreen\Spinner.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\SplashScreen\SplashScreenController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Tools\BoundsLineRenderer.cs" />
