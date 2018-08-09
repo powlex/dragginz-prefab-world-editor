@@ -157,7 +157,7 @@ namespace PrefabWorldEditor
         #region SystemMethods
 
         // ------------------------------------------------------------------------
-        void Start ()
+        public void init ()
         {
 			_parts = new Dictionary<Globals.PartList, Part>();
 
@@ -251,7 +251,14 @@ namespace PrefabWorldEditor
 			_toolsController.init (toolContainer);
 
 			PweMainMenu.Instance.init ();
-			PwePlacementTools.Instance.init ();
+            if (!AppController.Instance.editorIsInOfflineMode) {
+                int i, len = LevelManager.Instance.numLevels;
+                for (i = 0; i < len; ++i) {
+                    PweMainMenu.Instance.addLevelToMenu (LevelManager.Instance.levelByIndex[i].name);
+                }
+            }
+
+            PwePlacementTools.Instance.init ();
 			PweDungeonTools.Instance.init ();
 			PweRoomTools.Instance.init ();
 
@@ -277,8 +284,8 @@ namespace PrefabWorldEditor
 			}
         }
 
-		// ------------------------------------------------------------------------
-		void Update()
+        // ------------------------------------------------------------------------
+        /*void Update()
 		{
 			_timer = Time.realtimeSinceStartup;
 
@@ -293,7 +300,7 @@ namespace PrefabWorldEditor
 			{
 				updateEditMode ();
 			}
-		}
+		}*/
 
         // ------------------------------------------------------------------------
         /*void LateUpdate()
@@ -316,6 +323,24 @@ namespace PrefabWorldEditor
 
         // ------------------------------------------------------------------------
         // Public Methods
+        // ------------------------------------------------------------------------
+        public void customUpdate(float t, float d)
+		{
+			_timer = t;
+
+            leftMouseButtonPressed  = Input.GetMouseButtonDown (0);
+            leftMouseButtonReleased = Input.GetMouseButtonUp (0);
+
+            if (_editMode == EditMode.Play)
+			{
+				updatePlayMode ();
+			}
+			else
+			{
+				updateEditMode ();
+			}
+		}
+
         // ------------------------------------------------------------------------
         public void newLevelWithDimensions(int x, int y, int z)
 		{
@@ -1236,9 +1261,11 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		private void positionSelectedElement()
 		{
-			//float _mousewheel = Input.GetAxis ("Mouse ScrollWheel");
-
-			if (_mousewheel != 0)
+            if (_levelController.selectedElement.isLocked) {
+                return;
+            }
+            
+            if (_mousewheel != 0)
 			{
 				if (_timer > _lastMouseWheelUpdate)
 				{

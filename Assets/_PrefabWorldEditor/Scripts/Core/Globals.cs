@@ -13,13 +13,13 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v08.08.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v08.09.0a";
 
         static public readonly string resourcesPath = "Assets/_PrefabWorldEditor/Resources/";
 
         static public readonly int levelSaveFormatVersion = 1;
 
-		//public static readonly int TargetClientFramerate = 120;
+		public static readonly int TargetClientFramerate = 120;
 
 		//
 		public enum PopupMode {
@@ -111,6 +111,9 @@ namespace PrefabWorldEditor
             public List<string> dropdownOptions;
         };
 
+        static public readonly string appContainerName = "{AppController}";
+        static public readonly string netContainerName = "{NetManager}";
+
         static public readonly string snowShaderName = "Custom/ShaderSnow";
 
 		static public readonly string txtWarningObsoleteFileFormat = "Can't load level:\n\nFile format is obsolete!";
@@ -127,28 +130,6 @@ namespace PrefabWorldEditor
         //static public readonly float RAYCAST_DISTANCE_EDIT = 10.24f;
 
         static public readonly string urlLevelList = "http://obrodhage.rocks/dragginz/level-data/";
-
-        // Experimental
-        /*static public readonly string[] materialsRailgun = {"vwe_railgun_cross", "vwe_railgun_steps", "vwe_railgun_corner_right", "vwe_railgun_corner_left"};
-		public struct RailgunShape
-		{
-			public int width;
-			public int height;
-			public int depth;
-
-			public List<Vector3> pos;
-			public List<Vector3> size;
-
-			public RailgunShape(int w, int h, int d, List<Vector3> p, List<Vector3> s)
-			{
-				this.width  = w;
-				this.height = h;
-				this.depth  = d;
-
-				this.pos  = p;
-				this.size = s;
-			}
-		};*/
 
         /// <summary>
         /// ...

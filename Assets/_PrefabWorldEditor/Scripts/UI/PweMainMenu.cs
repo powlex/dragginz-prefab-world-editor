@@ -200,9 +200,9 @@ namespace PrefabWorldEditor
 
 		//
 		public void addLevelToMenu(string name) {
-			if (_trfmDropDownLevel != null) {
-				_trfmDropDownLevel.options.Add(new Dropdown.OptionData() { text = name });
-				_iDropDownLevelOptions++;
+			if (_trfmDropDownChunks != null) {
+                _trfmDropDownChunks.options.Add(new Dropdown.OptionData() { text = name });
+				_iDropDownChunksOptions++;
 			}
 		}
 

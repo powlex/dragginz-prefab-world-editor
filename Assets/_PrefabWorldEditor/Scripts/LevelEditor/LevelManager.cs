@@ -84,7 +84,7 @@ namespace PrefabWorldEditor
 				_levelByIndex [i] = ls;
                 //saveLevelInfo (ls);
 
-                //MainMenu.Instance.addLevelToMenu (level ["filename"]);
+                //PweMainMenu.Instance.addLevelToMenu (level ["filename"]);
 			}
 		}
 

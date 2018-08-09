@@ -15,7 +15,7 @@ using AssetsShared;
 
 namespace PrefabWorldEditor
 {
-    public class SplashScreenController : MonoBehaviour
+    public class SplashScreenController : MonoSingleton<SplashScreenController>
     {
 		[SerializeField]
 		private Text FileInfo;
@@ -37,11 +37,28 @@ namespace PrefabWorldEditor
 		[SerializeField]
         private GameObject Spinner;
 
+        [SerializeField]
+        private PwePopupSplashScreen popup;
+
+        //
+
+        private NetManager netManager;
+        private LevelManager levelManager;
+        
 		private bool _onlineModeAvailable;
 		private int _iCurLevelChunk;
 
-		//
-		void Awake()
+        //
+        void Awake () {
+            Debug.Log ("SplashScreenController Awake");
+            if (popup != null) {
+                popup.hide ();
+            }
+            resetScreen ();
+        }
+
+        //
+        public void init ()
 		{
 			if (XRSettings.enabled)
 			{
@@ -49,11 +66,14 @@ namespace PrefabWorldEditor
 			}
 			else
             {
-				_onlineModeAvailable = true;
+                netManager = NetManager.Instance;
+                levelManager = LevelManager.Instance;
+
+                _onlineModeAvailable = true;
 
 				FileInfo.text = Globals.version;
 
-				resetScreen ();
+				//resetScreen ();
 				ButtonOnline.gameObject.SetActive (true);
 				ButtonOnline.interactable = _onlineModeAvailable;
 				ButtonOffline.gameObject.SetActive (true);
@@ -87,7 +107,9 @@ namespace PrefabWorldEditor
 
         public void workOnline()
         {
-			resetScreen ();
+            AppController.Instance.editorIsInOfflineMode = false;
+
+            resetScreen ();
 
 			Message.gameObject.SetActive (true);
 			Message.text = "Connecting...";
@@ -100,13 +122,15 @@ namespace PrefabWorldEditor
 		//
 		public void workOffline()
 		{
-			//AppController.Instance.editorIsInOfflineMode = true;
+            AppController.Instance.editorIsInOfflineMode = true;
 
 			resetScreen ();
 
-			//LevelEditor.Instance.initOfflineMode ();
+            //LevelEditor.Instance.initOfflineMode ();
 
-			SceneManager.LoadScene (1);
+            Message.text = "Loading Editor...";
+
+            AppController.Instance.loadMainScene ();
 		}
 
 		//
@@ -120,11 +144,10 @@ namespace PrefabWorldEditor
 		//
 		private void ConnectionSuccess(string data)
 		{
-			//AppController.Instance.editorIsInOfflineMode = false;
+            Debug.Log ("SplashScreenController ConnectionSuccess");
+            StopCoroutine (TimerUtils.WaitAndPerform(5.0f, ConnectionTimeout));
 
-			StopCoroutine(TimerUtils.WaitAndPerform(5.0f, ConnectionTimeout));
-
-			//LevelManager.Instance.init (data);
+			LevelManager.Instance.init (data);
 
 			Message.text = "Loading Level...";
 			Update.gameObject.SetActive (true);
@@ -135,11 +158,12 @@ namespace PrefabWorldEditor
 		//
 		private void ConnectionFail(string error)
 		{
-			StopCoroutine(TimerUtils.WaitAndPerform(5.0f, ConnectionTimeout));
+            Debug.Log ("SplashScreenController ConnectionFail");
+            StopCoroutine (TimerUtils.WaitAndPerform(5.0f, ConnectionTimeout));
 
 			resetScreen ();
 
-			//AppController.Instance.showPopup (PopupMode.Notification, "ERROR", error, timeOutPopupContinue);
+			popup.showPopup (Globals.PopupMode.Notification, "ERROR", error, timeOutPopupContinue);
 		}
 
 		private void ConnectionTimeout()
@@ -148,7 +172,7 @@ namespace PrefabWorldEditor
 
 			resetScreen ();
 
-			//AppController.Instance.showPopup (PopupMode.Notification, "Warning", "Could not connect to Server!\n\nEditor will run in Offline Mode!", timeOutPopupContinue);
+            popup.showPopup (Globals.PopupMode.Notification, "Warning", "Could not connect to Server!\n\nEditor will run in Offline Mode!", timeOutPopupContinue);
 		}
 
 		//
@@ -158,10 +182,10 @@ namespace PrefabWorldEditor
 		private void loadLevelChunks()
 		{
 			// done loading?
-			/*if (_iCurLevelChunk >= LevelManager.Instance.numLevels)
+			if (_iCurLevelChunk >= LevelManager.Instance.numLevels)
 			{
 				//resetScreen ();
-				LevelEditor.Instance.initOnlineMode ();
+				//LevelEditor.Instance.initOnlineMode ();
 				Message.text = "Creating Level...";
 				Update.text = "";
 				StartCoroutine("createLevels");
@@ -171,7 +195,7 @@ namespace PrefabWorldEditor
 				Update.text = (_iCurLevelChunk + 1).ToString () + " of " + LevelManager.Instance.numLevels.ToString ();
 				NetManager.Instance.loadLevelChunk (LevelManager.Instance.levelByIndex[_iCurLevelChunk].filename, LoadSuccess, loadFail);
 				StartCoroutine(TimerUtils.WaitAndPerform(5.0f, LoadTimeout));
-			}*/
+			}
 		}
 
 		//
@@ -193,7 +217,7 @@ namespace PrefabWorldEditor
 
 			resetScreen ();
 
-			//AppController.Instance.showPopup (PopupMode.Notification, "ERROR", error, timeOutPopupContinue);
+            popup.showPopup (Globals.PopupMode.Notification, "ERROR", error, timeOutPopupContinue);
 		}
 
 		//
@@ -203,7 +227,7 @@ namespace PrefabWorldEditor
 
 			resetScreen ();
 
-			//AppController.Instance.showPopup (PopupMode.Notification, "Warning", "Could not load all level chunks!\n\nEditor will run in Offline Mode!", timeOutPopupContinue);
+            popup.showPopup (Globals.PopupMode.Notification, "Warning", "Could not load all level chunks!\n\nEditor will run in Offline Mode!", timeOutPopupContinue);
 		}
 
 		//
@@ -211,20 +235,22 @@ namespace PrefabWorldEditor
 		//
 		private IEnumerator createLevels()
 		{
-            int i, len = 0;// LevelManager.Instance.numLevels;
+            int i, len = LevelManager.Instance.numLevels;
 			for (i = 0; i < len; ++i) {
 
 				Update.text = (i + 1).ToString () + " of " + len.ToString ();
 
-				//int levelId = LevelManager.Instance.getLevelIdByIndex (i);
+				int levelId = LevelManager.Instance.getLevelIdByIndex (i);
 				//LevelEditor.Instance.createLevelChunkWithIndex (levelId, i);
 
 				yield return new WaitForEndOfFrame();
 			}
 
 			resetScreen ();
-			//LevelEditor.Instance.launch ();
-		}
+
+            Message.text = "Loading Editor...";
+            AppController.Instance.loadMainScene ();
+        }
 
 		//
 		// POPUP BUTTON CLICK
@@ -233,7 +259,7 @@ namespace PrefabWorldEditor
 		//
 		private void timeOutPopupContinue(int buttonId)
 		{
-			//MainMenu.Instance.popup.hide();
+            popup.hide();
 
 			workOffline ();
 		}
