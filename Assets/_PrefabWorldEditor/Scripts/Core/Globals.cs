@@ -13,7 +13,7 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v08.09.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v08.09.1a";
 
         static public readonly string resourcesPath = "Assets/_PrefabWorldEditor/Resources/";
 
@@ -120,6 +120,7 @@ namespace PrefabWorldEditor
 		static public readonly string txtWarningInvalidFileFormat = "Can't load level '%1'\n\nFile format is invalid!";
         static public readonly string txtWarningSavingFiles = "Saving level files is not available\nin the web version of the editor!";
         static public readonly string txtWarningLoadingFiles = "Loading level files is not available\nin the web version of the editor!";
+        static public readonly string txtAreYouSure = "Are you sure?\nAll unsaved changes will be lost!";
         static public readonly string txtSorry = "Sorry!";
 
         //static public readonly string errorLevelFileInvalidIndex = "Invalid Level Index!";

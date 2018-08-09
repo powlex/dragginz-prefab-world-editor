@@ -91,6 +91,7 @@ namespace PrefabWorldEditor
         private Dropdown _trfmDropDownChunks = null;
         private Text _txtPanelChunks = null;
         private int _iDropDownChunksOptions = 0;
+        private int _iSelectedChunk = 0;
 
         private int _iSelectedTool = -1;
 		private int _iSelectedAssetType = -1;
@@ -533,7 +534,7 @@ namespace PrefabWorldEditor
         // ---------------------------------------------------------------------------------------------
         private void showLoadTestLevelDialog() {
             PrefabLevelEditor.Instance.setEditMode(PrefabLevelEditor.EditMode.Transform, true); // force reset
-            _popup.showPopup(Globals.PopupMode.Confirmation, "Load Test Level", "Are you sure?\nAll unsaved changes will be lost!", loadTestLevel);
+            _popup.showPopup(Globals.PopupMode.Confirmation, "Load Test Level", Globals.txtAreYouSure, loadTestLevel);
         }
 
         public void loadTestLevel(int buttonId) {
@@ -545,7 +546,32 @@ namespace PrefabWorldEditor
                 }
             }
         }
-        
+
+        // ---------------------------------------------------------------------------------------------
+        // Load Level Chunk
+        // ---------------------------------------------------------------------------------------------
+        private void showLoadLevelChunkDialog () {
+            PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform, true); // force reset
+            string header = "Load Level";
+            LevelStruct ls = LevelManager.Instance.getLevelStruct(_iSelectedChunk);
+            if (ls.jsonData != null) {
+                header = "Load \"" + ls.name + "\"";
+                _popup.showPopup (Globals.PopupMode.Confirmation, header, Globals.txtAreYouSure, loadLevelChunk);
+            } else {
+                _popup.showPopup (Globals.PopupMode.Notification, header, "Level Data does not exist!");
+            }
+        }
+
+        public void loadLevelChunk (int buttonId) {
+            _popup.hide ();
+            if (buttonId == 1) {
+                string json = LevelManager.Instance.getLevelJson(_iSelectedChunk);
+                if (json != null) {
+                    LevelData.Instance.loadLevelFromJson (json);
+                }
+            }
+        }
+
         // ---------------------------------------------------------------------------------------------
         // Load File
         // ---------------------------------------------------------------------------------------------
@@ -563,7 +589,7 @@ namespace PrefabWorldEditor
 				return;
 #endif
 
-            _popup.showPopup (Globals.PopupMode.Confirmation, "Load Level", "Are you sure?\nAll unsaved changes will be lost!", showLoadFileBrowser);
+            _popup.showPopup (Globals.PopupMode.Confirmation, "Load Level", Globals.txtAreYouSure, showLoadFileBrowser);
         }
 
 		//
@@ -775,12 +801,8 @@ namespace PrefabWorldEditor
 
         public void onDropDownChunksValueChanged (int value) {
             if (_trfmDropDownChunks && value < _iDropDownChunksOptions) {
-                /*if (value == 0) {
-                    showNewLevelDialog ();
-                }
-                else if (value == 1) {
-                    showLoadTestLevelDialog ();
-                }*/
+                _iSelectedChunk = value;
+                showLoadLevelChunkDialog ();
             }
         }
     }

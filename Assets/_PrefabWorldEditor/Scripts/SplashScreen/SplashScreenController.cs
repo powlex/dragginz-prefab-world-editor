@@ -184,12 +184,14 @@ namespace PrefabWorldEditor
 			// done loading?
 			if (_iCurLevelChunk >= LevelManager.Instance.numLevels)
 			{
-				//resetScreen ();
-				//LevelEditor.Instance.initOnlineMode ();
-				Message.text = "Creating Level...";
-				Update.text = "";
-				StartCoroutine("createLevels");
-			}
+                resetScreen ();
+
+                //Message.text = "Creating Level...";
+                //Update.text = "";
+				//StartCoroutine("createLevels");
+                Message.text = "Loading Editor...";
+                AppController.Instance.loadMainScene ();
+            }
 			else 
 			{
 				Update.text = (_iCurLevelChunk + 1).ToString () + " of " + LevelManager.Instance.numLevels.ToString ();
@@ -203,7 +205,7 @@ namespace PrefabWorldEditor
 		{
 			StopCoroutine(TimerUtils.WaitAndPerform(5.0f, LoadTimeout));
 
-			//LevelManager.Instance.setLevelJson (LevelManager.Instance.levelByIndex [_iCurLevelChunk].id, data);
+			LevelManager.Instance.setLevelJson (LevelManager.Instance.levelByIndex [_iCurLevelChunk].id, data);
 
 			_iCurLevelChunk++;
 
