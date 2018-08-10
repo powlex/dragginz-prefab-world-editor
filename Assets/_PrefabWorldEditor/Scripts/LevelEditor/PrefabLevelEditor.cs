@@ -29,6 +29,7 @@ namespace PrefabWorldEditor
 
         public Transform playerEdit;
 		public Transform playerPlay;
+        public Transform playerMap;
 
         public GameObject playerEditSpotLight;
         public GameObject playerPlaySpotLight;
@@ -117,6 +118,7 @@ namespace PrefabWorldEditor
 
         private bool _bSpotLightsActive;
         private bool _bSnapToGrid;
+        private bool _editorIsPaused;
 
         private float _mousewheel;
         private float _timer;
@@ -244,6 +246,7 @@ namespace PrefabWorldEditor
 
             _bSpotLightsActive = true;
             _bSnapToGrid = true;
+            _editorIsPaused = false;
 
             GameObject toolContainer = new GameObject("[ContainerTools]");
 
@@ -256,6 +259,9 @@ namespace PrefabWorldEditor
                 for (i = 0; i < len; ++i) {
                     PweMainMenu.Instance.addLevelToMenu (LevelManager.Instance.levelByIndex[i].name);
                 }
+            }
+            else {
+                PweChunkMap.Instance.gameObject.SetActive (false);
             }
 
             PwePlacementTools.Instance.init ();
@@ -331,14 +337,14 @@ namespace PrefabWorldEditor
             leftMouseButtonPressed  = Input.GetMouseButtonDown (0);
             leftMouseButtonReleased = Input.GetMouseButtonUp (0);
 
-            if (_editMode == EditMode.Play)
-			{
-				updatePlayMode ();
-			}
-			else
-			{
-				updateEditMode ();
-			}
+            if (!_editorIsPaused) {
+                if (_editMode == EditMode.Play) {
+                    updatePlayMode ();
+                }
+                else {
+                    updateEditMode ();
+                }
+            }
 		}
 
         // ------------------------------------------------------------------------
@@ -354,6 +360,26 @@ namespace PrefabWorldEditor
 
 			setEditMode (EditMode.Transform);
 		}
+
+        // ------------------------------------------------------------------------
+        public void showWorldMap(bool state)
+        {
+            _editorIsPaused = state;
+            setEditMode ((_editorIsPaused ? EditMode.None : EditMode.Transform));
+
+            container.gameObject.SetActive (!_editorIsPaused);
+            trfmWalls.gameObject.SetActive (!_editorIsPaused);
+            trfmBounds.gameObject.SetActive (!_editorIsPaused);
+
+            PweChunkMap.Instance.showmapContainer (state);
+
+            if (state) {
+                playerEdit.gameObject.SetActive (false);
+                playerPlay.gameObject.SetActive (false);
+            }
+
+            playerMap.gameObject.SetActive (state);
+        }
 
         // ------------------------------------------------------------------------
         public void clearLevel()
@@ -428,6 +454,8 @@ namespace PrefabWorldEditor
                 }
                 PweMainMenu.Instance.showAssetInfoPanel(_editMode == EditMode.Place);
                 PweMainMenu.Instance.showInstanceInfoPanel(false);
+
+                playerMap.gameObject.SetActive (false);
 
                 bool playerEditWasActive = playerEdit.gameObject.activeSelf;
                 bool playerPlayWasActive = playerPlay.gameObject.activeSelf;

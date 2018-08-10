@@ -30,10 +30,10 @@ namespace PrefabWorldEditor
 
 		#region PublicMethods
 
-		public void init()
+		/*public void init()
 		{
 			reset ();
-		}
+		}*/
 
 		//
 		public void reset()

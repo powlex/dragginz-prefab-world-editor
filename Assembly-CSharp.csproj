@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\FlyCam.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\MapCam.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\LevelController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\ToolsController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\VRController.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelSlider.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelToggle.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UISelectionBox.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweChunkMap.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDungeonTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDynamicMenusVR.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweMainMenu.cs" />
@@ -272,6 +274,7 @@
     <Compile Include="Assets\RuntimeGizmos\Scripts\GizmoViewScript.cs" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\Resources\Unlit-AlphaWithFade.shader" />
     <None Include="Assets\3DGamekit\Art\Shaders\Stonework.shader" />
+    <None Include="Assets\_PrefabWorldEditor\Resources\Shaders\3DTextShader.shader" />
     <None Include="Assets\_PrefabWorldEditor\Resources\Shaders\OutlineShader.shader" />
     <None Include="Assets\3DGamekit\Art\Shaders\Terrain.shader" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\changelog.txt" />
