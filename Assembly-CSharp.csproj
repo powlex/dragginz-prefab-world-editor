@@ -66,6 +66,8 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\LevelController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\ToolsController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\VRController.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\WorldMapChunkController.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\WorldMapController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Core\AppController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Core\AppEntry.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Core\BuildSettings.cs" />

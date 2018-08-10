@@ -372,13 +372,14 @@ namespace PrefabWorldEditor
             trfmBounds.gameObject.SetActive (!_editorIsPaused);
 
             PweChunkMap.Instance.showmapContainer (state);
+            playerMap.gameObject.SetActive (state);
 
             if (state) {
                 playerEdit.gameObject.SetActive (false);
                 playerPlay.gameObject.SetActive (false);
-            }
 
-            playerMap.gameObject.SetActive (state);
+                WorldMapController.Instance.init ();
+            }
         }
 
         // ------------------------------------------------------------------------
