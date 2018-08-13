@@ -550,8 +550,12 @@ namespace PrefabWorldEditor
         // ---------------------------------------------------------------------------------------------
         // Load Level Chunk
         // ---------------------------------------------------------------------------------------------
-        private void showLoadLevelChunkDialog () {
-            PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform, true); // force reset
+        private void showLoadLevelChunkDialog (bool resetEditMode = true)
+        {
+            if (resetEditMode) {
+                PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform, true); // force reset
+            }
+
             string header = "Load Level";
             LevelStruct ls = LevelChunkManager.Instance.getLevelStruct(_iSelectedChunk);
             if (ls.jsonData != null) {
@@ -562,7 +566,8 @@ namespace PrefabWorldEditor
             }
         }
 
-        public void loadLevelChunk (int buttonId) {
+        public void loadLevelChunk (int buttonId)
+        {
             _popup.hide ();
             if (buttonId == 1) {
                 string json = LevelChunkManager.Instance.getLevelJson(_iSelectedChunk);
@@ -803,6 +808,13 @@ namespace PrefabWorldEditor
             if (_trfmDropDownChunks && value < _iDropDownChunksOptions) {
                 _iSelectedChunk = value;
                 showLoadLevelChunkDialog ();
+            }
+        }
+
+        public void selectDropDownChunksValue (int value) {
+            if (_trfmDropDownChunks && value < _iDropDownChunksOptions) {
+                _iSelectedChunk = value;
+                showLoadLevelChunkDialog (false);
             }
         }
     }

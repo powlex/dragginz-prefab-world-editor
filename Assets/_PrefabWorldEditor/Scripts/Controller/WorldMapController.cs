@@ -26,12 +26,37 @@ namespace PrefabWorldEditor
 
         private Dictionary<GameObject, LevelChunk> _levelChunks;
 
-        #region PublicMethods
+        private GameObject _goHit;
+        private RaycastHit _hit;
+        private Ray _ray;
+
+        #region SystemMethods
 
         // ------------------------------------------------------------------------
         void Awake () {
             _levelChunks = new Dictionary<GameObject, LevelChunk> ();
         }
+
+        // ------------------------------------------------------------------------
+        private void Update () {
+        
+            if (PrefabLevelEditor.Instance.leftMouseButtonPressed) {
+
+                _goHit = null;
+                _ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+                if (Physics.Raycast (_ray, out _hit, 100)) {
+                    _goHit = _hit.collider.gameObject;
+
+                    loadClickedLevel ();
+                }
+            }
+        }
+
+        #endregion
+
+        //
+
+        #region PublicMethods
 
         // ------------------------------------------------------------------------
         public void init()
@@ -50,6 +75,12 @@ namespace PrefabWorldEditor
             clear ();
         }
 
+        #endregion
+
+        //
+
+        #region PrivateMethods
+
         // ------------------------------------------------------------------------
         private void clear()
 		{
@@ -58,6 +89,24 @@ namespace PrefabWorldEditor
 			}
 
             _levelChunks.Clear ();
+        }
+
+        // ------------------------------------------------------------------------
+        private void loadClickedLevel() {
+
+            if (_goHit != null && _goHit.transform.parent != null) {
+
+                GameObject target = _goHit.transform.parent.gameObject;
+                int index = 0;
+                foreach (KeyValuePair<GameObject, LevelChunk> chunk in _levelChunks) {
+
+                    if (chunk.Key == target) {
+                        PweMainMenu.Instance.selectDropDownChunksValue (index);
+                        break;
+                    }
+                    index++;
+                }
+            }
         }
 
         // ------------------------------------------------------------------------

@@ -350,7 +350,11 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void newLevelWithDimensions(int x, int y, int z)
 		{
-			levelSize.x = x;
+            if (_editorIsPaused) {
+                showWorldMap (false);
+            }
+
+            levelSize.x = x;
 			levelSize.y = y;
 			levelSize.z = z;
 

@@ -325,9 +325,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\FlyCam.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\MapCam.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\LevelController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\ToolsController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\VRController.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\WorldMapChunkController.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\WorldMapController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Core\AppController.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Core\AppEntry.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Core\BuildSettings.cs" />
@@ -343,7 +346,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\DynamicAssets\LightFlickerEffect.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\JSON\SimpleJSON.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\LevelChunk.cs" />
-    <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\LevelManager.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\LevelChunkManager.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\PrefabLevelEditor.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\LevelEditor\VREditor.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Server\NetManager.cs" />
@@ -369,6 +372,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelSlider.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UIPanelToggle.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\Dynamic\UISelectionBox.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweChunkMap.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDungeonTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDynamicMenusVR.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweMainMenu.cs" />
@@ -539,6 +543,7 @@
     <None Include="Assets\3DGamekit\Art\Shaders\Terrain.shader" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\Resources\Unlit-AlphaWithFade.shader" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\changelog.txt" />
+    <None Include="Assets\_PrefabWorldEditor\Resources\Shaders\3DTextShader.shader" />
     <None Include="Assets\_PrefabWorldEditor\Resources\Shaders\OutlineShader.shader" />
     <None Include="Assets\_PrefabWorldEditor\Resources\Shaders\SnowShader.shader" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />

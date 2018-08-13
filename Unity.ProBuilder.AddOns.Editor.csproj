@@ -362,6 +362,7 @@
     <None Include="Assets\3DGamekit\Art\Shaders\Terrain.shader" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\Resources\Unlit-AlphaWithFade.shader" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\changelog.txt" />
+    <None Include="Assets\_PrefabWorldEditor\Resources\Shaders\3DTextShader.shader" />
     <None Include="Assets\_PrefabWorldEditor\Resources\Shaders\OutlineShader.shader" />
     <None Include="Assets\_PrefabWorldEditor\Resources\Shaders\SnowShader.shader" />
     <None Include="Packages\com.unity.package-manager-ui\Editor\Resources\Styles\Main_Dark.uss" />
