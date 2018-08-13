@@ -38,10 +38,9 @@ namespace PrefabWorldEditor
 		{
             reset ();
 
-            int i, len = LevelManager.Instance.numLevels;
+            int i, len = LevelChunkManager.Instance.numLevels;
             for (i = 0; i < len; ++i) {
-
-                createChunk (LevelManager.Instance.levelByIndex[i]);
+                createChunk (LevelChunkManager.Instance.levelByIndex[i]);
             }
         }
 
@@ -65,13 +64,17 @@ namespace PrefabWorldEditor
         private void createChunk (LevelStruct ls) {
 
             GameObject go = Instantiate(_chunkPrefab);
-            go.name = "chunk:" + ls.x.ToString () + "." + ls.y.ToString () + "." + ls.z.ToString ();
+            go.name = "chunk:" + ls.posX.ToString () + "." + ls.posY.ToString () + "." + ls.posZ.ToString ();
             go.transform.SetParent (_container.transform);
-            go.transform.position = new Vector3 (ls.x, ls.y, ls.z);
+
+            Vector3 v3Pos   = new Vector3 ((float)ls.posX / 10f, (float)ls.posY / 10f, (float)ls.posZ / 10f);
+            Vector3 v3Scale = new Vector3 ((float)ls.sizeX / 10f, (float)ls.sizeY / 10f, (float)ls.sizeZ / 10f);
+
+            go.transform.position = new Vector3(v3Pos.x + v3Scale.x * .5f, v3Pos.y + v3Scale.y * .5f, v3Pos.z + v3Scale.z * .5f);
 
             WorldMapChunkController wmcc = go.GetComponent<WorldMapChunkController>();
             if (wmcc != null) {
-                wmcc.init (new Vector3 (ls.x, ls.y, ls.z), ls.name);
+                wmcc.init (new Vector3(ls.posX, ls.posY, ls.posZ), new Vector3 (ls.sizeX, ls.sizeY, ls.sizeZ), v3Scale, ls.name);
             }
 
             LevelChunk lc = new LevelChunk();

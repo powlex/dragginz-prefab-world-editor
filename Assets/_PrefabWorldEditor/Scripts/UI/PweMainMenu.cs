@@ -553,7 +553,7 @@ namespace PrefabWorldEditor
         private void showLoadLevelChunkDialog () {
             PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform, true); // force reset
             string header = "Load Level";
-            LevelStruct ls = LevelManager.Instance.getLevelStruct(_iSelectedChunk);
+            LevelStruct ls = LevelChunkManager.Instance.getLevelStruct(_iSelectedChunk);
             if (ls.jsonData != null) {
                 header = "Load \"" + ls.name + "\"";
                 _popup.showPopup (Globals.PopupMode.Confirmation, header, Globals.txtAreYouSure, loadLevelChunk);
@@ -565,7 +565,7 @@ namespace PrefabWorldEditor
         public void loadLevelChunk (int buttonId) {
             _popup.hide ();
             if (buttonId == 1) {
-                string json = LevelManager.Instance.getLevelJson(_iSelectedChunk);
+                string json = LevelChunkManager.Instance.getLevelJson(_iSelectedChunk);
                 if (json != null) {
                     LevelData.Instance.loadLevelFromJson (json);
                 }

@@ -255,9 +255,9 @@ namespace PrefabWorldEditor
 
 			PweMainMenu.Instance.init ();
             if (!AppController.Instance.editorIsInOfflineMode) {
-                int i, len = LevelManager.Instance.numLevels;
+                int i, len = LevelChunkManager.Instance.numLevels;
                 for (i = 0; i < len; ++i) {
-                    PweMainMenu.Instance.addLevelToMenu (LevelManager.Instance.levelByIndex[i].name);
+                    PweMainMenu.Instance.addLevelToMenu (LevelChunkManager.Instance.levelByIndex[i].name);
                 }
             }
             else {

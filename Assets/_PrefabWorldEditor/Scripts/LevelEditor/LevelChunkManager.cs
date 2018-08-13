@@ -3,7 +3,6 @@
 // Company : Decentralised Team of Developers
 //
 
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -18,23 +17,29 @@ namespace PrefabWorldEditor
 		public int id;
 		public string name; 
 		public string filename; 
-		public int x;
-		public int y;
-		public int z;
-		public string jsonData;
-		public LevelStruct(int id, string name, string filename, int x, int y, int z, string jd = null) {
+		public int posX;
+		public int posY;
+		public int posZ;
+        public int sizeX;
+        public int sizeY;
+        public int sizeZ;
+        public string jsonData;
+		public LevelStruct(int id, string name, string filename, int posX, int posY, int posZ, int sizeX, int sizeY, int sizeZ, string jd = null) {
 			this.id = id;
 			this.name = name;
 			this.filename = filename;
-			this.x = x;
-			this.y = y;
-			this.z = z;
-			this.jsonData = jd;
+			this.posX = posX;
+			this.posY = posY;
+			this.posZ = posZ;
+            this.sizeX = sizeX;
+            this.sizeY = sizeY;
+            this.sizeZ = sizeZ;
+            this.jsonData = jd;
 		}
 	};
 
 	//
-	public class LevelManager : Singleton<LevelManager>
+	public class LevelChunkManager : Singleton<LevelChunkManager>
 	{
 		private LevelStruct[] _levelByIndex;
 
@@ -70,7 +75,9 @@ namespace PrefabWorldEditor
 			int i;
 			for (i = 0; i < _numLevels; ++i) {
 				JSONNode level = levels [i];
-				LevelStruct ls = new LevelStruct (int.Parse(level["id"]), level["name"], level["filename"], int.Parse(level["x"]), int.Parse(level["y"]), int.Parse(level["z"]));
+				LevelStruct ls = new LevelStruct ( int.Parse(level["id"]), level["name"], level["filename"],
+                                                   int.Parse(level["pos-x"]), int.Parse(level["pos-y"]), int.Parse(level["pos-z"]),
+                                                   int.Parse(level["size-x"]), int.Parse(level["size-y"]), int.Parse(level["size-z"]) );
 				_levelByIndex [i] = ls;
 			}
 		}

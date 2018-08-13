@@ -43,7 +43,7 @@ namespace PrefabWorldEditor
         //
 
         private NetManager netManager;
-        private LevelManager levelManager;
+        private LevelChunkManager levelChunkManager;
         
 		private bool _onlineModeAvailable;
 		private int _iCurLevelChunk;
@@ -67,7 +67,7 @@ namespace PrefabWorldEditor
 			else
             {
                 netManager = NetManager.Instance;
-                levelManager = LevelManager.Instance;
+                levelChunkManager = LevelChunkManager.Instance;
 
                 _onlineModeAvailable = true;
 
@@ -147,7 +147,7 @@ namespace PrefabWorldEditor
             Debug.Log ("SplashScreenController ConnectionSuccess");
             StopCoroutine (TimerUtils.WaitAndPerform(5.0f, ConnectionTimeout));
 
-			LevelManager.Instance.init (data);
+            levelChunkManager.init (data);
 
 			Message.text = "Loading Level...";
 			Update.gameObject.SetActive (true);
@@ -182,7 +182,7 @@ namespace PrefabWorldEditor
 		private void loadLevelChunks()
 		{
 			// done loading?
-			if (_iCurLevelChunk >= LevelManager.Instance.numLevels)
+			if (_iCurLevelChunk >= levelChunkManager.numLevels)
 			{
                 resetScreen ();
 
@@ -194,8 +194,8 @@ namespace PrefabWorldEditor
             }
 			else 
 			{
-				Update.text = (_iCurLevelChunk + 1).ToString () + " of " + LevelManager.Instance.numLevels.ToString ();
-				NetManager.Instance.loadLevelChunk (LevelManager.Instance.levelByIndex[_iCurLevelChunk].filename, LoadSuccess, loadFail);
+				Update.text = (_iCurLevelChunk + 1).ToString () + " of " + levelChunkManager.numLevels.ToString ();
+				NetManager.Instance.loadLevelChunk (levelChunkManager.levelByIndex[_iCurLevelChunk].filename, LoadSuccess, loadFail);
 				StartCoroutine(TimerUtils.WaitAndPerform(5.0f, LoadTimeout));
 			}
 		}
@@ -205,7 +205,7 @@ namespace PrefabWorldEditor
 		{
 			StopCoroutine(TimerUtils.WaitAndPerform(5.0f, LoadTimeout));
 
-			LevelManager.Instance.setLevelJson (LevelManager.Instance.levelByIndex [_iCurLevelChunk].id, data);
+            levelChunkManager.setLevelJson (levelChunkManager.levelByIndex [_iCurLevelChunk].id, data);
 
 			_iCurLevelChunk++;
 
@@ -237,12 +237,12 @@ namespace PrefabWorldEditor
 		//
 		private IEnumerator createLevels()
 		{
-            int i, len = LevelManager.Instance.numLevels;
+            int i, len = levelChunkManager.numLevels;
 			for (i = 0; i < len; ++i) {
 
 				Update.text = (i + 1).ToString () + " of " + len.ToString ();
 
-				int levelId = LevelManager.Instance.getLevelIdByIndex (i);
+				int levelId = levelChunkManager.getLevelIdByIndex (i);
 				//LevelEditor.Instance.createLevelChunkWithIndex (levelId, i);
 
 				yield return new WaitForEndOfFrame();
