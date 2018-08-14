@@ -814,7 +814,7 @@ MonoBehaviour:
   settingsPanel: {fileID: 224223086865138648}
   toggleAmbientLight: {fileID: 114156030340474058}
   toggleSpotLight: {fileID: 114306350018503070}
-  toggleSnapToGrid: {fileID: 0}
+  toggleSnapToGrid: {fileID: 114688398035460156}
 --- !u!114 &114869415353672248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1193,7 +1193,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 360, y: -95}
+  m_AnchoredPosition: {x: 340, y: -95}
   m_SizeDelta: {x: 160, y: 110}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224242892651747956
@@ -1398,7 +1398,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 330, y: -38}
+  m_AnchoredPosition: {x: 340, y: -38}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224890796686778822
