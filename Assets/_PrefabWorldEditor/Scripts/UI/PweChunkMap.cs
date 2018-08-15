@@ -44,6 +44,9 @@ namespace PrefabWorldEditor
         public void onMapIconClick()
 		{
             PrefabLevelEditor.Instance.showWorldMap (true);
+
+            PweLevelInfo.Instance.showInfoPanel (false);
+            PweSettings.Instance.showSettingsPanels (false);
         }
 
         public void onCloseClick () {

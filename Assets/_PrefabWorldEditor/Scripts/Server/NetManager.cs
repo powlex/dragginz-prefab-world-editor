@@ -41,7 +41,8 @@ namespace PrefabWorldEditor
 		//
 		IEnumerator GetData(string url)
 		{
-			Debug.Log ("loading "+url);
+            if (Globals.debug)
+                Debug.Log ("loading "+url);
 
 			UnityWebRequest www = UnityWebRequest.Get(url);
 			yield return www.SendWebRequest();

@@ -6,6 +6,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using AssetsShared;
 
@@ -41,13 +42,15 @@ namespace PrefabWorldEditor
         private void Update () {
         
             if (PrefabLevelEditor.Instance.leftMouseButtonPressed) {
+                if (!EventSystem.current.IsPointerOverGameObject ()) {
 
-                _goHit = null;
-                _ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-                if (Physics.Raycast (_ray, out _hit, 100)) {
-                    _goHit = _hit.collider.gameObject;
+                    _goHit = null;
+                    _ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+                    if (Physics.Raycast (_ray, out _hit, 100)) {
+                        _goHit = _hit.collider.gameObject;
 
-                    loadClickedLevel ();
+                        loadClickedLevel ();
+                    }
                 }
             }
         }
@@ -101,6 +104,7 @@ namespace PrefabWorldEditor
                 foreach (KeyValuePair<GameObject, LevelChunk> chunk in _levelChunks) {
 
                     if (chunk.Key == target) {
+                        //Debug.Log (chunk.Key.name + " + " + target.name + " : " + index);
                         PweMainMenu.Instance.selectDropDownChunksValue (index);
                         break;
                     }

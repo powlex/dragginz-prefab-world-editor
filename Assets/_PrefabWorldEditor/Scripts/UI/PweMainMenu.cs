@@ -807,6 +807,7 @@ namespace PrefabWorldEditor
         public void onDropDownChunksValueChanged (int value) {
             if (_trfmDropDownChunks && value < _iDropDownChunksOptions) {
                 _iSelectedChunk = value;
+                //Debug.Log ("_iSelectedChunk: "+ _iSelectedChunk);
                 showLoadLevelChunkDialog ();
             }
         }
@@ -814,6 +815,7 @@ namespace PrefabWorldEditor
         public void selectDropDownChunksValue (int value) {
             if (_trfmDropDownChunks && value < _iDropDownChunksOptions) {
                 _iSelectedChunk = value;
+                //Debug.Log ("_iSelectedChunk: " + _iSelectedChunk);
                 showLoadLevelChunkDialog (false);
             }
         }

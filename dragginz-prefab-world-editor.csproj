@@ -375,6 +375,7 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweChunkMap.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDungeonTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweDynamicMenusVR.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweLevelInfo.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PweMainMenu.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PwePlacementTools.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\PwePopup.cs" />

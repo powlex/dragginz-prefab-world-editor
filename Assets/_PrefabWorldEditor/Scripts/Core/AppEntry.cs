@@ -6,6 +6,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using System;
+
 namespace PrefabWorldEditor
 {
     public class AppEntry : MonoBehaviour
@@ -13,7 +15,8 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         void Awake () {
 
-            Debug.Log ("AppEntry Awake");
+            if (Globals.debug)
+                Debug.Log ("AppEntry Awake");
 
             bool appIsInstantiated = true;
 
@@ -44,7 +47,9 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         void OnSplashSceneLoaded (Scene scene, LoadSceneMode mode)
         {
-            Debug.Log ("AppEntry OnSplashSceneLoaded " + scene.name);
+            if (Globals.debug)
+                Debug.Log ("AppEntry OnSplashSceneLoaded " + scene.name);
+
             SceneManager.sceneLoaded -= OnSplashSceneLoaded;
         }
     }

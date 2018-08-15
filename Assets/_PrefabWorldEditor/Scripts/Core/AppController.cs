@@ -50,18 +50,22 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         void Awake () {
 
-            Debug.Log ("AppController Awake");
-			Application.targetFrameRate = Globals.TargetClientFramerate;
+            if (Globals.debug)
+                Debug.Log ("AppController Awake");
+
+            Application.targetFrameRate = Globals.TargetClientFramerate;
 
 			_editorIsInOfflineMode = true;
 
-			_appState = AppState.Null;
+            _appState = AppState.Null;
         }
 
         // ------------------------------------------------------------------------
         void Start () {
 
-            Debug.Log ("AppController Start");
+            if (Globals.debug)
+                Debug.Log ("AppController Start");
+
             _appState = AppState.InitSplash;
         }
 
@@ -98,7 +102,9 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         void OnMainSceneLoaded (Scene scene, LoadSceneMode mode)
         {
-            Debug.Log ("AppController OnMainSceneLoaded " + scene.name);
+            if (Globals.debug)
+                Debug.Log ("AppController OnMainSceneLoaded " + scene.name);
+
             SceneManager.sceneLoaded -= OnMainSceneLoaded;
 
             _appState = AppState.InitEditor;

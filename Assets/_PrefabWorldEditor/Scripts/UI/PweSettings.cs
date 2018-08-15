@@ -59,13 +59,11 @@ namespace PrefabWorldEditor
         // Events
         //
 
-        public void onSettingsIconClick()
-		{
+        public void onSettingsIconClick() {
             if (settingsPanel != null) {
                 showSettingsPanels (!settingsPanel.gameObject.activeSelf);
             }
-
-            //PrefabLevelEditor.Instance.setEditMode (PrefabLevelEditor.EditMode.Transform, true); // force reset
+            PweLevelInfo.Instance.showInfoPanel (false);
         }
 
         //

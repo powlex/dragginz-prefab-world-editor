@@ -70,6 +70,7 @@ namespace PrefabWorldEditor
             if (infoPanel != null) {
                 showInfoPanel (!infoPanel.gameObject.activeSelf);
             }
+            PweSettings.Instance.showSettingsPanels (false);
         }
 
         #endregion

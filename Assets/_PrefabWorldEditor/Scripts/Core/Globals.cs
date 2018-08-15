@@ -3,6 +3,7 @@
 // Company : Decentralised Team of Developers
 //
 
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -13,7 +14,9 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v08.14.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v08.15.0a";
+
+        static public readonly bool debug = false;
 
         static public readonly string resourcesPath = "Assets/_PrefabWorldEditor/Resources/";
 
@@ -132,9 +135,21 @@ namespace PrefabWorldEditor
 
         static public readonly string urlLevelList = "http://obrodhage.rocks/dragginz/level-data/";
 
-        /// <summary>
-        /// ...
-        /// </summary>
+        //
+        public static int getCurTimeStamp () {
+            DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            int cur_time = (int)(DateTime.UtcNow - epochStart).TotalSeconds;
+            return cur_time;
+        }
+
+        //
+        public static DateTime getTimeStamp (int time) {
+            DateTime epochStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            DateTime dt = epochStart.AddSeconds(time);
+            return dt;
+        }
+
+        //
         public static DataTypeVector2[] vector2ToDataTypeVector2(Vector2[] v2Array) {
 
 			int len = v2Array.Length;
@@ -149,7 +164,8 @@ namespace PrefabWorldEditor
 			return dtv2Array;
 		}
 
-		public static DataTypeVector3[] vector3ToDataTypeVector3(Vector3[] v3Array) {
+        //
+        public static DataTypeVector3[] vector3ToDataTypeVector3(Vector3[] v3Array) {
 
 			//Debug.Log ("vector3ToDataTypeVector3");
 			int len = v3Array.Length;
@@ -167,10 +183,8 @@ namespace PrefabWorldEditor
 			return dtv3Array;
 		}
 
-		/// <summary>
-		/// ...
-		/// </summary>
-		public static Vector2[] dataTypeVector2ToVector2(DataTypeVector2[] dtv2Array) {
+        //
+        public static Vector2[] dataTypeVector2ToVector2(DataTypeVector2[] dtv2Array) {
 
 			int len = dtv2Array.Length;
 			Vector2[] v2Array = new Vector2[len];
@@ -184,7 +198,8 @@ namespace PrefabWorldEditor
 			return v2Array;
 		}
 
-		public static Vector3[] dataTypeVector3ToVector3(DataTypeVector3[] dtv3Array) {
+        //
+        public static Vector3[] dataTypeVector3ToVector3(DataTypeVector3[] dtv3Array) {
 
 			//Debug.Log ("dataTypeVector3ToVector3");
 			int len = dtv3Array.Length;
@@ -202,7 +217,8 @@ namespace PrefabWorldEditor
 			return v3Array;
 		}
 
-		public static void logDataTypeVector3Array(DataTypeVector3[] dtv3Array) {
+        //
+        public static void logDataTypeVector3Array(DataTypeVector3[] dtv3Array) {
 			int len = dtv3Array.Length;
 			for (int i = 0; i < len; ++i) {
 				Debug.Log (i);

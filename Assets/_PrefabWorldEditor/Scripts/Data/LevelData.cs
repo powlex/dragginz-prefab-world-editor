@@ -26,16 +26,16 @@ namespace PrefabWorldEditor
 		public void loadLevelFromJson(string json)
 		{
 			LevelFile levelFile = null;
-			//try {
+			try {
 				levelFile = createDataFromJson(json);
 				if (levelFile != null) {
 					createLevel (levelFile);
 				}
-			/*}
+			}
 			catch (System.Exception e) {
 				Debug.LogWarning (e.Message);
                 PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Notification, "Warning", Globals.txtWarningInvalidFileFormat.Replace("%1",""));
-			}*/
+			}
 		}
 
 		//
@@ -76,11 +76,7 @@ namespace PrefabWorldEditor
 
 			currentLevelId = levelFile.levelId;
 
-            PweLevelInfo.Instance.setLevelName (levelFile.levelName);
-            PweLevelInfo.Instance.setLevelSize ( ((int)levelFile.levelSize.x).ToString () + "x" + ((int)levelFile.levelSize.y).ToString () + "x" + ((int)levelFile.levelSize.z).ToString () );
-            PweLevelInfo.Instance.setLevelPos (((int)levelFile.levelPos.x).ToString () + ", " + ((int)levelFile.levelPos.y).ToString () + ", " + ((int)levelFile.levelPos.z).ToString ());
-            DateTime dt = DateTime.FromFileTimeUtc(levelFile.updated);
-            PweLevelInfo.Instance.setLevelUpdated (dt.ToString ("yyyy-MM-dd"));
+            setLevelChunkInfo (levelFile);
 
             PweMainMenu.Instance.setLevelNameText(levelFile.levelName);
 			lastLevelName = levelFile.levelName;
@@ -194,8 +190,9 @@ namespace PrefabWorldEditor
 
 			levelFile.levelId    = -1;
 			levelFile.levelName  = levelName;
+            levelFile.updated    = Globals.getCurTimeStamp();
 
-			levelFile.levelPos   = new DataTypeVector3 ();
+            levelFile.levelPos   = new DataTypeVector3 ();
 			levelFile.levelPos.x = 0;
 			levelFile.levelPos.y = 0;
 			levelFile.levelPos.z = 0;
@@ -256,5 +253,15 @@ namespace PrefabWorldEditor
 
 			return levelFile;
 		}
-	}
+
+        //
+        public void setLevelChunkInfo(LevelFile levelFile) {
+
+            PweLevelInfo.Instance.setLevelName (levelFile.levelName);
+            PweLevelInfo.Instance.setLevelSize (((int)levelFile.levelSize.x).ToString () + "x" + ((int)levelFile.levelSize.y).ToString () + "x" + ((int)levelFile.levelSize.z).ToString ());
+            PweLevelInfo.Instance.setLevelPos (((int)levelFile.levelPos.x).ToString () + ", " + ((int)levelFile.levelPos.y).ToString () + ", " + ((int)levelFile.levelPos.z).ToString ());
+            DateTime dt = DateTime.FromFileTimeUtc(levelFile.updated);
+            PweLevelInfo.Instance.setLevelUpdated (Globals.getTimeStamp (levelFile.updated).ToString ());
+        }
+    }
 }

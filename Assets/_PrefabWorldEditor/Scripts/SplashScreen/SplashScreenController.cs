@@ -50,7 +50,10 @@ namespace PrefabWorldEditor
 
         //
         void Awake () {
-            Debug.Log ("SplashScreenController Awake");
+
+            if (Globals.debug)
+                Debug.Log ("SplashScreenController Awake");
+
             if (popup != null) {
                 popup.hide ();
             }
@@ -144,7 +147,9 @@ namespace PrefabWorldEditor
 		//
 		private void ConnectionSuccess(string data)
 		{
-            Debug.Log ("SplashScreenController ConnectionSuccess");
+            if (Globals.debug)
+                Debug.Log ("SplashScreenController ConnectionSuccess");
+
             StopCoroutine (TimerUtils.WaitAndPerform(5.0f, ConnectionTimeout));
 
             levelChunkManager.init (data);
@@ -158,7 +163,9 @@ namespace PrefabWorldEditor
 		//
 		private void ConnectionFail(string error)
 		{
-            Debug.Log ("SplashScreenController ConnectionFail");
+            if (Globals.debug)
+                Debug.Log ("SplashScreenController ConnectionFail");
+
             StopCoroutine (TimerUtils.WaitAndPerform(5.0f, ConnectionTimeout));
 
 			resetScreen ();
