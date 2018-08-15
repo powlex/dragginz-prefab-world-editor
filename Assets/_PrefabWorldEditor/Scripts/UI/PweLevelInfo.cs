@@ -38,6 +38,40 @@ namespace PrefabWorldEditor
             }
 		}
 
+        public void setLevelName(string s) {
+            if (levelName != null) {
+                levelName.text = s;
+            }
+        }
+
+        public void setLevelSize (string s) {
+            if (levelSize != null) {
+                levelSize.text = "Size: " + s;
+            }
+        }
+
+        public void setLevelPos (string s) {
+            if (levelPos != null) {
+                levelPos.text = "Pos: " + s;
+            }
+        }
+
+        public void setLevelUpdated (string s) {
+            if (levelUpdated != null) {
+                levelUpdated.text = "Updated: " + s;
+            }
+        }
+
+        //
+        // Events
+        //
+
+        public void onInfoIconClick () {
+            if (infoPanel != null) {
+                showInfoPanel (!infoPanel.gameObject.activeSelf);
+            }
+        }
+
         #endregion
 
         #region PrivateMethods

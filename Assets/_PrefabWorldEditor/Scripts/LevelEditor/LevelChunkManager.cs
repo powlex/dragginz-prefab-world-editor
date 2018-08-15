@@ -23,8 +23,9 @@ namespace PrefabWorldEditor
         public int sizeX;
         public int sizeY;
         public int sizeZ;
+        public int updated;
         public string jsonData;
-		public LevelStruct(int id, string name, string filename, int posX, int posY, int posZ, int sizeX, int sizeY, int sizeZ, string jd = null) {
+		public LevelStruct(int id, string name, string filename, int posX, int posY, int posZ, int sizeX, int sizeY, int sizeZ, int updated, string jd = null) {
 			this.id = id;
 			this.name = name;
 			this.filename = filename;
@@ -34,6 +35,7 @@ namespace PrefabWorldEditor
             this.sizeX = sizeX;
             this.sizeY = sizeY;
             this.sizeZ = sizeZ;
+            this.updated = updated;
             this.jsonData = jd;
 		}
 	};
@@ -77,7 +79,8 @@ namespace PrefabWorldEditor
 				JSONNode level = levels [i];
 				LevelStruct ls = new LevelStruct ( int.Parse(level["id"]), level["name"], level["filename"],
                                                    int.Parse(level["pos-x"]), int.Parse(level["pos-y"]), int.Parse(level["pos-z"]),
-                                                   int.Parse(level["size-x"]), int.Parse(level["size-y"]), int.Parse(level["size-z"]) );
+                                                   int.Parse(level["size-x"]), int.Parse(level["size-y"]), int.Parse(level["size-z"]),
+                                                   int.Parse(level["updated"]) );
 				_levelByIndex [i] = ls;
 			}
 		}

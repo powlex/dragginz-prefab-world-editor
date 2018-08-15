@@ -33,7 +33,10 @@ namespace PrefabWorldEditor
 		[SerializeField]
 		public DataTypeVector3 levelSize { get; set; }
 
-		[SerializeField]
+        [SerializeField]
+        public int updated { get; set; }
+
+        [SerializeField]
 		public List<LevelObject> levelObjects { get; set; }
 
 		[SerializeField]
@@ -94,7 +97,12 @@ namespace PrefabWorldEditor
 				}
 			}
 
-			levelObjects = new List<LevelObject> ();
+            updated = DateTime.Now.Second;
+            if (data["u"] != null) {
+                updated = Int32.Parse (data["u"]);
+            }
+
+            levelObjects = new List<LevelObject> ();
 			if (data ["objs"] != null) {
 				JSONArray elements = (JSONArray) data ["objs"];
 				if (elements != null) {
@@ -154,8 +162,9 @@ namespace PrefabWorldEditor
 			s += ",\"pos\":" + levelPos.getJsonString();
 			s += ",\"n\":" + "\"" + levelName + "\"";
 			s += ",\"size\":" + levelSize.getJsonString();
+            s += ",\"u\":" + updated.ToString ();
 
-			s += ",\"objs\":[";
+            s += ",\"objs\":[";
 			len = levelObjects.Count;
 			for (i = 0; i < len; ++i) {
 				s += (i > 0 ? "," : "");
