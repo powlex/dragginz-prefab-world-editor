@@ -521,9 +521,19 @@ namespace PrefabWorldEditor
 
 			if (buttonId == 1)
 			{
-				if (w >= 4 && w <= 36 && h >= 4 && h <= 36 && d >= 4 && d <= 36) {
+				if (w >= 4 && w <= 36 && h >= 4 && h <= 36 && d >= 4 && d <= 36)
+                {
 					PrefabLevelEditor.Instance.newLevelWithDimensions (w, h, d);
-				} else {
+
+                    LevelData.Instance.lastLevelName = Globals.defaultLevelName;
+                    PweMainMenu.Instance.setLevelNameText (Globals.defaultLevelName);
+
+                    PweLevelInfo.Instance.setLevelName (Globals.defaultLevelName);
+                    PweLevelInfo.Instance.setLevelSize (w.ToString () + "x" + h.ToString () + "x" + d.ToString ());
+                    PweLevelInfo.Instance.setLevelPos ("0, 0, 0");
+                    PweLevelInfo.Instance.setLevelUpdated (Globals.getTimeStamp (Globals.getCurTimeStamp()).ToString ());
+                }
+                else {
 					_popup.showPopup (Globals.PopupMode.Notification, "Error", "Invalid Input!");
 				}					
 			}

@@ -260,7 +260,6 @@ namespace PrefabWorldEditor
             PweLevelInfo.Instance.setLevelName (levelFile.levelName);
             PweLevelInfo.Instance.setLevelSize (((int)levelFile.levelSize.x).ToString () + "x" + ((int)levelFile.levelSize.y).ToString () + "x" + ((int)levelFile.levelSize.z).ToString ());
             PweLevelInfo.Instance.setLevelPos (((int)levelFile.levelPos.x).ToString () + ", " + ((int)levelFile.levelPos.y).ToString () + ", " + ((int)levelFile.levelPos.z).ToString ());
-            DateTime dt = DateTime.FromFileTimeUtc(levelFile.updated);
             PweLevelInfo.Instance.setLevelUpdated (Globals.getTimeStamp (levelFile.updated).ToString ());
         }
     }
