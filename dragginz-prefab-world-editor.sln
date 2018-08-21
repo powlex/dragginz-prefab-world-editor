@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dragginz-prefab-world-editor", "Assembly-CSharp.csproj", "{7F242174-9530-E493-F637-FC52091CF6AA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{7F242174-9530-E493-F637-FC52091CF6AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dragginz-prefab-world-editor", "Assembly-CSharp-firstpass.csproj", "{FD81E882-96D8-D5A2-A136-0B74916A4B19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-firstpass", "Assembly-CSharp-firstpass.csproj", "{FD81E882-96D8-D5A2-A136-0B74916A4B19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dragginz-prefab-world-editor", "Assembly-CSharp-Editor-firstpass.csproj", "{D14F18AF-E76E-65CB-9F86-C37695D3E26B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{D14F18AF-E76E-65CB-9F86-C37695D3E26B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dragginz-prefab-world-editor", "Assembly-CSharp-Editor.csproj", "{6EC63CCF-7A2C-B723-6D19-1704C2CAC251}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{6EC63CCF-7A2C-B723-6D19-1704C2CAC251}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -14,7 +14,7 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v08.15.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v08.21.0a";
 
         static public readonly bool debug = false;
 
