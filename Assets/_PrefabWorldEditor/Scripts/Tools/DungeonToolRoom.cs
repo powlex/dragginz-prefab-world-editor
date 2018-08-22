@@ -16,19 +16,19 @@ namespace PrefabWorldEditor
 {
 	public class DungeonToolRoom : DungeonTool
     {
-		private PrefabLevelEditor.Part partFloor;
-		private PrefabLevelEditor.Part partWall;
-		private PrefabLevelEditor.Part partCorner;
-		private PrefabLevelEditor.Part partWallNF;
-		private PrefabLevelEditor.Part partCornerNF;
+		private Part partFloor;
+		private Part partWall;
+		private Part partCorner;
+		private Part partWallNF;
+		private Part partCornerNF;
 
 		public DungeonToolRoom(GameObject container) : base(container)
 		{
-			partFloor    = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Floor];
-			partWall     = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Wall_L];
-			partCorner   = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Corner];
-			partWallNF   = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Wall_L_NF];
-			partCornerNF = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Corner_NF];
+			partFloor    = AssetManager.Instance.parts [Globals.PartList.Dungeon_Floor];
+			partWall     = AssetManager.Instance.parts [Globals.PartList.Dungeon_Wall_L];
+			partCorner   = AssetManager.Instance.parts [Globals.PartList.Dungeon_Corner];
+			partWallNF   = AssetManager.Instance.parts [Globals.PartList.Dungeon_Wall_L_NF];
+			partCornerNF = AssetManager.Instance.parts [Globals.PartList.Dungeon_Corner_NF];
 		}
 
 		// ------------------------------------------------------------------------
@@ -110,12 +110,8 @@ namespace PrefabWorldEditor
 							}
 
                             LevelController.Instance.setComponents (go, false, false);
-                            //LevelController.Instance.setMeshCollider (go, false);
-							//LevelController.Instance.setRigidBody (go, false);
 
 							LevelController.LevelElement element = LevelController.Instance.createLevelElement(go, partId); //new LevelController.LevelElement ();
-                            //element.go = go;
-							//element.part = partId;
 
 							_dungeonElements.Add (element);
 						}

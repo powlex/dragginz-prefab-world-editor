@@ -23,6 +23,7 @@ namespace PrefabWorldEditor
     {
 		#region PublicProperties
 
+        [HideInInspector]
 		public Transform container;
 
 		public GameObject goLights;
@@ -57,24 +58,6 @@ namespace PrefabWorldEditor
 			Play
 		};
 
-		public struct Part
-        {
-			public Globals.PartList id;
-			public Globals.AssetType type;
-            public GameObject prefab;
-
-            public float w;
-            public float h;
-            public float d;
-
-			public Vector3Int canRotate;
-            public bool isStatic;
-            public bool usesGravity;
-
-			public string name;
-			public string extra;
-		};
-
         [HideInInspector]
         public bool leftMouseButtonPressed;
 
@@ -85,6 +68,7 @@ namespace PrefabWorldEditor
 
         #region PrivateProperties
 
+        private AssetManager    _assetManager;
         private LevelController _levelController;
 		private ToolsController _toolsController;
 
@@ -95,8 +79,11 @@ namespace PrefabWorldEditor
 		private Transform _trfmMarkerY2;
 		private Transform _trfmMarkerZ2;
 
-		private Dictionary<Globals.PartList, Part> _parts;
-		private int _iCounter;
+        //private Dictionary<Globals.PartList, Part> _parts;
+        //private Dictionary<Globals.AssetType, List<Part>> _assetManager.assetTypeList;
+        //private Dictionary<Globals.AssetType, int> _assetManager.assetTypeIndex;
+
+        private int _iCounter;
 
 		private bool _groupEventHandlerSet;
 
@@ -104,9 +91,6 @@ namespace PrefabWorldEditor
         private GameObject _goEditPart;
         private LevelController.SelectedElementComponents _curEditElementComponents;
         private Vector3 _v3EditPartPos;
-
-		private Dictionary<Globals.AssetType, List<Part>> _assetTypeList;
-		private Dictionary<Globals.AssetType, int> _assetTypeIndex;
 
         private float _rayDistance;
         private Ray _ray;
@@ -124,18 +108,25 @@ namespace PrefabWorldEditor
         private float _timer;
         private float _lastMouseWheelUpdate;
 
-		#endregion
+        #endregion
 
-		#region Getters
+        #region Getters
 
-		public Dictionary<Globals.AssetType, List<Part>> assetTypeList {
-			get { return _assetTypeList; }
+        /*
+        public Dictionary<Globals.PartList, Part> parts
+        {
+            get { return _parts; }
+        }
+
+        public Dictionary<Globals.AssetType, List<Part>> assetTypeList {
+			get { return _assetManager.assetTypeList; }
 		}
 
         public Dictionary<Globals.AssetType, int> assetTypeIndex {
-            get { return _assetTypeIndex; }
+            get { return _assetManager.assetTypeIndex; }
         }
-
+        */
+        
         public EditMode editMode {
 			get { return _editMode; }
 		}
@@ -143,10 +134,6 @@ namespace PrefabWorldEditor
         public Globals.AssetType assetType {
             get { return _assetType; }
         }
-
-        public Dictionary<Globals.PartList, Part> parts {
-			get { return _parts; }
-		}
 
         public ToolsController toolsController {
             get { return _toolsController; }
@@ -161,7 +148,11 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void init ()
         {
-			_parts = new Dictionary<Globals.PartList, Part>();
+            _assetManager = AssetManager.Instance;
+            _assetManager.init ();
+
+            /*
+            _parts = new Dictionary<Globals.PartList, Part>();
 
 			createPart(Globals.PartList.Floor_1, Globals.AssetType.Floor, "MDC/Floors/Floor_1", 4.00f, 0.10f, 4.00f, Vector3Int.zero, false, "Floor 1");
 			createPart(Globals.PartList.Floor_2, Globals.AssetType.Floor, "MDC/Floors/Floor_2", 4.00f, 0.10f, 4.00f, Vector3Int.zero, false, "Floor 2");
@@ -225,8 +216,9 @@ namespace PrefabWorldEditor
             //
 
             createAssetTypeCount ();
+            */
 
-            container = new GameObject("[Container]").transform;
+            container = new GameObject(Globals.levelChunkContainerName).transform;
 
 			_levelController = LevelController.Instance;
 			_levelController.init ();
@@ -248,7 +240,7 @@ namespace PrefabWorldEditor
             _bSnapToGrid = true;
             _editorIsPaused = false;
 
-            GameObject toolContainer = new GameObject("[ContainerTools]");
+            GameObject toolContainer = new GameObject(Globals.toolsContainerName);
 
 			_toolsController = ToolsController.Instance;
 			_toolsController.init (toolContainer);
@@ -268,7 +260,7 @@ namespace PrefabWorldEditor
 			PweDungeonTools.Instance.init ();
 			PweRoomTools.Instance.init ();
 
-			setNewEditPart(_assetTypeList[_assetType][0]);
+			setNewEditPart(AssetManager.Instance.assetTypeList[_assetType][0]);
 
             leftMouseButtonPressed  = false;
             leftMouseButtonReleased = false;
@@ -389,7 +381,7 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void clearLevel()
 		{
-			setNewEditPart(_assetTypeList[_assetType][0]); // reset to floor tile
+			setNewEditPart(_assetManager.assetTypeList[_assetType][0]); // reset to floor tile
 			setEditMode(EditMode.None, true); // force reset
 
             PweMainMenu.Instance.popup.showPopup (Globals.PopupMode.Confirmation, "Clear Level", "Are you sure?", clearLevelConfirm);
@@ -547,8 +539,8 @@ namespace PrefabWorldEditor
 			resetCurDungeonTool ();
 			resetCurRoomTool ();
 
-			int index = _assetTypeIndex [_assetType];
-			setNewEditPart(_assetTypeList[_assetType][index]);
+			int index = _assetManager.assetTypeIndex [_assetType];
+			setNewEditPart(_assetManager.assetTypeList[_assetType][index]);
 		}
 
         // ------------------------------------------------------------------------
@@ -581,7 +573,7 @@ namespace PrefabWorldEditor
 				{
 					if (_levelController.selectedElement.go != null) {
 
-						activatePlacementTool (mode, _parts[_levelController.selectedElement.partId]);
+						activatePlacementTool (mode, _assetManager.parts[_levelController.selectedElement.partId]);
 					}
 				}
 				else if (_goEditPart != null)
@@ -611,7 +603,7 @@ namespace PrefabWorldEditor
 				{
 					if (_curEditPart.type == Globals.AssetType.Dungeon)
 					{
-						setNewEditPart(_assetTypeList[_assetType][0]); // reset to floor tile
+						setNewEditPart(_assetManager.assetTypeList[_assetType][0]); // reset to floor tile
 						activateDungeonTool (preset);
 					}
 				}
@@ -1158,7 +1150,7 @@ namespace PrefabWorldEditor
 					if (elementGroup.groupType == "dungeon")
 					{
 						selectAssetType (Globals.AssetType.Dungeon);
-						setNewEditPart(_assetTypeList[_assetType][0]); // reset to floor tile
+						setNewEditPart(_assetManager.assetTypeList[_assetType][0]); // reset to floor tile
 						activateDungeonTool (elementGroup.dungeon, elementGroup);
 					}
 					else if (elementGroup.groupType == "placement")
@@ -1175,7 +1167,7 @@ namespace PrefabWorldEditor
 				else
 				{
 					LevelController.LevelElement element = _levelController.levelElements [trfmParent.gameObject.name];
-					selectAsset(_parts [element.partId], trfmHit.rotation);
+					selectAsset(_assetManager.parts[element.partId], trfmHit.rotation);
 				}
 			}
 		}
@@ -1204,7 +1196,7 @@ namespace PrefabWorldEditor
 
 					_levelController.selectElement (trfmParent.gameObject.name);
 
-					Part part = _parts [_levelController.selectedElement.partId];
+					Part part = _assetManager.parts [_levelController.selectedElement.partId];
 					setMarkerScale (part);
 
                     setTransformGizmos (!_levelController.selectedElement.isLocked);
@@ -1220,7 +1212,7 @@ namespace PrefabWorldEditor
                     PweMainMenu.Instance.showAssetInfoPanel (false);
                     PweMainMenu.Instance.showInstanceInfoPanel (true);
 
-                    PweMainMenu.Instance.showInstanceInfo(_parts [_levelController.selectedElement.partId]);
+                    PweMainMenu.Instance.showInstanceInfo(_assetManager.parts[_levelController.selectedElement.partId]);
 
 					PweMainMenu.Instance.showPlacementToolBox (false);
 					PweMainMenu.Instance.showDungeonToolBox (false);
@@ -1265,17 +1257,17 @@ namespace PrefabWorldEditor
             selectAssetType(part.type);
 
             int index = 0;
-            int i, len = _assetTypeList[part.type].Count;
+            int i, len = _assetManager.assetTypeList[part.type].Count;
             for (i = 0; i < len; ++i) {
-                if (_assetTypeList[part.type][i].id == part.id) {
-                    //Debug.Log ("    -> " + _assetTypeList [part.type] [i].id);
+                if (_assetManager.assetTypeList[part.type][i].id == part.id) {
+                    //Debug.Log ("    -> " + _assetManager.assetTypeList [part.type] [i].id);
                     index = i;
                     break;
                 }
             }
 
-            _assetTypeIndex[part.type] = index;
-            setNewEditPart(_assetTypeList[part.type][index]);
+            _assetManager.assetTypeIndex[part.type] = index;
+            setNewEditPart(_assetManager.assetTypeList[part.type][index]);
 
             _goEditPart.transform.rotation = rotation;
         }
@@ -1302,7 +1294,7 @@ namespace PrefabWorldEditor
 			{
 				if (_timer > _lastMouseWheelUpdate)
 				{
-					Part part = _parts [_levelController.selectedElement.partId];
+					Part part = _assetManager.parts [_levelController.selectedElement.partId];
 
 					_lastMouseWheelUpdate = _timer + 0.2f;
 					float dir = (_mousewheel > 0 ? 1 : -1);
@@ -1361,12 +1353,12 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		private void toggleSelectedElement(float mousewheel)
 		{
-			Part part = _parts[_levelController.selectedElement.partId];
+			Part part = _assetManager.parts[_levelController.selectedElement.partId];
 
-			int max = _assetTypeList [part.type].Count;
+			int max = _assetManager.assetTypeList [part.type].Count;
 			int i, index = 0;
 			for (i = 0; i < max; ++i) {
-				if (_assetTypeList [part.type] [i].id == part.id) {
+				if (_assetManager.assetTypeList [part.type] [i].id == part.id) {
 					index = i;
 					break;
 				}
@@ -1382,7 +1374,7 @@ namespace PrefabWorldEditor
 				}
 			}
 
-			Part newPart = _assetTypeList [part.type] [index];
+			Part newPart = _assetManager.assetTypeList [part.type] [index];
 
             PweMainMenu.Instance.showInstanceInfo (newPart);
 
@@ -1419,8 +1411,8 @@ namespace PrefabWorldEditor
 		// ------------------------------------------------------------------------
 		private void toggleEditPart(float mousewheel)
 		{
-			int index = _assetTypeIndex [_assetType];
-			int max = _assetTypeList [_assetType].Count;
+			int index = _assetManager.assetTypeIndex [_assetType];
+			int max = _assetManager.assetTypeList [_assetType].Count;
 						
 			if (mousewheel > 0) {
 				if (++index >= max) {
@@ -1431,9 +1423,9 @@ namespace PrefabWorldEditor
 					index = max - 1;
 				}
 			}
-			_assetTypeIndex [_assetType] = index;
+			_assetManager.assetTypeIndex [_assetType] = index;
 
-			setNewEditPart(_assetTypeList[_assetType][index]);
+			setNewEditPart(_assetManager.assetTypeList[_assetType][index]);
         }
 
 		// ------------------------------------------------------------------------
@@ -1655,42 +1647,16 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		private void createPart(
-			Globals.PartList id, Globals.AssetType type, string prefab,
-			float w, float h, float d, Vector3Int cr, bool ug, string n, string e = "")
-		{
-
-            Part p = new Part();
-
-            p.id     = id;
-			p.type   = type;
-			p.prefab = Resources.Load<GameObject>("Prefabs/" + prefab);
-
-			p.w = w;
-            p.h = h;
-            p.d = d;
-
-			p.canRotate   = cr;
-			p.usesGravity = ug;
-            p.isStatic    = !p.usesGravity;
-
-			p.name  = n;
-			p.extra = e;
-
-            _parts.Add(id, p);
-        }
-
-		// ------------------------------------------------------------------------
 		public GameObject createPartAt(Globals.PartList partId, float x, float y, float z)
 		{
             GameObject go = null;
 
-            if (!_parts.ContainsKey(partId)) {
+            if (!_assetManager.parts.ContainsKey(partId)) {
                 return go;
             }
 
-            if (_parts[partId].prefab != null) {
-                go = Instantiate(_parts[partId].prefab);
+            if (_assetManager.parts[partId].prefab != null) {
+                go = Instantiate(_assetManager.parts[partId].prefab);
                 if (go != null) {
                     go.name = "part_" + (_iCounter++).ToString();
                     go.transform.SetParent(container);
@@ -1700,27 +1666,6 @@ namespace PrefabWorldEditor
 
             return go;
         }
-
-		// ------------------------------------------------------------------------
-		private void createAssetTypeCount()
-		{
-			_assetTypeList = new Dictionary<Globals.AssetType, List<Part>> ();
-			_assetTypeIndex = new Dictionary<Globals.AssetType, int> ();
-
-			foreach (KeyValuePair<Globals.PartList, Part> part in _parts) {
-
-				if (!_assetTypeList.ContainsKey (part.Value.type)) {
-					_assetTypeList.Add (part.Value.type, new List<Part>());
-					_assetTypeIndex.Add (part.Value.type, 0);
-				}
-
-				_assetTypeList[part.Value.type].Add(part.Value);
-			}
-
-			//foreach (KeyValuePair<Globals.AssetType, List<Part>> pair in _assetTypeList) {
-			//	Debug.Log ("num assets for type "+pair.Key+" = "+pair.Value.Count);
-			//}
-		}
 
         // ------------------------------------------------------------------------
         private void setWalls()

@@ -16,13 +16,13 @@ namespace PrefabWorldEditor
 {
 	public class DungeonToolStaircase : DungeonTool
     {
-		private PrefabLevelEditor.Part partFloor;
-		private PrefabLevelEditor.Part partWall;
-		private PrefabLevelEditor.Part partCorner;
-		private PrefabLevelEditor.Part partWallNF;
-		private PrefabLevelEditor.Part partCornerNF;
-		private PrefabLevelEditor.Part partStairsLower;
-		private PrefabLevelEditor.Part partStairsUpper;
+		private Part partFloor;
+		private Part partWall;
+		private Part partCorner;
+		private Part partWallNF;
+		private Part partCornerNF;
+		private Part partStairsLower;
+		private Part partStairsUpper;
 
 		private struct stairStep
 		{
@@ -39,13 +39,13 @@ namespace PrefabWorldEditor
 
 		public DungeonToolStaircase(GameObject container) : base(container)
 		{
-			partFloor    = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Floor];
-			partWall     = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Wall_L];
-			partCorner   = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Corner];
-			partWallNF   = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Wall_L_NF];
-			partCornerNF = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Corner_NF];
-			partStairsLower = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Stairs_1];
-			partStairsUpper = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Stairs_2];
+			partFloor    = AssetManager.Instance.parts [Globals.PartList.Dungeon_Floor];
+			partWall     = AssetManager.Instance.parts [Globals.PartList.Dungeon_Wall_L];
+			partCorner   = AssetManager.Instance.parts [Globals.PartList.Dungeon_Corner];
+			partWallNF   = AssetManager.Instance.parts [Globals.PartList.Dungeon_Wall_L_NF];
+			partCornerNF = AssetManager.Instance.parts [Globals.PartList.Dungeon_Corner_NF];
+			partStairsLower = AssetManager.Instance.parts [Globals.PartList.Dungeon_Stairs_1];
+			partStairsUpper = AssetManager.Instance.parts [Globals.PartList.Dungeon_Stairs_2];
 		}
 
 		// ------------------------------------------------------------------------
@@ -193,12 +193,8 @@ namespace PrefabWorldEditor
 							}
 
                             LevelController.Instance.setComponents (go, false, false);
-                            //LevelController.Instance.setMeshCollider (go, false);
-							//LevelController.Instance.setRigidBody (go, false);
 
 							LevelController.LevelElement element = LevelController.Instance.createLevelElement(go, partId); //new LevelController.LevelElement ();
-                            //element.go = go;
-							//element.part = partId;
 
 							_dungeonElements.Add (element);
 						}

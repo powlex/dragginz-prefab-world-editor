@@ -33,7 +33,7 @@ namespace PrefabWorldEditor
 
 		protected static List<LevelController.LevelElement> _elements;
 
-		protected static PrefabLevelEditor.Part _curPart;
+		protected static Part _curPart;
 
 		protected static int _radius;
 		protected static int _interval;
@@ -48,7 +48,7 @@ namespace PrefabWorldEditor
 			get { return _placementMode; }
 		}
 
-		public PrefabLevelEditor.Part curPart {
+		public Part curPart {
 			get { return _curPart; }
 		}
 
@@ -112,7 +112,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void activate(PlacementMode mode, PrefabLevelEditor.Part part)
+		public void activate(PlacementMode mode, Part part)
 		{
 			reset (); // just in case
 
@@ -124,7 +124,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void activateAndCopy(PlacementMode mode, PrefabLevelEditor.Part part, int r, int i, int d, bool inverse)
+		public void activateAndCopy(PlacementMode mode, Part part, int r, int i, int d, bool inverse)
 		{
 			_rebuildOnUpdate = false;
 
@@ -162,7 +162,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void updatePart(PrefabLevelEditor.Part part)
+		public void updatePart(Part part)
 		{
 			_curPart = part;
 

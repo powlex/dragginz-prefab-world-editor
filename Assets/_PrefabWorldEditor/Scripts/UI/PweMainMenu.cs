@@ -360,12 +360,13 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        public void showAssetInfo(PrefabLevelEditor.Part part)
+        public void showAssetInfo(Part part)
         {
             PrefabLevelEditor editor = PrefabLevelEditor.Instance;
+            AssetManager assetManager = AssetManager.Instance;
 
             if (editor.editMode == PrefabLevelEditor.EditMode.Place) {
-                setAssetNameText((editor.assetTypeIndex[editor.assetType] + 1).ToString() + " / " + editor.assetTypeList[editor.assetType].Count.ToString());
+                setAssetNameText((assetManager.assetTypeIndex[editor.assetType] + 1).ToString() + " / " + assetManager.assetTypeList[editor.assetType].Count.ToString());
             }
             else {
                 setAssetNameText("");
@@ -375,7 +376,7 @@ namespace PrefabWorldEditor
             showAssetInstructions(part);
         }
 
-        public void showInstanceInfo(PrefabLevelEditor.Part part)
+        public void showInstanceInfo(Part part)
         {
             setAssetNameText("");
 
@@ -384,7 +385,7 @@ namespace PrefabWorldEditor
             showAssetInstructions(part);
         }
 
-        public void showAssetInstructions(PrefabLevelEditor.Part part)
+        public void showAssetInstructions(Part part)
         {
             PrefabLevelEditor editor = PrefabLevelEditor.Instance;
 

@@ -21,7 +21,7 @@ namespace PrefabWorldEditor
 		{
 			public GameObject go;
 			public Globals.PartList partId;
-            public PrefabLevelEditor.Part part;
+            public Part part;
             public int   overwriteStatic;
             public int   overwriteGravity;
             public bool  isLocked;
@@ -35,7 +35,7 @@ namespace PrefabWorldEditor
 		public struct ElementGroup
 		{
 			public string groupType;
-			public PrefabLevelEditor.Part part;
+			public Part part;
 			public List<GameObject> gameObjects;
 			
 			public PlacementTool.PlacementMode placement;
@@ -257,7 +257,7 @@ namespace PrefabWorldEditor
             LevelElement e     = new LevelElement();
             e.go               = go;
             e.partId           = partId;
-            e.part             = PrefabLevelEditor.Instance.parts [partId];
+            e.part             = AssetManager.Instance.parts [partId];
             e.overwriteStatic  = 0;
             e.overwriteGravity = 0;
             e.isLocked         = false;

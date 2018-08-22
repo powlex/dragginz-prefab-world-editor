@@ -30,7 +30,7 @@ namespace PrefabWorldEditor
 
 		#region PrivateProperties
 
-		private PrefabLevelEditor.Part _curEditPart;
+		private Part _curEditPart;
 		private GameObject _goEditPart;
 
         private bool _hideEditPart = false;
@@ -81,7 +81,7 @@ namespace PrefabWorldEditor
         // ------------------------------------------------------------------------
         public void init()
         {
-            _curEditPart = new PrefabLevelEditor.Part();
+            _curEditPart = new Part();
             _goEditPart = null;
         }
 
@@ -97,13 +97,13 @@ namespace PrefabWorldEditor
         public void setAssetType(int typeIndex, int assetIndex)
 		{
             Globals.AssetType type = (Globals.AssetType)typeIndex;
-            createAsset(PrefabLevelEditor.Instance.assetTypeList[type][assetIndex]);
+            createAsset(AssetManager.Instance.assetTypeList[type][assetIndex]);
         }
 
         public void setAsset(int typeIndex, int assetIndex)
         {
             Globals.AssetType type = (Globals.AssetType)typeIndex;
-            createAsset(PrefabLevelEditor.Instance.assetTypeList[type][assetIndex]);
+            createAsset(AssetManager.Instance.assetTypeList[type][assetIndex]);
         }
 
         #endregion
@@ -113,7 +113,7 @@ namespace PrefabWorldEditor
         #region PrivateMethods
 
         // ------------------------------------------------------------------------
-        public void createAsset(PrefabLevelEditor.Part part)
+        public void createAsset(Part part)
 		{
             _curEditPart = part;
 
@@ -122,11 +122,11 @@ namespace PrefabWorldEditor
             }
             _goEditPart = null;
 
-            if (!PrefabLevelEditor.Instance.parts.ContainsKey(part.id)) {
+            if (!AssetManager.Instance.parts.ContainsKey(part.id)) {
                 return;
             }
 
-            _goEditPart = Instantiate(PrefabLevelEditor.Instance.parts[part.id].prefab);
+            _goEditPart = Instantiate(AssetManager.Instance.parts[part.id].prefab);
             if (_goEditPart != null)
             {
                 _goEditPart.name = "vr_asset_selection";

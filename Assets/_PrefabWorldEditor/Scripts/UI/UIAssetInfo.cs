@@ -25,7 +25,7 @@ namespace PrefabWorldEditor
         public Toggle toggleGravity;
 
         // ---------------------------------------------------------------------------------------------
-        public void init(PrefabLevelEditor.Part part, LevelController.LevelElement element) {
+        public void init(Part part, LevelController.LevelElement element) {
 
             if (name != null) {
                 assetName.text = part.name;

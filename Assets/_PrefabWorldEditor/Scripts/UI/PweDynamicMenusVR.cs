@@ -133,7 +133,7 @@ namespace PrefabWorldEditor
                 _subMenuBuildAssetTypes.options[i] = aAssetTypeNames[i];
                 _subMenuBuildAssetTypes.colors[i] = Color.white;
 
-                List<PrefabLevelEditor.Part> assets = PrefabLevelEditor.Instance.assetTypeList[(Globals.AssetType)i];
+                List<Part> assets = AssetManager.Instance.assetTypeList[(Globals.AssetType)i];
                 len2 = assets.Count;
                 _aSubMenuBuildAssets[i].options = new string[len2];
                 _aSubMenuBuildAssets[i].colors = new Color[len2];

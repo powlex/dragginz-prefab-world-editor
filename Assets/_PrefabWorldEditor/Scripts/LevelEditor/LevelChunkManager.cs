@@ -96,12 +96,6 @@ namespace PrefabWorldEditor
 		}
 
 		//
-		/*public void loadLevelByIndex(int index)
-		{
-			LevelStruct ls = _levelByIndex [index];
-		}*/
-
-		//
 		public void setLevelJson(int id, string json) 
 		{
 			int i;
@@ -146,20 +140,6 @@ namespace PrefabWorldEditor
 
             return ls;
         }
-
-        //
-        public LevelChunk createOfflineLevelChunk()
-		{
-			LevelChunk chunk;
-
-            GameObject gameObject = new GameObject();// AssetFactory.Instance.createLevelContainerClone ();
-			//gameObject.name = "LevelChunk_Offline";
-
-			chunk = gameObject.AddComponent<LevelChunk> ();
-			//chunk.init (Vector3.zero);
-
-			return chunk;
-		}
 
 		//
 		public Dictionary<int, LevelChunk> createLevelChunks()

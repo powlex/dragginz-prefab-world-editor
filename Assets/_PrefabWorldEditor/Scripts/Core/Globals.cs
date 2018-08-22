@@ -14,7 +14,7 @@ namespace PrefabWorldEditor
 {
 	public static class Globals
     {
-		static public readonly string version = "Dragginz Prefab World Editor v08.21.0a";
+		static public readonly string version = "Dragginz Prefab World Editor v08.22.0a";
 
         static public readonly bool debug = false;
 
@@ -114,8 +114,10 @@ namespace PrefabWorldEditor
             public List<string> dropdownOptions;
         };
 
-        static public readonly string appContainerName = "{AppController}";
-        static public readonly string netContainerName = "{NetManager}";
+        static public readonly string appContainerName        = "{AppController}";
+        static public readonly string netContainerName        = "{NetManager}";
+        static public readonly string levelChunkContainerName = "[LEVEL-CONTAINER]";
+        static public readonly string toolsContainerName      = "[TOOLS-CONTAINER]";
 
         static public readonly string snowShaderName = "Custom/ShaderSnow";
 

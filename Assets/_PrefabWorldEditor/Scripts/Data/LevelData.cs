@@ -102,7 +102,7 @@ namespace PrefabWorldEditor
 				
 				LevelObject levelObj;
 				Globals.PartList partId;
-				PrefabLevelEditor.Part part;
+				Part part;
 
 				Vector3 pos = Vector3.zero;
 				Quaternion rotation = Quaternion.identity;
@@ -110,6 +110,7 @@ namespace PrefabWorldEditor
 
                 PrefabLevelEditor prefabLevelEditor = PrefabLevelEditor.Instance;
 				LevelController levelController = LevelController.Instance;
+                AssetManager assetManager = AssetManager.Instance;
 
 				int i, len = levelFile.levelObjects.Count;
 				for (i = 0; i < len; ++i)
@@ -117,7 +118,7 @@ namespace PrefabWorldEditor
 					levelObj = levelFile.levelObjects [i];
 
 					partId = (Globals.PartList)levelObj.id;
-					part = prefabLevelEditor.parts [partId];
+					part = assetManager.parts [partId];
 
 					pos.x = levelObj.position.x;
 					pos.y = levelObj.position.y;
@@ -132,8 +133,7 @@ namespace PrefabWorldEditor
                     scale.y = levelObj.scale.y;
                     scale.z = levelObj.scale.z;
 
-                    LevelController.LevelElement element = LevelController.Instance.createLevelElement(null, partId); //new LevelController.LevelElement ();
-                    //element.part = partId;
+                    LevelController.LevelElement element = LevelController.Instance.createLevelElement(null, partId);
 					element.go = prefabLevelEditor.createPartAt (partId, pos.x, pos.y, pos.z);
                     if (element.go != null)
                     {
@@ -149,8 +149,6 @@ namespace PrefabWorldEditor
                         }
 
                         levelController.setComponents (element.go, true, part.usesGravity);
-                        //levelController.setMeshCollider (element.go, true);
-                        //levelController.setRigidBody (element.go, part.usesGravity);
 
                         levelController.setSnowLevel (element.go, element.shaderSnow);
 

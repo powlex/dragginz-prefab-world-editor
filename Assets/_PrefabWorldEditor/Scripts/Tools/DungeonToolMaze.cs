@@ -3,28 +3,22 @@
 // Company : Decentralised Team of Developers
 //
 
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
-using UnityEngine.EventSystems;
-
-using AssetsShared;
 
 namespace PrefabWorldEditor
 {
 	public class DungeonToolMaze : DungeonTool
     {
-		private PrefabLevelEditor.Part partFloor;
-		private PrefabLevelEditor.Part partWall;
-		private PrefabLevelEditor.Part partCorner;
-		private PrefabLevelEditor.Part partTurn;
+		private Part partFloor;
+		private Part partWall;
+		private Part partCorner;
+		private Part partTurn;
 
 		public DungeonToolMaze(GameObject container) : base(container)
 		{
-			partWall   = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Wall_L];
-			partCorner = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Corner];
-			partTurn   = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Turn];
+			partWall   = AssetManager.Instance.parts [Globals.PartList.Dungeon_Wall_L];
+			partCorner = AssetManager.Instance.parts [Globals.PartList.Dungeon_Corner];
+			partTurn   = AssetManager.Instance.parts [Globals.PartList.Dungeon_Turn];
 		}
 
 		// ------------------------------------------------------------------------
@@ -85,12 +79,8 @@ namespace PrefabWorldEditor
 						}
 
                         LevelController.Instance.setComponents (go, false, false);
-                        //LevelController.Instance.setMeshCollider (go, false);
-                        //LevelController.Instance.setRigidBody (go, false);
 
                         LevelController.LevelElement element = LevelController.Instance.createLevelElement(go, partId); // new LevelController.LevelElement ();
-						//element.go = go;
-						//element.part = partId;
 
 						_dungeonElements.Add (element);
 					}

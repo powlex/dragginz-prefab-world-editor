@@ -30,7 +30,7 @@ namespace PrefabWorldEditor
         private bool initUIComponents;
 
         // ---------------------------------------------------------------------------------------------
-        public void init(PrefabLevelEditor.Part part, LevelController.LevelElement element)
+        public void init(Part part, LevelController.LevelElement element)
         {
             initUIComponents = true;
 

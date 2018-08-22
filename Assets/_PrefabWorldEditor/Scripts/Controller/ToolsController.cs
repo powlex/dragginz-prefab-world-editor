@@ -81,7 +81,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void setPlacementTool(PlacementTool.PlacementMode mode, PrefabLevelEditor.Part part)
+		public void setPlacementTool(PlacementTool.PlacementMode mode, Part part)
 		{
 			if (mode == PlacementTool.PlacementMode.Circle) {
 				_curPlacementTool = _aPlacementTools [0];
@@ -122,7 +122,7 @@ namespace PrefabWorldEditor
         }
 
 		// ------------------------------------------------------------------------
-		public void setRoomTool(RoomTool.RoomPattern pattern, PrefabLevelEditor.Part part)
+		public void setRoomTool(RoomTool.RoomPattern pattern, Part part)
 		{
 			if (pattern == RoomTool.RoomPattern.Default) {
 				_curRoomTool = _aRoomTools [0];

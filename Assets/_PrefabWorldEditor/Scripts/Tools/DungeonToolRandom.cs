@@ -15,18 +15,18 @@ namespace PrefabWorldEditor
 {
 	public class DungeonToolRandom : DungeonTool
     {
-		private PrefabLevelEditor.Part[] parts;
+		private Part[] parts;
 
 		public DungeonToolRandom(GameObject container) : base(container)
 		{
-			parts = new PrefabLevelEditor.Part[7];
-			parts[0] = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Floor];
-			parts[1] = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Wall_L];
-			parts[2] = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Wall_LR];
-			parts[3] = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Corner];
-			parts[4] = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_DeadEnd];
-			parts[5] = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Turn];
-			parts[6] = PrefabLevelEditor.Instance.parts [Globals.PartList.Dungeon_Floor];
+			parts = new Part[7];
+			parts[0] = AssetManager.Instance.parts [Globals.PartList.Dungeon_Floor];
+			parts[1] = AssetManager.Instance.parts [Globals.PartList.Dungeon_Wall_L];
+			parts[2] = AssetManager.Instance.parts [Globals.PartList.Dungeon_Wall_LR];
+			parts[3] = AssetManager.Instance.parts [Globals.PartList.Dungeon_Corner];
+			parts[4] = AssetManager.Instance.parts [Globals.PartList.Dungeon_DeadEnd];
+			parts[5] = AssetManager.Instance.parts [Globals.PartList.Dungeon_Turn];
+			parts[6] = AssetManager.Instance.parts [Globals.PartList.Dungeon_Floor];
 		}
 
 		// ------------------------------------------------------------------------
@@ -58,12 +58,8 @@ namespace PrefabWorldEditor
 						go.transform.rotation = Quaternion.Euler (new Vector3 (0, Random.Range (0, 4) * 90, 0));
 
                         LevelController.Instance.setComponents (go, false, false);
-                        //LevelController.Instance.setMeshCollider (go, false);
-						//LevelController.Instance.setRigidBody (go, false);
 
 						LevelController.LevelElement element = LevelController.Instance.createLevelElement(go, partId); //new LevelController.LevelElement ();
-                        //element.go = go;
-						//element.part = partId;
 
 						_dungeonElements.Add (element);
 					}

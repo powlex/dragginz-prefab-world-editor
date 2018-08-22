@@ -30,7 +30,7 @@ namespace PrefabWorldEditor
 
 		protected static List<LevelController.LevelElement> _roomElements;
 
-		protected static PrefabLevelEditor.Part _curPart;
+		protected static Part _curPart;
 
 		protected static int _width;
 		protected static int _depth;
@@ -47,7 +47,7 @@ namespace PrefabWorldEditor
 			get { return _roomPattern; }
 		}
 
-		public PrefabLevelEditor.Part curPart {
+		public Part curPart {
 			get { return _curPart; }
 		}
 
@@ -105,7 +105,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void activate(RoomPattern pattern, PrefabLevelEditor.Part part)
+		public void activate(RoomPattern pattern, Part part)
 		{
 			reset (); // just in case
 
@@ -117,7 +117,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void activateAndCopy(RoomPattern pattern, PrefabLevelEditor.Part part, int w, int h, int d)
+		public void activateAndCopy(RoomPattern pattern, Part part, int w, int h, int d)
 		{
 			_rebuildOnUpdate = false;
 
@@ -153,7 +153,7 @@ namespace PrefabWorldEditor
 		}
 
 		// ------------------------------------------------------------------------
-		public void updatePart(PrefabLevelEditor.Part part)
+		public void updatePart(Part part)
 		{
 			_curPart = part;
 
