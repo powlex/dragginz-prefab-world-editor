@@ -47,6 +47,8 @@ namespace PrefabWorldEditor
 
 		private int _numLevels;
 
+        private List<LevelChunk> _aChunks;
+
 		#region Getters
 
 		public int numLevels {
@@ -63,7 +65,9 @@ namespace PrefabWorldEditor
 
 		public void init(string json)
 		{
-			_numLevels = 0;
+            _aChunks = new List<LevelChunk> ();
+
+            _numLevels = 0;
 
 			JSONNode data = JSON.Parse (json);
 			if (data == null || data ["levels"] == null) {
@@ -141,30 +145,47 @@ namespace PrefabWorldEditor
             return ls;
         }
 
-		//
-		public Dictionary<int, LevelChunk> createLevelChunks()
+        //
+        public void destroyAllChunks ()
+        {
+            int i, len = _aChunks.Count;
+            for (i = 0; i < len; ++i) {
+
+                foreach (Transform child in _aChunks[i].transform) {
+                    GameObject.Destroy (child.gameObject);
+                }
+                GameObject.Destroy (_aChunks[i].gameObject);
+            }
+
+            _aChunks.Clear ();
+        }
+
+        //
+        public void createAllChunks()
+        {
+            int i;
+            for (i = 0; i < _numLevels; ++i) {
+                if (_levelByIndex[i].id != LevelData.Instance.currentLevelId) {
+                    
+                    LevelChunk lc = createLevelChunks(i);
+                    _aChunks.Add (lc);
+                }
+            }
+        }
+
+        //
+        public LevelChunk createLevelChunks(int i)
 		{
-			Dictionary<int, LevelChunk> chunks = new Dictionary<int, LevelChunk> ();
+			LevelStruct level = _levelByIndex [i];
 
-			/*int i;
-			for (i = 0; i < _numLevels; ++i) {
+			GameObject gameObject = new GameObject("[LEVEL-CONTAINER-"+level.id.ToString()+"]");
 
-				LevelStruct level = _levelByIndex [i];
+			gameObject.transform.position = new Vector3(level.posX, level.posY, level.posZ);
 
-				GameObject gameObject = AssetFactory.Instance.createLevelContainerClone ();
-				gameObject.name = "LevelChunk_" + level.id.ToString ();
+			LevelChunk chunk = gameObject.AddComponent<LevelChunk> ();
+			chunk.init (level.jsonData);
 
-				Vector3 chunkPos = new Vector3 (level.x * Globals.LEVEL_WIDTH, -level.y * Globals.LEVEL_HEIGHT, level.z * Globals.LEVEL_DEPTH);
-				gameObject.transform.position = chunkPos;
-
-				LevelChunk chunk = gameObject.AddComponent<LevelChunk> ();
-				chunk.init (chunkPos);
-				chunk.setLevelData (level);
-
-				chunks.Add (level.id, chunk);
-			}*/
-
-			return chunks;
+			return chunk;
 		}
 
         #endregion

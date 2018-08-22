@@ -75,6 +75,7 @@ namespace PrefabWorldEditor
 			}
 
 			currentLevelId = levelFile.levelId;
+            //Debug.Log ("currentLevelId: "+ currentLevelId);
 
             setLevelChunkInfo (levelFile);
 

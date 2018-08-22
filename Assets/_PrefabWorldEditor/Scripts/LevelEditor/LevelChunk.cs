@@ -3,10 +3,6 @@
 // Company : Decentralised Team of Developers
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 
 using AssetsShared;
@@ -20,9 +16,12 @@ namespace PrefabWorldEditor
         private int _iCounter = 0;
 
         // ------------------------------------------------------------------------
-        public void create(LevelFile levelFile)
-        { 
-			if (levelFile.levelObjects != null) {
+        public void init(string json)
+        {
+            LevelFile levelFile = new LevelFile ();
+            levelFile.parseJson (json);
+
+            if (levelFile.levelObjects != null) {
 				
 				LevelObject levelObj;
                 Globals.PartList partId;
@@ -60,6 +59,9 @@ namespace PrefabWorldEditor
                     GameObject go = createPartAt(partId, pos.x, pos.y, pos.z);
                     if (go != null)
                     {
+                        go.transform.rotation = rotation;
+                        go.transform.localScale = scale;
+                        
                         //if (XRSettings.enabled) {
                         //    element.go.AddComponent<Teleportable>();
                         //}
@@ -93,7 +95,7 @@ namespace PrefabWorldEditor
                 if (go != null) {
                     go.name = "part_" + (_iCounter++).ToString ();
                     go.transform.SetParent (transform);
-                    go.transform.position = new Vector3 (x, y, z);
+                    go.transform.localPosition = new Vector3 (x, y, z);
                 }
             }
 

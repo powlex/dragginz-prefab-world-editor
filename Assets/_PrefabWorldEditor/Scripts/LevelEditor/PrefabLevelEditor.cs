@@ -424,33 +424,34 @@ namespace PrefabWorldEditor
 
                 _editMode = mode;
 
-                PweSettings.Instance.setAmbientLightToggle(_editMode != EditMode.Play);
+                PweSettings.Instance.setAmbientLightToggle (_editMode != EditMode.Play);
 
-                trfmWalls.gameObject.SetActive(_editMode != EditMode.Play);
+                trfmWalls.gameObject.SetActive (_editMode != EditMode.Play);
 
-                _levelController.resetElementComponents();
+                _levelController.resetElementComponents ();
 
-                resetSelectedElement();
-                resetCurPlacementTool();
-                resetCurDungeonTool();
-                resetCurRoomTool();
+                resetSelectedElement ();
+                resetCurPlacementTool ();
+                resetCurDungeonTool ();
+                resetCurRoomTool ();
 
-                PweMainMenu.Instance.setModeButtons(_editMode);
-                PweMainMenu.Instance.showTransformBox(_editMode == EditMode.Transform);
-                PweMainMenu.Instance.showAssetTypeBox(_editMode == EditMode.Place);
-                PweMainMenu.Instance.showPlacementToolBox(_editMode == EditMode.Place && (_assetType == Globals.AssetType.Chunk || _assetType == Globals.AssetType.Prop));
-                PweMainMenu.Instance.showDungeonToolBox(_editMode == EditMode.Place && _assetType == Globals.AssetType.Dungeon);
-                PweMainMenu.Instance.showRoomToolBox(_editMode == EditMode.Place && (_assetType == Globals.AssetType.Floor || _assetType == Globals.AssetType.Wall));
+                PweMainMenu.Instance.setModeButtons (_editMode);
+                PweMainMenu.Instance.showTransformBox (_editMode == EditMode.Transform);
+                PweMainMenu.Instance.showAssetTypeBox (_editMode == EditMode.Place);
+                PweMainMenu.Instance.showPlacementToolBox (_editMode == EditMode.Place && (_assetType == Globals.AssetType.Chunk || _assetType == Globals.AssetType.Prop));
+                PweMainMenu.Instance.showDungeonToolBox (_editMode == EditMode.Place && _assetType == Globals.AssetType.Dungeon);
+                PweMainMenu.Instance.showRoomToolBox (_editMode == EditMode.Place && (_assetType == Globals.AssetType.Floor || _assetType == Globals.AssetType.Wall));
 
                 if (_editMode == EditMode.Place) {
-                    PweMainMenu.Instance.setAssetTypeButtons(_assetType);
-                    PweMainMenu.Instance.showAssetInfo(_curEditPart);
-                } else {
-                    PweMainMenu.Instance.setAssetNameText("");
-                    PweMainMenu.Instance.setSpecialHelpText("");
+                    PweMainMenu.Instance.setAssetTypeButtons (_assetType);
+                    PweMainMenu.Instance.showAssetInfo (_curEditPart);
                 }
-                PweMainMenu.Instance.showAssetInfoPanel(_editMode == EditMode.Place);
-                PweMainMenu.Instance.showInstanceInfoPanel(false);
+                else {
+                    PweMainMenu.Instance.setAssetNameText ("");
+                    PweMainMenu.Instance.setSpecialHelpText ("");
+                }
+                PweMainMenu.Instance.showAssetInfoPanel (_editMode == EditMode.Place);
+                PweMainMenu.Instance.showInstanceInfoPanel (false);
 
                 playerMap.gameObject.SetActive (false);
 
@@ -458,11 +459,12 @@ namespace PrefabWorldEditor
                 bool playerPlayWasActive = playerPlay.gameObject.activeSelf;
 
                 if (!XRSettings.enabled) {
-                    playerEdit.gameObject.SetActive(_editMode != EditMode.Play);
-                    playerPlay.gameObject.SetActive(!playerEdit.gameObject.activeSelf);
-                } else {
-                    playerEdit.gameObject.SetActive(false);
-                    playerPlay.gameObject.SetActive(false);
+                    playerEdit.gameObject.SetActive (_editMode != EditMode.Play);
+                    playerPlay.gameObject.SetActive (!playerEdit.gameObject.activeSelf);
+                }
+                else {
+                    playerEdit.gameObject.SetActive (false);
+                    playerPlay.gameObject.SetActive (false);
                 }
 
                 if (playerEdit.gameObject.activeSelf && !playerEditWasActive) {
@@ -473,36 +475,48 @@ namespace PrefabWorldEditor
                 }
 
                 if (playerEdit.gameObject.activeSelf) {
-                    playerEditSpotLight.SetActive(_bSpotLightsActive);
-                } else if (playerPlay.gameObject.activeSelf) {
-                    playerPlaySpotLight.SetActive(_bSpotLightsActive);
+                    playerEditSpotLight.SetActive (_bSpotLightsActive);
+                }
+                else if (playerPlay.gameObject.activeSelf) {
+                    playerPlaySpotLight.SetActive (_bSpotLightsActive);
                 }
 
-                if (_goEditPart != null)
-				{
-					_goEditPart.SetActive (_editMode == EditMode.Place);
-					setMarkerActive (_goEditPart.activeSelf);
-					if (_goEditPart.activeSelf) {
-						setMarkerScale (_curEditPart);
+                if (_goEditPart != null) {
+                    _goEditPart.SetActive (_editMode == EditMode.Place);
+                    setMarkerActive (_goEditPart.activeSelf);
+                    if (_goEditPart.activeSelf) {
+                        setMarkerScale (_curEditPart);
                         boundsLineRenderer.gameObject.SetActive (_editMode == EditMode.Place);
                     }
                 }
-				else {
-					setMarkerActive (false);
-				}
+                else {
+                    setMarkerActive (false);
+                }
 
                 // Instructions
                 if (_editMode == EditMode.Place) {
-					PweMainMenu.Instance.setInstructionsText ("Use Mousewheel to toggle through assets");
-				} else if (_editMode == EditMode.Play) {
-					PweMainMenu.Instance.setInstructionsText ("Press Esc to exit play mode");
-				} else if (_editMode == EditMode.Transform) {
-					PweMainMenu.Instance.setInstructionsText ("Click object to select");
-					PweMainMenu.Instance.setSpecialHelpText ("Shift+Click = Select group of objects\nClick+'C' = Copy object\nShift+Click+'C' = Copy group of objects");
-				} else {
-					PweMainMenu.Instance.setInstructionsText ("");
-				}
-			}
+                    PweMainMenu.Instance.setInstructionsText ("Use Mousewheel to toggle through assets");
+                }
+                else if (_editMode == EditMode.Play) {
+                    PweMainMenu.Instance.setInstructionsText ("Press Esc to exit play mode");
+                }
+                else if (_editMode == EditMode.Transform) {
+                    PweMainMenu.Instance.setInstructionsText ("Click object to select");
+                    PweMainMenu.Instance.setSpecialHelpText ("Shift+Click = Select group of objects\nClick+'C' = Copy object\nShift+Click+'C' = Copy group of objects");
+                }
+                else {
+                    PweMainMenu.Instance.setInstructionsText ("");
+                }
+
+                LevelChunkManager.Instance.destroyAllChunks ();
+                if (_editMode == EditMode.Play && LevelData.Instance.currentLevelId != -1) {
+                    trfmBounds.gameObject.SetActive (false);
+                    LevelChunkManager.Instance.createAllChunks ();
+                }
+                else {
+                    trfmBounds.gameObject.SetActive (true);
+                }
+            }
 		}
 
 		// ------------------------------------------------------------------------
