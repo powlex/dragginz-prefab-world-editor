@@ -77,6 +77,16 @@ namespace PrefabWorldEditor
             }
         }
 
+        //
+        public void onToggleTransparentGrid (bool state) {
+            PrefabLevelEditor.Instance.setGridTransparency (state);
+        }
+
+        //
+        public void onToggleSkybox (bool state) {
+            //
+        }
+
         #endregion
 
         #region PrivateMethods

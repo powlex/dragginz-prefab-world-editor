@@ -119,6 +119,9 @@ namespace PrefabWorldEditor
         static public readonly string levelChunkContainerName = "[LEVEL-CONTAINER]";
         static public readonly string toolsContainerName      = "[TOOLS-CONTAINER]";
 
+        static public readonly string gridShaderOpaque      = "Unlit/Texture";
+        static public readonly string gridShaderTransparent = "Unlit/Transparent";
+
         static public readonly string snowShaderName = "Custom/ShaderSnow";
 
 		static public readonly string txtWarningObsoleteFileFormat = "Can't load level:\n\nFile format is obsolete!";

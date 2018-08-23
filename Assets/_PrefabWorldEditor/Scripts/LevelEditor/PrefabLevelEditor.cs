@@ -419,6 +419,12 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
+        public void setGridTransparency(bool state)
+        {
+            setWalls (state);
+        }
+
+        // ------------------------------------------------------------------------
         public void setEditMode(EditMode mode, bool force = false)
 		{
             //Debug.Log ("setEditMode "+mode);
@@ -1684,7 +1690,7 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
-        private void setWalls()
+        private void setWalls(bool transparentGrid = false)
         {
 			_trfmMarkerX  = trfmWalls.Find ("marker_x");
 			_trfmMarkerY  = trfmWalls.Find ("marker_y");
@@ -1697,16 +1703,18 @@ namespace PrefabWorldEditor
             float h = (float)levelSize.y;
             float d = (float)levelSize.z;
 
-            setWall("wall_f", "bounds_f", new Vector3(w, h, 1), new Vector3(w / 2f, h / 2f, d), new Vector2(w, h));
-            setWall("wall_b", "bounds_b", new Vector3(w, h, 1), new Vector3(w / 2f, h / 2f, 0), new Vector2(w, h));
-            setWall("wall_l", "bounds_l", new Vector3(d, h, 1), new Vector3(0, h / 2f, d / 2f), new Vector2(d, h));
-            setWall("wall_r", "bounds_r", new Vector3(d, h, 1), new Vector3(w, h / 2f, d / 2f), new Vector2(d, h));
-            setWall("wall_u", "bounds_u", new Vector3(w, d, 1), new Vector3(w / 2f, h, d / 2f), new Vector2(w, d));
-            setWall("wall_d", "bounds_d", new Vector3(w, d, 1), new Vector3(w / 2f, 0, d / 2f), new Vector2(w, d));
+            string shader = (transparentGrid ? Globals.gridShaderTransparent : Globals.gridShaderOpaque);
+
+            setWall("wall_f", "bounds_f", new Vector3(w, h, 1), new Vector3(w / 2f, h / 2f, d), new Vector2(w, h), shader);
+            setWall("wall_b", "bounds_b", new Vector3(w, h, 1), new Vector3(w / 2f, h / 2f, 0), new Vector2(w, h), shader);
+            setWall("wall_l", "bounds_l", new Vector3(d, h, 1), new Vector3(0, h / 2f, d / 2f), new Vector2(d, h), shader);
+            setWall("wall_r", "bounds_r", new Vector3(d, h, 1), new Vector3(w, h / 2f, d / 2f), new Vector2(d, h), shader);
+            setWall("wall_u", "bounds_u", new Vector3(w, d, 1), new Vector3(w / 2f, h, d / 2f), new Vector2(w, d), shader);
+            setWall("wall_d", "bounds_d", new Vector3(w, d, 1), new Vector3(w / 2f, 0, d / 2f), new Vector2(w, d), shader);
         }
 
         // ------------------------------------------------------------------------
-        private void setWall(string name, string boundsName, Vector3 scale, Vector3 pos, Vector2 matScale) {
+        private void setWall(string name, string boundsName, Vector3 scale, Vector3 pos, Vector2 matScale, string shader) {
 
             Transform child = trfmWalls.Find(name);
             if (child != null) {
@@ -1716,6 +1724,7 @@ namespace PrefabWorldEditor
                 Renderer r = child.GetComponent<MeshRenderer>();
                 if (r != null) {
                     r.material.mainTextureScale = matScale;
+                    r.material.shader = Shader.Find (shader);
                 }
 
                 child.gameObject.isStatic = true;
