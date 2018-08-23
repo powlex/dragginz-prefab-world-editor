@@ -43,15 +43,14 @@ namespace PrefabWorldEditor
 	//
 	public class LevelChunkManager : Singleton<LevelChunkManager>
 	{
-		private LevelStruct[] _levelByIndex;
+		private int _numLevels = 0;
+        private List<LevelChunk> _aChunks = new List<LevelChunk>();
 
-		private int _numLevels;
+        private LevelStruct[] _levelByIndex;
 
-        private List<LevelChunk> _aChunks;
+        #region Getters
 
-		#region Getters
-
-		public int numLevels {
+        public int numLevels {
 			get { return _numLevels; }
 		}
 
@@ -65,10 +64,6 @@ namespace PrefabWorldEditor
 
 		public void init(string json)
 		{
-            _aChunks = new List<LevelChunk> ();
-
-            _numLevels = 0;
-
 			JSONNode data = JSON.Parse (json);
 			if (data == null || data ["levels"] == null) {
 				return;

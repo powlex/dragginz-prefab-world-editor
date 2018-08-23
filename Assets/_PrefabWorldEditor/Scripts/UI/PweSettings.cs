@@ -30,17 +30,6 @@ namespace PrefabWorldEditor
 
 		#region PublicMethods
 
-		/*public void init()
-		{
-			reset ();
-		}*/
-
-		//
-		public void reset()
-		{
-            //
-		}
-
 		//
 		public void showSettingsPanels(bool state) {
 
@@ -79,6 +68,13 @@ namespace PrefabWorldEditor
         //
         public void onToggleSnapToGrid (bool state) {
             PrefabLevelEditor.Instance.setSnapToGrid (state);
+        }
+
+        //
+        public void onToggleExtraEditorLights (bool state) {
+            if (PrefabLevelEditor.Instance.goLightsEditor != null) {
+                PrefabLevelEditor.Instance.goLightsEditor.SetActive (state);
+            }
         }
 
         #endregion
