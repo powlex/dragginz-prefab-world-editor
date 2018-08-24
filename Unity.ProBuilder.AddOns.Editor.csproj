@@ -358,6 +358,7 @@
     <Compile Include="Packages\com.unity.probuilder\ProBuilder\Editor\Addons\pb_Fbx.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\3DGamekit\Art\Shaders\SimpleSky.shader" />
     <None Include="Assets\3DGamekit\Art\Shaders\Stonework.shader" />
     <None Include="Assets\3DGamekit\Art\Shaders\Terrain.shader" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\Resources\Unlit-AlphaWithFade.shader" />

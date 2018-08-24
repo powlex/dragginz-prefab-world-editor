@@ -84,7 +84,7 @@ namespace PrefabWorldEditor
 
         //
         public void onToggleSkybox (bool state) {
-            //
+            PrefabLevelEditor.Instance.setSkybox (state);
         }
 
         #endregion

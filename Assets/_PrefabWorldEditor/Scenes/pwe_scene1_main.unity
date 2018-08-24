@@ -118,6 +118,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4431017158349562, guid: a306989f4f800194e85a20a258521eab,
     type: 2}
   m_PrefabInternal: {fileID: 1115167922}
+--- !u!20 &4859312 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 20144153169734460, guid: 443bcdc8a24b5c04cb96b333e1f52300,
+    type: 2}
+  m_PrefabInternal: {fileID: 1535968448}
 --- !u!20 &61249320 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 20502382128701486, guid: 443bcdc8a24b5c04cb96b333e1f52300,
@@ -165,83 +170,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aee0563c9837ef345975bfbeecd22e33, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &228082359
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 228082360}
-  - component: {fileID: 228082362}
-  - component: {fileID: 228082361}
-  m_Layer: 0
-  m_Name: SkyboxCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &228082360
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 228082359}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1951571439}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &228082361
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 228082359}
-  m_Enabled: 1
---- !u!20 &228082362
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 228082359}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
-  m_projectionMatrixMode: 1
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 2000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: -1
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 8192
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 0
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 0
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
 --- !u!1001 &241295639
 Prefab:
   m_ObjectHideFlags: 0
@@ -430,9 +358,12 @@ MonoBehaviour:
   container: {fileID: 0}
   goLights: {fileID: 1575779489}
   goLightsEditor: {fileID: 565547239}
+  goSkybox: {fileID: 867325839}
   playerEdit: {fileID: 1535968449}
   playerPlay: {fileID: 1523309872}
   playerMap: {fileID: 1325511295}
+  camEdit: {fileID: 4859312}
+  camPlay: {fileID: 596255348}
   playerEditSpotLight: {fileID: 823781685}
   playerPlaySpotLight: {fileID: 678740827}
   levelSize: {x: 18, y: 18, z: 18}
@@ -843,12 +774,12 @@ Prefab:
     - target: {fileID: 224054764340674924, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0000076293945
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224179196669914490, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0000076293945
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224216854698283014, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
@@ -858,7 +789,7 @@ Prefab:
     - target: {fileID: 224424469187855848, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0000076293945
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224681664567035790, guid: 7156a026b5d20c9429e81a2de754946f,
         type: 2}
@@ -903,6 +834,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7156a026b5d20c9429e81a2de754946f, type: 2}
   m_IsPrefabAsset: 0
+--- !u!20 &596255348 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 20708831805527134, guid: 0bac618ec965cb143b2dc6b1f68e2140,
+    type: 2}
+  m_PrefabInternal: {fileID: 2101850562}
 --- !u!1 &678740827 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1529349710593772, guid: 0bac618ec965cb143b2dc6b1f68e2140,
@@ -1202,6 +1138,58 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6b753c99f1fd874eb4eaf0a90552ba7, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1 &867325839 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1541463040318396, guid: 360e769726970954fb7f09b03b970ab4,
+    type: 2}
+  m_PrefabInternal: {fileID: 926671585}
+--- !u!1001 &926671585
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4829675360753414, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829675360753414, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 213.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829675360753414, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829675360753414, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829675360753414, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829675360753414, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829675360753414, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4829675360753414, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114116141714038024, guid: 360e769726970954fb7f09b03b970ab4,
+        type: 2}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 596255348}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 360e769726970954fb7f09b03b970ab4, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1001 &946023405
 Prefab:
@@ -2308,35 +2296,6 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &1951571438
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1951571439}
-  m_Layer: 0
-  m_Name: '[SKYBOX]'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1951571439
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1951571438}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 228082360}
-  m_Father: {fileID: 0}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2033492817
 GameObject:
   m_ObjectHideFlags: 0

@@ -387,13 +387,16 @@
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIAssetInfo.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIDynamicInstanceSettings.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\UI\UIInstanceInfo.cs" />
+    <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleRotator.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleTransformer.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Actions\SimpleTranslator.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\GameCommandHandler.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\GameCommandReceiver.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\GameCommandType.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Platforms\Runtime\Platform.cs" />
+    <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\Senders\SendOnBecameVisible.cs" />
     <Compile Include="Assets\3DGamekit\Packages\Interactive\Runtime\SendGameCommand.cs" />
+    <Compile Include="Assets\3DGamekit\Packages\Skybox3D\Runtime\Skybox3D.cs" />
     <Compile Include="Assets\3DGamekit\Packages\WorldBuilding\Runtime\GameObjectExtensions.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\ScriptableObjects\PropDefinition.cs" />
     <Compile Include="Assets\AssetsShared\Scripts\ScriptableObjects\PropsList.cs" />
@@ -541,6 +544,7 @@
     <Compile Include="Assets\RuntimeGizmos\Scripts\GizmoViewScript.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\3DGamekit\Art\Shaders\SimpleSky.shader" />
     <None Include="Assets\3DGamekit\Art\Shaders\Stonework.shader" />
     <None Include="Assets\3DGamekit\Art\Shaders\Terrain.shader" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\Resources\Unlit-AlphaWithFade.shader" />

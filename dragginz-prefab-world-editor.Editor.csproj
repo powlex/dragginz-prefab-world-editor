@@ -413,6 +413,7 @@
     <Compile Include="Assets\HTC.UnityPlugin\VRModule\Modules\Editor\UnityEngineVRModuleEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\3DGamekit\Art\Shaders\SimpleSky.shader" />
     <None Include="Assets\3DGamekit\Art\Shaders\Stonework.shader" />
     <None Include="Assets\3DGamekit\Art\Shaders\Terrain.shader" />
     <None Include="Assets\HTC.UnityPlugin\ViveInputUtility\Resources\Unlit-AlphaWithFade.shader" />

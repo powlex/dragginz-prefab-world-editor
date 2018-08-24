@@ -25,10 +25,14 @@ namespace PrefabWorldEditor
 
 		public GameObject goLights;
         public GameObject goLightsEditor;
+        public GameObject goSkybox;
 
         public Transform playerEdit;
 		public Transform playerPlay;
         public Transform playerMap;
+
+        public Camera camEdit;
+        public Camera camPlay;
 
         public GameObject playerEditSpotLight;
         public GameObject playerPlaySpotLight;
@@ -100,6 +104,7 @@ namespace PrefabWorldEditor
 
         private bool _bSpotLightsActive;
         private bool _bSnapToGrid;
+        private bool _bSkyboxActive;
         private bool _editorIsPaused;
 
         private float _mousewheel;
@@ -239,8 +244,9 @@ namespace PrefabWorldEditor
 			_editMode = EditMode.None;
 
             _bSpotLightsActive = true;
-            _bSnapToGrid = true;
-            _editorIsPaused = false;
+            _bSnapToGrid       = true;
+            _bSkyboxActive     = true;
+            _editorIsPaused    = false;
 
             GameObject toolContainer = new GameObject(Globals.toolsContainerName);
 
@@ -425,6 +431,18 @@ namespace PrefabWorldEditor
         }
 
         // ------------------------------------------------------------------------
+        public void setSkybox(bool state) {
+
+            _bSkyboxActive = state;
+
+            if (goSkybox != null) {
+                goSkybox.SetActive (state);
+            }
+
+            setCameraFlags ();
+        }
+
+        // ------------------------------------------------------------------------
         public void setEditMode(EditMode mode, bool force = false)
 		{
             //Debug.Log ("setEditMode "+mode);
@@ -524,11 +542,24 @@ namespace PrefabWorldEditor
                 else {
                     trfmBounds.gameObject.SetActive (true);
                 }
+
+                setCameraFlags ();
             }
 		}
 
-		// ------------------------------------------------------------------------
-		public void selectTransformTool(int toolId)
+        // ------------------------------------------------------------------------
+        public void setCameraFlags() {
+
+            if (camEdit != null) {
+                camEdit.clearFlags = (_bSkyboxActive ? CameraClearFlags.Depth : CameraClearFlags.SolidColor);
+            }
+            if (camPlay != null) {
+                camPlay.clearFlags = (_bSkyboxActive ? CameraClearFlags.Depth : CameraClearFlags.SolidColor);
+            }
+        }
+
+        // ------------------------------------------------------------------------
+        public void selectTransformTool(int toolId)
 		{
 			gizmoTranslateScript.gameObject.SetActive (toolId == 0);
 			gizmoRotateScript.gameObject.SetActive (toolId == 1);
