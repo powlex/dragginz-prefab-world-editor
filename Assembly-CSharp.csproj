@@ -62,6 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\AssetManager.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\Manifest\AssetObject.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\Manifest\AssetTypeObject.cs" />
+    <Compile Include="Assets\_PrefabWorldEditor\Scripts\Assets\Manifest\ManifestFile.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\FlyCam.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Cameras\MapCam.cs" />
     <Compile Include="Assets\_PrefabWorldEditor\Scripts\Controller\LevelController.cs" />
